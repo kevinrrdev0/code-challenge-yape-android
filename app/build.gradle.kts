@@ -54,6 +54,7 @@ dependencies {
     implementation(Compose.compiler)
     implementation(Compose.ui)
     implementation(Compose.uiToolingPreview)
+    debugImplementation(Compose.uiToolingPreviewDebug)
     implementation(Compose.hiltNavigationCompose)
     implementation(Compose.material)
     implementation(Compose.matIcon)
