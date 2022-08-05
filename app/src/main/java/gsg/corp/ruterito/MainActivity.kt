@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -32,45 +34,18 @@ class MainActivity : ComponentActivity() {
             RuteritoTheme {
                 val navController = rememberNavController()
                 val scaffoldState = rememberScaffoldState()
-                    NavHost(navController = navController,
-                        startDestination = NavigationRoute.Route.route)
-
-                    {
-                        addLogin(navController = navController, scaffoldState)
-                        addDashBoard(navController = navController)
-                        addRoute(navController = navController)
-                        addRouteDetail(navController = navController)
-                    }
+                NavHost(navController = navController,
+                    startDestination = NavigationRoute.Login.route)
+                {
+                    addLogin(navController = navController, scaffoldState)
+                    addDashBoard(navController = navController)
+                    addRoute(navController = navController)
+                    addRouteDetail(navController = navController)
+                }
             }
         }
     }
 }
-//
-//enterTransition = {
-//    slideInHorizontally(
-//        initialOffsetX = { 1000 },
-//        animationSpec = tween(500)
-//    )
-//},
-//exitTransition = {
-//    slideOutHorizontally(
-//        targetOffsetX = { -1000 },
-//        animationSpec = tween(500)
-//    )
-//},
-//popEnterTransition = {
-//    slideInHorizontally(
-//        initialOffsetX = { -1000 },
-//        animationSpec = tween(500)
-//    )
-//},
-//popExitTransition = {
-//    slideOutHorizontally(
-//        targetOffsetX = { 1000 },
-//        animationSpec = tween(500)
-//    )
-//}
-
 
 fun NavGraphBuilder.addLogin(
     navController: NavHostController,
@@ -87,31 +62,31 @@ fun NavGraphBuilder.addLogin(
 }
 
 fun NavGraphBuilder.addDashBoard(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     composable(
         route = NavigationRoute.Dashboard.route
     ) {
-        DashBoardScreen(onNextClick = {navController.navigate(NavigationRoute.Route.route)})
+        DashBoardScreen(onNextClick = { navController.navigate(NavigationRoute.Route.route) })
     }
 }
 
 
-
 fun NavGraphBuilder.addRoute(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     composable(
         route = NavigationRoute.Route.route
     ) {
-        RouteScreen(onGoDetail = { id -> navController.navigate(NavigationRoute.RouteDetail.passId(id))})
+        RouteScreen(onGoDetail = { id ->
+            navController.navigate(NavigationRoute.RouteDetail.passId(id))
+        })
     }
 }
 
 
-
 fun NavGraphBuilder.addRouteDetail(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     composable(
         route = NavigationRoute.RouteDetail.route,
@@ -125,5 +100,15 @@ fun NavGraphBuilder.addRouteDetail(
         //val id = it.arguments?.getInt(ROUTE_DETAIL_ID)!!
         RouteDetailScreen()
     }
+}
+
+@Preview
+@Composable
+fun BodyRouteDetail() {
+
+
+        Text(text = "aea")
+
+
 }
 

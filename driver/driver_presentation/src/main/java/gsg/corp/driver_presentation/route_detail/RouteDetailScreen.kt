@@ -6,6 +6,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import gsg.corp.core_ui.global_components_actions.CommonType
 import gsg.corp.core_ui.global_components_actions.GlobalCamera
@@ -42,5 +43,12 @@ fun RouteDetailScreen(
             Text(text = "subir fotito")
         }
     }
+
+}
+
+@Preview
+@Composable
+fun BodyRouteDetail() {
+    Text(text = "aea")
 
 }
