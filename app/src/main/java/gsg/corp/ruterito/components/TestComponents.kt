@@ -1,18 +1,27 @@
 package gsg.corp.ruterito.components
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Whatsapp
 import androidx.compose.material.icons.rounded.Call
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
@@ -27,6 +36,7 @@ import coil.compose.rememberImagePainter
 import gsg.corp.core.R
 import gsg.corp.core_ui.*
 import gsg.corp.core_ui.global_components_actions.*
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerLarge
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerSmall
 
 @Preview(name = "Preview Global Buttons", showBackground = true, widthDp = 350)
@@ -106,20 +116,52 @@ fun PreviewDetailClient() {
             DividerForm(Modifier.padding(0.dp, 8.dp, 0.dp, 8.dp))
 
             Row {
-                ButtonContact(text = "Telf 1", icon = Icons.Default.Call, backgroundColor = ColorCall)
-                ButtonContact(text = "Telf 2", icon = Icons.Default.Call, backgroundColor = ColorCall)
-                ButtonContact(text = "Wsp 1", icon = Icons.Default.Whatsapp, backgroundColor = Green)
-                ButtonContact(text = "Wsp 2", icon = Icons.Default.Whatsapp, backgroundColor = Green)
+                ButtonContact(
+                    text = "Telf 1",
+                    icon = Icons.Default.Call,
+                    backgroundColor = ColorCall
+                )
+                ButtonContact(
+                    text = "Telf 2",
+                    icon = Icons.Default.Call,
+                    backgroundColor = ColorCall
+                )
+                ButtonContact(
+                    text = "Wsp 1",
+                    icon = Icons.Default.Whatsapp,
+                    backgroundColor = Green
+                )
+                ButtonContact(
+                    text = "Wsp 2",
+                    icon = Icons.Default.Whatsapp,
+                    backgroundColor = Green
+                )
             }
 
             TextTitleGroupForm("Contacto Proveedor", Modifier.padding(0.dp, 16.dp, 0.dp, 0.dp))
             DividerForm(Modifier.padding(0.dp, 8.dp, 0.dp, 8.dp))
 
             Row {
-                ButtonContact(text = "Telf 1", icon = Icons.Default.Call, backgroundColor = ColorCall)
-                ButtonContact(text = "Telf 2", icon = Icons.Default.Call, backgroundColor = ColorCall)
-                ButtonContact(text = "Wsp 1", icon = Icons.Default.Whatsapp, backgroundColor = Green)
-                ButtonContact(text = "Wsp 2", icon = Icons.Default.Whatsapp, backgroundColor = Green)
+                ButtonContact(
+                    text = "Telf 1",
+                    icon = Icons.Default.Call,
+                    backgroundColor = ColorCall
+                )
+                ButtonContact(
+                    text = "Telf 2",
+                    icon = Icons.Default.Call,
+                    backgroundColor = ColorCall
+                )
+                ButtonContact(
+                    text = "Wsp 1",
+                    icon = Icons.Default.Whatsapp,
+                    backgroundColor = Green
+                )
+                ButtonContact(
+                    text = "Wsp 2",
+                    icon = Icons.Default.Whatsapp,
+                    backgroundColor = Green
+                )
             }
 
 
@@ -169,7 +211,64 @@ fun InfoOrder() {
 }
 
 
-@Preview(name = "Preview Button", showBackground = true, widthDp = 450)
+@Preview(name = "Camera Preview", showBackground = true, widthDp = 450)
+@Composable
+fun CameraGsg() {
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(8.dp)
+    ) {
+
+            Card(
+                modifier = Modifier
+                    .padding(18.dp),
+                elevation = 8.dp
+            ) {
+                Row(verticalAlignment = CenterVertically) {
+                    Card(
+                        modifier = Modifier
+                            .size(64.dp),
+                        elevation = 0.dp
+                    ) {
+                        Icon(
+                            Icons.Default.PhotoCamera,
+                            contentDescription = "",
+                            tint = RedGsg
+                        )
+                    }
+
+                    GlobalSpacerLarge()
+                    Column {
+                        Text(
+                            text = "Tomar foto",
+
+                            modifier = Modifier
+                                .align(CenterHorizontally)
+                                .clickable(onClick = {
+
+                                }),
+                            style = MaterialTheme.typography.body1, color = RedGsg
+                        )
+                        Text(
+                            text = "Volver a tomar",
+
+                            modifier = Modifier
+                                .align(CenterHorizontally)
+                                .clickable(onClick = {
+
+                                }),
+                            style = MaterialTheme.typography.body1, color = RedGsg
+                        )
+                    }
+                }
+            }
+
+
+    }
+}
+
 @Composable
 fun ButtonContact(
     text: String = "",
