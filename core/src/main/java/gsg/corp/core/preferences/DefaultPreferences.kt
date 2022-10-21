@@ -1,54 +1,39 @@
 package gsg.corp.core.preferences
 
-import android.content.SharedPreferences
 import gsg.corp.core.domain.model.UserInfo
 import gsg.corp.core.domain.preferences.Preferences
+import gsg.corp.core.util.PREFERENCES_TOKEN
 
 class DefaultPreferences(
-    private val pref: SharedPreferences,
+    private val preferenceManager: PreferenceManager,
 ) : Preferences {
-    override fun saveId(id: Int) {
-        pref.edit()
-            .putInt(Preferences.KEY_ID, id)
-            .apply()
-    }
 
-    override fun saveName(name: String) {
-        pref.edit()
-            .putString(Preferences.KEY_NAME, name)
-            .apply()
-    }
+    override fun saveUserName(username: String) =
+        preferenceManager.setValue(Preferences.KEY_USER_NAME, username)
 
-    override fun saveRole(role: String) {
-        pref.edit()
-            .putString(Preferences.KEY_ROLE, role)
-            .apply()
-    }
+    override suspend fun saveToken(token: String) =
+        preferenceManager.setValue(PREFERENCES_TOKEN, token)
 
-    override fun saveUserName(username: String) {
-        pref.edit()
-            .putString(Preferences.KEY_USER_NAME, username)
-            .apply()
+    override fun saveUser(username: String) {
+        TODO("Not yet implemented")
     }
 
     override fun loadUserInfo(): UserInfo {
-        val id = pref.getInt(Preferences.KEY_ID, -1)
-        val name = pref.getString(Preferences.KEY_NAME, null)
-        val username = pref.getString(Preferences.KEY_USER_NAME, null)
+        val id = preferenceManager.getInt(Preferences.KEY_ID)
+        val name = preferenceManager.getString(Preferences.KEY_NAME)
+        val username = preferenceManager.getString(Preferences.KEY_USER_NAME)
         return UserInfo(
             id,
-            name ?: "Sin Nombre",
-            username?:""
+            name,
+            username
         )
     }
 
     override fun saveCredentials(flk: Boolean) {
-        pref.edit()
-            .putBoolean(Preferences.KEY_SAVE_CREDENTIALS,flk)
-            .apply()
+        preferenceManager.setValue(Preferences.KEY_SAVE_CREDENTIALS, flk)
     }
 
     override fun loadSaveCredentials(): Boolean {
-        return pref.getBoolean(Preferences.KEY_SAVE_CREDENTIALS,false)
+        return preferenceManager.getBoolean(Preferences.KEY_SAVE_CREDENTIALS)
     }
 }

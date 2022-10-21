@@ -1,14 +1,14 @@
 package gsg.corp.ruterito.di
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import gsg.corp.core.domain.preferences.Preferences
 import gsg.corp.core.preferences.DefaultPreferences
+import gsg.corp.core.preferences.PreferenceManager
+import gsg.corp.core.util.PREFERENCES_FILE_NAME
 import javax.inject.Singleton
 
 @Module
@@ -19,14 +19,14 @@ object AppModule {
     @Singleton
     fun provideSharedPreferences(
         app: Application
-    ): SharedPreferences {
-        return app.getSharedPreferences("shared_pref", Context.MODE_PRIVATE)
+    ): PreferenceManager {
+        return PreferenceManager(PREFERENCES_FILE_NAME,app.applicationContext)
     }
 
     @Provides
     @Singleton
-    fun providePreferences(sharedPreferences: SharedPreferences): Preferences {
-        return DefaultPreferences(sharedPreferences)
+    fun providePreferences(preferenceManager: PreferenceManager): Preferences {
+        return DefaultPreferences(preferenceManager)
     }
 
 }

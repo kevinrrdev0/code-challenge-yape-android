@@ -1,14 +1,13 @@
 package gsg.corp.driver_presentation.login
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import gsg.corp.core.Util.UiEvent
-import gsg.corp.core.Util.UiText
+import gsg.corp.core.util.UiEvent
+import gsg.corp.core.util.UiText
 import gsg.corp.driver_domain.use_case.DriverUseCases
 import gsg.corp.core.R
 import gsg.corp.core.domain.preferences.Preferences

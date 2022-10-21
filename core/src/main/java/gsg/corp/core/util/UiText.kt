@@ -1,4 +1,4 @@
-package gsg.corp.core.Util
+package gsg.corp.core.util
 
 import android.content.Context
 

@@ -24,7 +24,7 @@ class DriverRepositoryImpl(
         return try {
             val loginDto = api.verificationUser(VerificationRequest(user,password))
             Result.success(
-                loginDto.userInfo.toUserInfo()
+                loginDto.toUserInfo()
             )
 
         }catch (e: Exception){

@@ -3,5 +3,6 @@ apply {
 }
 
 dependencies {
+    "implementation"(Security.crypto)
 
 }

@@ -5,11 +5,10 @@ import gsg.corp.core.domain.model.UserInfo
 interface Preferences {
 
 
-    fun saveId(id:Int)
-    fun saveName(name:String)
-    fun saveRole(role:String)
     fun saveUserName(username:String)
+    suspend fun saveToken(token: String)
 
+    fun saveUser(username:String)
     fun loadUserInfo(): UserInfo
 
     fun saveCredentials(flk:Boolean)

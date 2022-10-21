@@ -1,10 +1,9 @@
-package gsg.corp.core.Util
+package gsg.corp.core.util
 
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.content.CursorLoader
-import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
