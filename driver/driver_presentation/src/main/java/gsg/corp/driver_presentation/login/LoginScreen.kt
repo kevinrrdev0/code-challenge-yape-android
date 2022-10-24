@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import gsg.corp.core.R
-import gsg.corp.core.Util.UiEvent
+import gsg.corp.core.util.UiEvent
 import gsg.corp.core_ui.global_components_ui.LoadingAnimation
 import gsg.corp.driver_presentation.login.components.RoundedButton
 import gsg.corp.driver_presentation.login.components.TransparentTextField

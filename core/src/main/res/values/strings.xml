@@ -2,4 +2,9 @@
     <string name="app_name">Ruterito</string>
     <string name="error_unknown">Unknown error</string>
     <string name="error_login">Error Servidor</string>
+    <string name="exception_timeout">¡Ups! Algo salió mal. Trabajaremos para solucionarlo de inmediato.</string>
+    <string name="exception_network">Por favor, revisa tu conexión y vuelve a intentarlo.</string>
+    <string name="exception_unstable_network">Tu conexión es inestable. Revísala y vuelve a intentarlo</string>
+    <string name="exception_generic">¡Ups! Algo salió mal. Trabajaremos para solucionarlo de inmediato.</string>
+    <string name="success_login">login correcto</string>
 </resources>

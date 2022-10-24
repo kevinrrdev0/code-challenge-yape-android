@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import gsg.corp.core.Util.UiEvent
+import gsg.corp.core.util.UiEvent
 import gsg.corp.core.domain.preferences.Preferences
 import gsg.corp.driver_domain.use_case.DriverUseCases
 import kotlinx.coroutines.channels.Channel

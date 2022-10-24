@@ -6,8 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -34,14 +37,21 @@ class MainActivity : ComponentActivity() {
             RuteritoTheme {
                 val navController = rememberNavController()
                 val scaffoldState = rememberScaffoldState()
-                NavHost(navController = navController,
-                    startDestination = NavigationRoute.Login.route)
-                {
-                    addLogin(navController = navController, scaffoldState)
-                    addDashBoard(navController = navController)
-                    addRoute(navController = navController)
-                    addRouteDetail(navController = navController)
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    scaffoldState = scaffoldState
+                ) { innerPadding ->
+                    NavHost(navController = navController,
+                        startDestination = NavigationRoute.Login.route,
+                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding(), top = innerPadding.calculateTopPadding()))
+                    {
+                        addLogin(navController = navController, scaffoldState)
+                        addDashBoard(navController = navController)
+                        addRoute(navController = navController)
+                        addRouteDetail(navController = navController)
+                    }
                 }
+
             }
         }
     }
