@@ -1,7 +1,10 @@
 package gsg.corp.driver_data.repository
 
 import android.net.Uri
-import android.util.Log
+import gsg.corp.core.data.network.BaseNetwork
+import gsg.corp.core.data.network.model.response.Resource
+import gsg.corp.core.util.ConnectionUtils
+import gsg.corp.core.util.UiText
 import gsg.corp.driver_data.mapper.toRoute
 import gsg.corp.driver_data.mapper.toUserInfo
 import gsg.corp.driver_data.remote.DriverApi
@@ -14,22 +17,35 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import java.lang.Exception
+import kotlin.Exception
 
 class DriverRepositoryImpl(
-    private val api: DriverApi
-):DriverRepository {
-    override suspend fun verificationUser(user: String, password: String): Result<UserInfo> {
+    private val api: DriverApi, connectionUtils: ConnectionUtils
+) : DriverRepository, BaseNetwork(connectionUtils) {
+
+    override suspend fun verificationUser(user: String, password: String): Resource<UserInfo> {
 
         return try {
-            val loginDto = api.verificationUser(VerificationRequest(user,password))
-            Result.success(
-                loginDto.toUserInfo()
-            )
-
-        }catch (e: Exception){
-            e.printStackTrace()
-            Result.failure(e)
+            executeWithConnection {
+                val loginDto = api.verificationUser(VerificationRequest(user, password))
+                if (loginDto.isSuccessful) {
+                    Resource.Success(data = loginDto.body()?.data?.toUserInfo())
+                } else {
+                    val errorMessage =
+                        loginDto.errorBody()?.string()?.let{
+                            parseException(
+                                it
+                            )?.message?.description
+                        } ?: run {
+                            "Error server"
+                        }
+                    Resource.Error(
+                        message = UiText.DynamicString(errorMessage)
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Resource.Error(message = UiText.DynamicString(getConnectionException(e)))
         }
     }
 
@@ -39,7 +55,7 @@ class DriverRepositoryImpl(
             Result.success(routeDto.routes.map {
                 it.toRoute()
             })
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             Result.failure(e)
         }
@@ -57,9 +73,9 @@ class DriverRepositoryImpl(
                 "file",
                 file.name, profileImage
             )
-        val id =getMultiPartFormRequestBody("1")
-        val id_state =getMultiPartFormRequestBody("4")
-        val routeDto = api.getUpload(profileImageBody,id,id_state)
+        val id = getMultiPartFormRequestBody("1")
+        val id_state = getMultiPartFormRequestBody("4")
+        val routeDto = api.getUpload(profileImageBody, id, id_state)
         routeDto.codigo
     }
 

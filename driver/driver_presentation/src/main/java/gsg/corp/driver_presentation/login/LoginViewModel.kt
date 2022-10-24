@@ -1,5 +1,6 @@
 package gsg.corp.driver_presentation.login
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,6 +11,8 @@ import gsg.corp.core.util.UiEvent
 import gsg.corp.core.util.UiText
 import gsg.corp.driver_domain.use_case.DriverUseCases
 import gsg.corp.core.R
+import gsg.corp.core.data.network.model.response.Resource
+import gsg.corp.core.domain.model.UserInfo
 import gsg.corp.core.domain.preferences.Preferences
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -37,37 +40,48 @@ class LoginViewModel
         private set
 
     init {
-        if (pref.loadSaveCredentials()){
+        if (pref.loadSaveCredentials()) {
             username = pref.loadUserInfo().username
             saveCredentials = pref.loadSaveCredentials()
         }
     }
-    
+
     fun onLogin() {
         isLoading = true
         viewModelScope.launch {
-            driverUseCases
+
+            val result = driverUseCases
                 .verificationUser(userName = username, userPassword = password)
-                .onSuccess {
-                    if (it.id > 0) {
-                        pref.saveId(it.id)
-                        pref.saveName(it.name)
-                        pref.saveRole(it.role)
-                        pref.saveUserName(it.user)
-                        pref.saveCredentials(saveCredentials)
-                        delay(2000)
-                        _uiEvent.send(UiEvent.Success)
+
+            when (result) {
+                is Resource.Success -> {
+                    result.data?.let{
+                        if (it.id > 0) {
+                            pref.saveUserName(it.user)
+                            pref.saveUser(UserInfo(it.id,it.name,it.telephone,it.user,it.role,it.image))
+                            pref.saveToken(it.token)
+                            pref.saveCredentials(saveCredentials)
+                            _uiEvent.send(
+                                UiEvent.ShowSnackBar(
+                                    UiText.StringResource(R.string.success_login)
+                                )
+                            )
+                            _uiEvent.send(UiEvent.Success)
+                        }
                     }
                     isLoading = false
                 }
-                .onFailure {
+                is Resource.Error -> {
                     isLoading = false
+                    Log.d("kevinrrdev", "onLogin: ${result.message}")
                     _uiEvent.send(
                         UiEvent.ShowSnackBar(
-                            UiText.StringResource(R.string.error_login)
+                            result.message  ?: UiText.StringResource(R.string.error_login)
                         )
                     )
                 }
+            }
+
         }
     }
 

@@ -5,13 +5,13 @@ import gsg.corp.core.domain.model.UserInfo
 interface Preferences {
 
 
-    fun saveUserName(username:String)
+    fun saveUserName(username: String)
     suspend fun saveToken(token: String)
 
-    fun saveUser(username:String)
+    fun saveUser(userInfo: UserInfo)
     fun loadUserInfo(): UserInfo
 
-    fun saveCredentials(flk:Boolean)
+    fun saveCredentials(flk: Boolean)
     fun loadSaveCredentials(): Boolean
 
     companion object {
@@ -20,6 +20,7 @@ interface Preferences {
         const val KEY_ROLE = "role"
         const val KEY_USER_NAME = "username"
         const val KEY_SAVE_CREDENTIALS = "save_credentials"
+        const val KEY_USER = "userinfo"
 
     }
 }

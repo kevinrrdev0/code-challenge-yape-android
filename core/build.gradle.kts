@@ -4,5 +4,8 @@ apply {
 
 dependencies {
     "implementation"(Security.crypto)
+    "implementation"(Google.gson)
+    "implementation"(Retrofit.retrofit)
+    "implementation"(Retrofit.moshiConverter)
 
 }

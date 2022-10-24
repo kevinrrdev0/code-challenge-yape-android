@@ -1,5 +1,6 @@
 package gsg.corp.driver_data.remote
 
+import gsg.corp.core.data.network.BaseResponse
 import gsg.corp.core.util.LOGIN_ROUTE_V2
 import gsg.corp.core.util.ROUTE_DRIVER_V2
 import gsg.corp.core.util.STATUS_ROUTE_V3
@@ -10,6 +11,7 @@ import gsg.corp.driver_data.remote.request.RouteDriverRequest
 import gsg.corp.driver_data.remote.request.VerificationRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -18,7 +20,7 @@ import retrofit2.http.Part
 interface DriverApi {
 
     @POST(LOGIN_ROUTE_V2)
-    suspend fun verificationUser(@Body verificationRequest: VerificationRequest): LoginDto
+    suspend fun verificationUser(@Body verificationRequest: VerificationRequest): Response<BaseResponse<LoginDto>>
 
     @POST(ROUTE_DRIVER_V2)
     suspend fun getRoutes(@Body routeDriverRequest: RouteDriverRequest): RouteDto
@@ -31,6 +33,7 @@ interface DriverApi {
     ): UploadDto
 
     companion object {
-        const val BASE_URL = "http://192.168.101.103:3000/api/"
+        const val BASE_URL = "http://192.168.0.16:3000/api/"
+        //const val BASE_URL = "http://192.168.101.103:3000/api/"
     }
 }
