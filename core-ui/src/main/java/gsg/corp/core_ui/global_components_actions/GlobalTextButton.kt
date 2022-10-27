@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,33 +15,37 @@ import androidx.compose.ui.unit.dp
 import gsg.corp.core_ui.LocalSpacing
 
 @Composable
-fun GlobalButton(
+fun GlobalTextButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    textStyle: TextStyle = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.SemiBold, color = Color.White),
-    backgroundColor : Color = Color.Red
+    textColor: Color = Color.White,
+    textStyle: TextStyle = MaterialTheme.typography.h5.copy(
+        fontWeight = FontWeight.SemiBold,
+        color = textColor
+    )
 ) {
-    Button(
-        onClick = onClick,
+    TextButton(onClick = onClick,
         modifier = modifier,
         enabled = isEnabled,
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
-    ) {
-        Text(
-            text = text,
-            style = textStyle,
-            modifier = Modifier.padding(LocalSpacing.current.spaceExtraSmall)
-        )
-    }
+        content = {
+            Text(
+                text = text,
+                style = textStyle,
+                modifier = Modifier.padding(LocalSpacing.current.spaceExtraSmall)
+            )
+        }
+    )
 }
+
+
 @Preview(showBackground = true)
 @Composable
-fun PreviewGlobalButton(){
+fun PreviewGlobalTextButton() {
     Column(Modifier.padding(60.dp)) {
-        GlobalButton("Test", onClick = { })
+        GlobalTextButton("Test", onClick = { }, textColor = Color.Red)
     }
 
 }

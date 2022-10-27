@@ -28,38 +28,34 @@ class LoginViewModel
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    var username by mutableStateOf("")
-        private set
-    var password by mutableStateOf("")
-        private set
-    var saveCredentials by mutableStateOf(false)
-        private set
-    var isLoading by mutableStateOf(false)
-        private set
-    var dialogErrorShow by mutableStateOf(false)
-        private set
-    var msgError by mutableStateOf(
-        UiEvent.ShowSnackBar(
-            UiText.StringResource(R.string.error_login)
-        )
-    )
+    var state by mutableStateOf(LoginState())
         private set
 
+    fun onEvent(event: LoginEvent) {
+        when (event) {
+            is LoginEvent.OnLogin -> onLogin()
+            is LoginEvent.OnPasswordEnter -> state = state.copy(password = event.password)
+            is LoginEvent.OnUserNameEnter -> state = state.copy(username = event.username)
+            is LoginEvent.OnCheckRememberPress -> state = state.copy(saveCredentials = event.check)
+            is LoginEvent.OnHideError -> state = state.copy(messageError = MessageError(isVisible = false))
+        }
+    }
 
     init {
         if (pref.loadSaveCredentials()) {
-            username = pref.loadUserInfo().username
-            saveCredentials = pref.loadSaveCredentials()
+            state = state.copy(
+                username = pref.loadUserInfo().username,
+                saveCredentials = pref.loadSaveCredentials()
+            )
         }
     }
 
     fun onLogin() {
-        isLoading = true
+        state = state.copy(isLoading = true)
         viewModelScope.launch {
 
             val result = onBoardingUseCases
-                .verificationUser(userName = username, userPassword = password)
-
+                .verificationUser(userName = state.username, userPassword = state.password)
             when (result) {
                 is Resource.Success -> {
                     result.data?.let {
@@ -76,37 +72,25 @@ class LoginViewModel
                                 )
                             )
                             pref.saveToken(it.token)
-                            pref.saveCredentials(saveCredentials)
+                            pref.saveCredentials(state.saveCredentials)
                             _uiEvent.send(UiEvent.Success)
                         }
                     }
-                    isLoading = false
+                    state = state.copy(isLoading = false)
                 }
                 is Resource.Error -> {
-                    isLoading = false
-                    dialogErrorShow = true
-                    msgError = UiEvent.ShowSnackBar(result.message ?: UiText.StringResource(R.string.error_login))
+                    state = state.copy(
+                        isLoading = false,
+                        messageError = MessageError(
+                            isVisible = true,
+                            description = result.message
+                                ?: UiText.StringResource(R.string.error_login)
+                        )
+                    )
                 }
             }
 
         }
     }
-
-    fun onUsernameEnter(item: String) {
-        username = item
-    }
-
-    fun onPasswordEnter(item: String) {
-        password = item
-    }
-
-    fun onCheckRemember(item: Boolean) {
-        saveCredentials = item
-    }
-
-    fun hideError(item: Boolean) {
-        dialogErrorShow = item
-    }
-
 
 }

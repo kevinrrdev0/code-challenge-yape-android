@@ -42,6 +42,7 @@ fun LoginScreen(
 ) {
 
     val context = LocalContext.current
+    val state = viewModel.state
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -118,7 +119,7 @@ fun LoginScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             TransparentTextField(
-                                textFieldValue = viewModel.username,
+                                textFieldValue = state.username,
                                 textLabel = "Usuario",
                                 keyboardType = KeyboardType.Email,
                                 keyboardActions = KeyboardActions(
@@ -127,11 +128,11 @@ fun LoginScreen(
                                     }
                                 ),
                                 imeAction = ImeAction.Next,
-                                onValueChange = { viewModel.onUsernameEnter(it) }
+                                onValueChange = { viewModel.onEvent(LoginEvent.OnUserNameEnter(it)) }
                             )
 
                             TransparentTextField(
-                                textFieldValue = viewModel.password,
+                                textFieldValue = state.password,
                                 textLabel = "Contraseña",
                                 keyboardType = KeyboardType.Password,
                                 keyboardActions = KeyboardActions(
@@ -163,15 +164,15 @@ fun LoginScreen(
                                 } else {
                                     PasswordVisualTransformation()
                                 },
-                                onValueChange = { viewModel.onPasswordEnter(it) }
+                                onValueChange = { viewModel.onEvent(LoginEvent.OnPasswordEnter(it)) }
                             )
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Checkbox(
-                                    checked = viewModel.saveCredentials,
-                                    onCheckedChange = { viewModel.onCheckRemember(it) },
+                                    checked = state.saveCredentials,
+                                    onCheckedChange = { viewModel.onEvent(LoginEvent.OnCheckRememberPress(it)) },
                                     colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
                                 )
                                 Text(text = "Recordar usuario")
@@ -184,7 +185,7 @@ fun LoginScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            if (viewModel.isLoading) {
+                            if (viewModel.state.isLoading) {
                                 LoadingAnimation()
                             } else {
                                 RoundedButton(
@@ -225,13 +226,14 @@ fun LoginScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        if (viewModel.dialogErrorShow){
-            GlobalDialogError(viewModel.dialogErrorShow,text=viewModel.msgError.message.asString(context), onConfirm = {
-                viewModel.hideError(false)
-            }, onDismiss = {
-                viewModel.hideError(false)
-            })
+        when{
+            state.messageError.isVisible -> {
+                GlobalDialogError(state.messageError.isVisible,text=state.messageError.description.asString(context), onConfirm = {
+                    viewModel.onEvent(LoginEvent.OnHideError)
+                })
+            }
         }
+
     }
 
 
