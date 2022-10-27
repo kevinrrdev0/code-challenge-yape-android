@@ -77,6 +77,10 @@ dependencies {
     implementation(project(Modules.driverDomain))
     implementation(project(Modules.driverPresentation))
 
+    implementation(project(Modules.onboardingData))
+    implementation(project(Modules.onboardingDomain))
+    implementation(project(Modules.onboardingPresentation))
+
     /* -- end include -- */
     implementation(AndroidX.coreKtx)
     implementation(AndroidX.appCompat)

@@ -1,20 +1,8 @@
 package gsg.corp.driver_data.mapper
 
-import gsg.corp.driver_data.remote.dto.LoginDto
 import gsg.corp.driver_domain.model.Route
-import gsg.corp.driver_domain.model.UserInfo
 
-fun LoginDto.toUserInfo(): UserInfo {
-    return UserInfo(
-        id = user.uid,
-        name = user.name,
-        telephone = user.telephone,
-        user = user.username,
-        role = user.role,
-        token = token,
-        image= user.image
-    )
-}
+
 
 fun gsg.corp.driver_data.remote.dto.route.Routes.toRoute(): Route {
 

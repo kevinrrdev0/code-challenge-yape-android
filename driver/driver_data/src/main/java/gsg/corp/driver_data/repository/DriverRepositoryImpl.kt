@@ -2,16 +2,11 @@ package gsg.corp.driver_data.repository
 
 import android.net.Uri
 import gsg.corp.core.data.network.BaseNetwork
-import gsg.corp.core.data.network.model.response.Resource
 import gsg.corp.core.util.ConnectionUtils
-import gsg.corp.core.util.UiText
 import gsg.corp.driver_data.mapper.toRoute
-import gsg.corp.driver_data.mapper.toUserInfo
 import gsg.corp.driver_data.remote.DriverApi
 import gsg.corp.driver_data.remote.request.RouteDriverRequest
-import gsg.corp.driver_data.remote.request.VerificationRequest
 import gsg.corp.driver_domain.model.Route
-import gsg.corp.driver_domain.model.UserInfo
 import gsg.corp.driver_domain.repository.DriverRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -23,31 +18,6 @@ class DriverRepositoryImpl(
     private val api: DriverApi, connectionUtils: ConnectionUtils
 ) : DriverRepository, BaseNetwork(connectionUtils) {
 
-    override suspend fun verificationUser(user: String, password: String): Resource<UserInfo> {
-
-        return try {
-            executeWithConnection {
-                val loginDto = api.verificationUser(VerificationRequest(user, password))
-                if (loginDto.isSuccessful) {
-                    Resource.Success(data = loginDto.body()?.data?.toUserInfo())
-                } else {
-                    val errorMessage =
-                        loginDto.errorBody()?.string()?.let{
-                            parseException(
-                                it
-                            )?.message?.description
-                        } ?: run {
-                            "Error server"
-                        }
-                    Resource.Error(
-                        message = UiText.DynamicString(errorMessage)
-                    )
-                }
-            }
-        } catch (e: Exception) {
-            Resource.Error(message = UiText.DynamicString(getConnectionException(e)))
-        }
-    }
 
     override suspend fun getRoutes(id: Int): Result<List<Route>> {
         return try {
