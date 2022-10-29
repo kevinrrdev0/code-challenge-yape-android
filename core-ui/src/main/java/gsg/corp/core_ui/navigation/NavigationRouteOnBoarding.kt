@@ -1,4 +1,4 @@
-package gsg.corp.onboarding_presentation.navigation
+package gsg.corp.core_ui.navigation
 
 sealed class NavigationRouteOnBoarding(val route: String) {
     object Login : NavigationRouteOnBoarding("login")

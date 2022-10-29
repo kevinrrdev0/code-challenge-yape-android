@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
+                    route= NavigationRouteModule.ModuleRoot.route,
                     startDestination = NavigationRouteModule.ModuleOnBoarding.route
                 )
                 {

@@ -5,4 +5,4 @@ const val PREFERENCES_TOKEN = "PREFERENCES_TOKEN"
 
 const val MIN_BANDWIDTH_KBPS: Int = 150
 
-const val BASE_URL = "http://192.168.0.26:3000/api/"
+const val BASE_URL = "http://192.168.0.6:3000/api/"

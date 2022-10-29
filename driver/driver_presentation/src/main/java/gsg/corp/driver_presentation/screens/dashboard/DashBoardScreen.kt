@@ -1,5 +1,6 @@
 package gsg.corp.driver_presentation.screens.dashboard
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -46,23 +47,28 @@ fun DashBoardScreen(
     Scaffold(bottomBar = {
         BottomNavigationBar(items = listOf(
             BottomNavItem(
-                "Express",
+                "Inicio",
                 "route",
-                Icons.Outlined.MapsHomeWork
+                Icons.Outlined.Home
             ),
             BottomNavItem(
-                "Zona",
+                "Rutas",
                 "route",
                 Icons.Outlined.LocationOn
             ),
             BottomNavItem(
-                "Bussiness",
+                "Noticias",
                 "route",
-                Icons.Outlined.BusinessCenter
+                Icons.Outlined.Newspaper
+            ),
+            BottomNavItem(
+                "Perfil",
+                "route",
+                Icons.Outlined.Person
             )
+
         ), navController = navController, onItemClick = {
             navController.navigate(it.route)
-
         })
     }) {
         Column(modifier = Modifier.padding(it.calculateBottomPadding())) {
@@ -78,10 +84,10 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     onItemClick: (BottomNavItem) -> Unit
 ) {
-
     val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(modifier = modifier, backgroundColor = RedGsg, elevation = 5.dp) {
         items.forEach { item ->
+            Log.d("xd", "BottomNavigationBar: backStackEntry")
             val selected = item.route == backStackEntry.value?.destination?.route
             BottomNavigationItem(selected = selected, onClick = { onItemClick(item) },
                 selectedContentColor = Orange, unselectedContentColor = Color.White, icon = {
@@ -105,7 +111,6 @@ fun BottomNavigationBar(
                 })
         }
     }
-
 }
 
 @Composable

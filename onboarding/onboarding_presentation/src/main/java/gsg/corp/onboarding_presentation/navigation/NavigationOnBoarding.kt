@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import gsg.corp.core_ui.navigation.NavigationRouteModule
+import gsg.corp.core_ui.navigation.NavigationRouteOnBoarding
 import gsg.corp.onboarding_presentation.screens.login.LoginScreen
 
 object NavigationOnBoarding {
