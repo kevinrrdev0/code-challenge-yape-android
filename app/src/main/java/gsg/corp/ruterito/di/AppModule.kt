@@ -9,6 +9,7 @@ import gsg.corp.core.domain.preferences.Preferences
 import gsg.corp.core.preferences.DefaultPreferences
 import gsg.corp.core.preferences.PreferenceManager
 import gsg.corp.core.util.PREFERENCES_FILE_NAME
+import gsg.corp.ruterito.interceptors.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
@@ -18,9 +19,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    @Singleton
+    @Provides
+    fun provideAuthInterceptor(preferences: Preferences): AuthInterceptor =
+        AuthInterceptor(preferences)
+
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .callTimeout(2, TimeUnit.MINUTES)
             .connectTimeout(20, TimeUnit.SECONDS)
@@ -31,6 +37,7 @@ object AppModule {
                     level = HttpLoggingInterceptor.Level.BODY
                 }
             )
+            .addInterceptor(authInterceptor)
             .build()
     }
 

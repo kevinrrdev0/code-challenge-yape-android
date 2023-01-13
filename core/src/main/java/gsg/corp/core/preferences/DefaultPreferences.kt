@@ -3,6 +3,7 @@ package gsg.corp.core.preferences
 import com.google.gson.Gson
 import gsg.corp.core.domain.model.UserInfo
 import gsg.corp.core.domain.preferences.Preferences
+import gsg.corp.core.domain.preferences.Preferences.Companion.KEY_SAVE_CREDENTIALS
 import gsg.corp.core.domain.preferences.Preferences.Companion.KEY_USER
 import gsg.corp.core.util.PREFERENCES_TOKEN
 
@@ -25,12 +26,14 @@ class DefaultPreferences(
     }
 
     override fun saveCredentials(flk: Boolean) {
-        preferenceManager.setValue(Preferences.KEY_SAVE_CREDENTIALS, flk)
+        preferenceManager.setValue(KEY_SAVE_CREDENTIALS, flk)
     }
 
     override fun loadSaveCredentials(): Boolean {
-        return preferenceManager.getBoolean(Preferences.KEY_SAVE_CREDENTIALS)
+        return preferenceManager.getBoolean(KEY_SAVE_CREDENTIALS)
     }
+
+    override fun getToken(): String = preferenceManager.getString(PREFERENCES_TOKEN)
 
     private fun saveUserInfo(userInfo: UserInfo) {
         val useAsString = Gson().toJson(userInfo)

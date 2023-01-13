@@ -14,6 +14,8 @@ interface Preferences {
     fun saveCredentials(flk: Boolean)
     fun loadSaveCredentials(): Boolean
 
+    fun getToken():String
+
     companion object {
         const val KEY_ID = "id"
         const val KEY_NAME = "name"
