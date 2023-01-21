@@ -7,8 +7,8 @@ import java.io.File
 
 interface DriverRepository {
 
-    suspend fun getRoutes(id:Int):Result<List<Route>>
-
     suspend fun updateRoute(file: File, uri:Uri,path:String)
+
+    suspend fun getRoute(): Resource<List<Route>>
 
 }
