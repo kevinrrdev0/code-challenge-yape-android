@@ -17,5 +17,5 @@ fun RoutesScreen(
     Column {
         Text(text = "Homa undo soy Routes Screeemn")
     }
-    viewModel.onGetRoutes()
+    viewModel.onGetRoutesTypes()
 }

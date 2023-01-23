@@ -5,9 +5,13 @@ import gsg.corp.core.data.network.BaseNetwork
 import gsg.corp.core.data.network.model.response.Resource
 import gsg.corp.core.util.ConnectionUtils
 import gsg.corp.core.util.UiText
+import gsg.corp.driver_data.mapper.toRouteDetail
 import gsg.corp.driver_data.mapper.toRoutes
+import gsg.corp.driver_data.mapper.toRoutesTypes
 import gsg.corp.driver_data.remote.DriverApi
 import gsg.corp.driver_domain.model.Route
+import gsg.corp.driver_domain.model.RouteDetail
+import gsg.corp.driver_domain.model.RouteType
 import gsg.corp.driver_domain.repository.DriverRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -46,6 +50,56 @@ class DriverRepositoryImpl(
                 }else{
                     val errorMessage =
                         routesDto.errorBody()?.string()?.let {
+                            parseException(
+                                it
+                            )?.message?.description
+                        } ?: run {
+                            "Error server"
+                        }
+                    Resource.Error(
+                        message = UiText.DynamicString(errorMessage)
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Resource.Error(message = UiText.DynamicString(getConnectionException(e)))
+        }
+    }
+
+    override suspend fun getRouteType(): Resource<List<RouteType>> {
+        return try {
+            executeWithConnection {
+                val routesTypesDto = api.getRouteType()
+                if (routesTypesDto.isSuccessful) {
+                    Resource.Success(data = routesTypesDto.body()?.data?.toRoutesTypes())
+                } else {
+                    val errorMessage =
+                        routesTypesDto.errorBody()?.string()?.let {
+                            parseException(
+                                it
+                            )?.message?.description
+                        } ?: run {
+                            "Error server"
+                        }
+                    Resource.Error(
+                        message = UiText.DynamicString(errorMessage)
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Resource.Error(message = UiText.DynamicString(getConnectionException(e)))
+        }
+    }
+
+    override suspend fun getRouteDetail(): Resource<RouteDetail> {
+        return try {
+            executeWithConnection {
+                val routeDetailDto = api.getRouteDetail()
+                if (routeDetailDto.isSuccessful) {
+                    Resource.Success(data = routeDetailDto.body()?.data?.toRouteDetail())
+                } else {
+                    val errorMessage =
+                        routeDetailDto.errorBody()?.string()?.let {
                             parseException(
                                 it
                             )?.message?.description

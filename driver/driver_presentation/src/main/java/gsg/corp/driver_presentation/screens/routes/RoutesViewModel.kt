@@ -21,4 +21,10 @@ class RoutesViewModel
                 .getRoutes()
         }
     }
+
+    fun onGetRoutesTypes() {
+        viewModelScope.launch {
+            driverUseCases.getRoutesTypes()
+        }
+    }
 }
