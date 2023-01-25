@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gsg.corp.core.data.network.model.response.Resource
+import gsg.corp.driver_domain.model.RouteType
 import gsg.corp.driver_domain.use_case.DriverUseCases
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,9 +23,21 @@ class RoutesViewModel
         }
     }
 
+    var routeType: RouteType? = null
+
     fun onGetRoutesTypes() {
         viewModelScope.launch {
-            driverUseCases.getRoutesTypes()
+            val result = driverUseCases.getRoutesTypes()
+            when(result) {
+                is Resource.Success -> {
+                    result.data?.let {
+                        it.map { r ->
+                            routeType = r
+                        }
+                    }
+                }
+                else -> {}
+            }
         }
     }
 }

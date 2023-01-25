@@ -22,6 +22,8 @@ val ColorCall = Color(0xFF2196F3)
 
 val Green = Color(0xFF1CB42D)
 
+val ColorGray = Color(0xFFD9D9D9)
+
 
 //<color name="primaryColor">#ec0000</color>
 //<color name="primaryLightColor">#ff5633</color>
