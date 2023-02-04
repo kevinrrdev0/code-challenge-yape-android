@@ -1,17 +1,22 @@
 package gsg.corp.driver_presentation.screens.routes.routes_detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import gsg.corp.driver_presentation.R
 
 @Preview
@@ -47,6 +52,9 @@ fun ExpressScreen() {
                 .height(19.dp)
         )
         CollectionData()
+        Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
+            ExpressDeliveries()
+        }
     }
 }
 @Composable
@@ -103,11 +111,11 @@ fun ExpressData() {
         }
         Row {
             Icon(
-                painter = painterResource(id = R.drawable.vector__3_),
+                painter = painterResource(id = R.drawable.vector__2_),
                 contentDescription = null,
                 modifier = Modifier.padding(end = 7.dp)
             )
-            Text(text = "Cliente")
+            Text(text = "Direccion:")
         }
         Spacer(
             modifier = Modifier
@@ -167,6 +175,7 @@ fun ExpressData() {
 }
 @Composable
 fun CollectionData() {
+    var show by remember { mutableStateOf(false) }
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 12.dp))
@@ -213,19 +222,273 @@ fun CollectionData() {
                 modifier = Modifier.size(2.dp)
             )
             Text(text = "Cuentas para las transferencias")
-            Button(onClick = { /*TODO*/ }, 
+            Spacer(
+                modifier = Modifier.height(6.dp)
+            )
+            Button(onClick = { show = true},
                 colors = ButtonDefaults
                     .buttonColors
                         (backgroundColor = Color.Red,
                     contentColor = Color.White),
                 shape = RoundedCornerShape(25),
                 modifier = Modifier
-                    .width(90.dp)
-                    .height(15.dp)
+                    .width(125.dp)
+                    .height(35.dp)
             ) {
                 Text(text = "Ver Cuentas")
             }
+            ExpressDialogScreen(show = show) { show = false }
         }
 
+    }
+}
+
+@Composable
+fun ExpressDeliveries() {
+    Row(modifier = Modifier.padding(15.dp)) {
+        TextButton(
+            onClick = {},
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.White,
+                backgroundColor = Color.Red
+            ),
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier.weight(1f)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                contentDescription = null
+            )
+            Text(text = "No Entregado")
+        }
+        Spacer(modifier = Modifier.width(20.dp))
+        TextButton(
+            onClick = {},
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.White,
+                backgroundColor = Color(0xFF41DA26)
+            ),
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier.weight(1f)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_check_24),
+                contentDescription = null
+            )
+            Text(text = "Entregado")
+        }
+    }
+}
+@Composable
+fun ExpressDialogScreen(show: Boolean, salir: () -> Unit,) {
+    if (show) {
+        Dialog(
+            onDismissRequest = {}
+        ) {
+            Card(
+                modifier = Modifier
+                    .clip( RoundedCornerShape(16.dp))
+            ){
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .padding(horizontal = 12.dp, vertical = 24.dp)
+
+                ) {
+                    Text(
+                        text = "Nro de Cuentas del Proveedor",
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        color = Color(0xFF656060)
+                    )
+                    Row(
+                        Modifier
+                            .padding(start = 15.dp), Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.carbon_enterprise),
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "BCP",
+                            fontSize = 16.sp,
+                            color = Color(0xFF656060),
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                    }
+                    Column(
+                        Modifier.padding(start = 60.dp)
+                    ){
+                        Text(
+                            text = "191 4982823 0 12", fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Kevin Quispe Mamani",
+                            fontWeight = FontWeight.Bold
+                        )
+
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .height(10.dp)
+                    )
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 18.dp, end = 18.dp)
+                    ) {
+                        Divider(
+                            Modifier
+                                .height(1.dp)
+                                .background(Color(0xFFA5A4A4))
+                        )
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .height(19.dp)
+                    )
+                    Row(
+                        Modifier
+                            .padding(start = 15.dp)
+                    ){
+                        Icon(
+                            painter = painterResource(id = R.drawable.carbon_enterprise),
+                            contentDescription = null
+                        )
+                        Text(text = "InterBank", fontSize = 16.sp, color = Color(0xFF656060))
+                    }
+                    Column(
+                        Modifier
+                            .padding(start = 60.dp)
+                    ){
+                        Text(
+                            text = "191 4982823 0 12",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Mauricio Reyes Castro",
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Serif
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 18.dp, end = 18.dp)
+                    ) {
+                        Divider(
+                            Modifier
+                                .height(1.dp)
+                                .background(Color(0xFFA5A4A4))
+                        )
+                    }
+                    Spacer(
+                        modifier = Modifier.height(19.dp)
+                    )
+                    Row(
+                        Modifier
+                            .padding(start = 15.dp)
+                    ){
+                        Icon(
+                            painter = painterResource(id = R.drawable.carbon_enterprise),
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "BBVA",
+                            fontSize = 16.sp, color = Color(0xFF656060)
+                        )
+                    }
+                    Column(
+                        Modifier
+                            .padding(start = 60.dp)
+                    ){
+                        Text(
+                            text = "191 4982823 0 12",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Kevin Quispe Mamani",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .height(10.dp)
+                        )
+                    }
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 18.dp, end = 18.dp)
+                    ) {
+                        Divider(
+                            Modifier
+                                .height(1.dp)
+                                .background(Color(0xFFA5A4A4))
+                        )
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .height(19.dp)
+                    )
+                    Row(
+                        Modifier
+                            .padding(start = 15.dp)
+                    ){
+                        Icon(
+                            painter = painterResource(id = R.drawable.carbon_enterprise),
+                            contentDescription = null
+                        )
+                        Text(text = "Yape", fontSize = 16.sp, color = Color(0xFF656060))
+                    }
+                    Column(
+                        Modifier
+                            .padding(start = 60.dp)
+                    ){
+                        Text(
+                            text = "191 4982823 0 12",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Kevin Quispe Mamani",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(
+                            modifier = Modifier.height(10.dp)
+                        )
+                    }
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 18.dp, end = 18.dp)
+                    ) {
+                        Divider(
+                            Modifier
+                                .height(1.dp)
+                                .background(Color(0xFFA5A4A4))
+                        )
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .height(10.dp)
+                    )
+                    Row(
+                        Modifier
+                            .clickable { salir() }
+                    ){
+                        Icon(
+                            painter = painterResource(id = R.drawable.arrowleft2),
+                            contentDescription = null,
+                            tint = Color.Red
+                        )
+                        Text(
+                            text = "Atras",
+                            color = Color.Red,
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        )
+                    }
+                }
+            }
+        }
     }
 }

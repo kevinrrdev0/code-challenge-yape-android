@@ -1,13 +1,12 @@
 package gsg.corp.driver_presentation.screens.routes.routes_detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -34,6 +33,19 @@ fun CollectionScreen() {
                     .height(30.dp)
             )
             DataDetail()
+            Spacer(modifier = Modifier.height(20.dp))
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 18.dp, end = 18.dp)) {
+                Divider(
+                    Modifier
+                        .height(1.dp)
+                        .background(Color(0xFFA5A4A4))
+                )
+            }
+            PhotoCollect()
+
         }
     }
     Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
@@ -53,7 +65,14 @@ fun DataDetail() {
             modifier = Modifier
                 .height(10.dp)
         )
-        IconCompany()
+        Row {
+            Icon(
+                painter = painterResource(id = R.drawable.carbon_enterprise),
+                contentDescription = null,
+                modifier = Modifier.padding(end = 7.dp)
+            )
+            Text(text = "Empresa:")
+        }
         Row {
             Text(
                 text = "FRIS SPORTRS",
@@ -86,7 +105,14 @@ fun DataDetail() {
                 )
             }
         }
-        IconLocation()
+        Row {
+            Icon(
+                painter = painterResource(id = R.drawable.vector__2_),
+                contentDescription = null,
+                modifier = Modifier.padding(end = 7.dp)
+            )
+            Text(text = "Direccion:")
+        }
         Spacer(
             modifier = Modifier
                 .height(3.dp)
@@ -148,35 +174,8 @@ fun DataDetail() {
             )
             Text(text = "4", fontWeight = FontWeight.SemiBold)
         }
-
-
     }
 }
-
-@Composable
-fun IconCompany(modifier: Modifier = Modifier) {
-    Row(modifier = modifier) {
-        Icon(
-            painter = painterResource(id = R.drawable.carbon_enterprise),
-            contentDescription = null,
-            modifier = Modifier.padding(end = 7.dp)
-        )
-        Text(text = "Empresa:")
-    }
-}
-
-@Composable
-fun IconLocation(modifier: Modifier = Modifier) {
-    Row(modifier = modifier) {
-        Icon(
-            painter = painterResource(id = R.drawable.vector__2_),
-            contentDescription = null,
-            modifier = Modifier.padding(end = 7.dp)
-        )
-        Text(text = "Direccion:")
-    }
-}
-
 @Composable
 fun ButtonRecolectado() {
 
@@ -214,4 +213,70 @@ fun ButtonRecolectado() {
         }
     }
 
+}
+
+@Composable
+fun PhotoCollect() {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 47.dp, top = 16.dp)
+    ){
+        Text(
+            text = "Foto del Recojo"
+        )
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        Row() {
+            Image(painter =painterResource(id = R.drawable.image) , contentDescription = null
+            )
+
+            Column(
+                Modifier,
+                Arrangement.SpaceBetween,
+                Alignment.CenterHorizontally
+            ){
+                Row(
+                    Modifier
+                        .padding(start = 25.dp, top = 24.dp)
+                ){
+                    Icon(
+                        painter = painterResource(id = R.drawable.camera),
+                        contentDescription = null
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(12.dp)
+                    )
+                    Text(
+                        text = "Tomar foto",
+                        fontWeight =
+                        FontWeight.SemiBold
+                    )
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(15.dp)
+                )
+                Row(
+                    Modifier
+                        .padding(start = 25.dp, end = 24.dp)
+                ){
+                    Icon(
+                        painter = painterResource(id = R.drawable.galleryexport),
+                        contentDescription = null
+                    )
+                    Spacer(
+                        modifier = Modifier.width(12.dp)
+                    )
+                    Text(
+                        text = "Galeria",
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+        }
+
+    }
 }

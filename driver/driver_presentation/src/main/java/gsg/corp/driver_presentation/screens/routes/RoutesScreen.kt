@@ -4,6 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -21,16 +22,30 @@ import gsg.corp.core_ui.ColorGray
 
 @Composable
 fun RoutesScreen(
-    viewModel: RoutesViewModel = hiltViewModel()
+    viewModel: RoutesViewModel = hiltViewModel(),
 ) {
 
     viewModel.onGetRoutesTypes()
 
+    val routesList = listOf("ajasj","dasd")
+
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.size(15.dp))
-        ButtonRoutes(one = "Recolección", two = "Express", three = "   Zonas   " )
+        ButtonRoutes(one = "Recolección", two = "Express", three = "   Zonas   " ,{},{})
         Spacer(modifier = Modifier.size(15.dp))
-        //CardsRoutes()
+        LazyColumn() {
+            itemsIndexed(
+                items = routesList
+            ) {index, r ->
+                CardsRoutes(
+                    ruteText = r,
+                    district = "Surco",
+                    client = "w",
+                    cell = "w",
+                    onClick = {}
+                )
+            }
+        }
     }
 
 }
@@ -71,13 +86,11 @@ fun CardsRoutes(
                 ,
                 Arrangement.SpaceAround
             ) {
-                Text(text = ruteText, fontWeight = FontWeight.SemiBold)
-                Text(text = district)
-                Text(text = client)
-                Text(text = cell)
+                Text(text = "Rutas: $ruteText", fontWeight = FontWeight.SemiBold)
+                Text(text = "Distrito: $district")
+                Text(text = "Cliente: $client")
+                Text(text = "Tlf: $cell")
             }
-
-            Spacer(modifier = Modifier.width(60.dp))
             Icon(
                 painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.ic_baseline_content_copy_24 ),
                 contentDescription = null ,
@@ -86,7 +99,6 @@ fun CardsRoutes(
                     .align(Alignment.CenterVertically)
                     .clickable { }
             )
-            // (modifier = Modifier.width(30.dp))
             IconButton(onClick = onClick, modifier = Modifier.align(Alignment.CenterVertically)) {
                 Icon(
                     painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.vector ),
@@ -102,7 +114,14 @@ fun CardsRoutes(
 }
 
 @Composable
-fun ButtonRoutes(one : String, two : String, three : String) {
+fun ButtonRoutes(
+    one : String,
+    two : String,
+    three : String,
+    onClickZones: () -> Unit,
+    onClickExpress: () -> Unit,
+)
+    {
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
         val(OneRoutes, TwoRoutes , ThreeRoutes, IconMap) = createRefs()
         Box(
@@ -139,7 +158,7 @@ fun ButtonRoutes(one : String, two : String, three : String) {
                 }
         ){
             Button(
-                onClick = { },
+                onClick = onClickExpress,
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 shape = RoundedCornerShape(
                     0,
@@ -163,7 +182,7 @@ fun ButtonRoutes(one : String, two : String, three : String) {
                 }
         ){
             TextButton(
-                onClick = {  },
+                onClick = onClickZones,
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 1.dp,
@@ -195,7 +214,7 @@ fun ButtonRoutes(one : String, two : String, three : String) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(45.dp)
-                    .padding(top = 5.dp, start = 9.dp),
+                    .padding(top = 5.dp, start = 9.dp)
 
                 )
         }
