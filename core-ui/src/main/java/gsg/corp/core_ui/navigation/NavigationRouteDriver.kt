@@ -13,4 +13,8 @@ sealed class NavigationRouteDriver(val route:String,val name:String=""){
             return "route_detail?$ROUTE_ID=$id"
         }
     }
+
+    object BottomNavToday: NavigationRouteDriver("bottom_nav_today", "Hoy")
+    object BottomNavWeekly: NavigationRouteDriver("bottom_nav_weekly", "Semanal")
+    object BottomNavMonthly: NavigationRouteDriver("bottom_nav_monthly", "Mensual")
 }

@@ -1,4 +1,4 @@
-package gsg.corp.driver_presentation.screens.home.parts
+package gsg.corp.driver_presentation.screens.home.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
@@ -13,10 +13,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import gsg.corp.core.R
+import gsg.corp.core_ui.ColorTextButton
+import gsg.corp.core_ui.ColorWhite
+import gsg.corp.core_ui.RedGsg
+import gsg.corp.core_ui.navigation.NavigationRouteDriver
 
 @Composable
-fun ToggleButtons(today: String, week: String, month: String ) {
+fun ToggleButtons(
+    navController: NavHostController
+) {
+    val backStackEntry = navController.currentBackStackEntryAsState()
+
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
         val(OneRoutes, TwoRoutes , ThreeRoutes) = createRefs()
         Box(
@@ -27,11 +37,18 @@ fun ToggleButtons(today: String, week: String, month: String ) {
                     end.linkTo(TwoRoutes.start)
                 }
         ){
+            val selectToday =  NavigationRouteDriver.BottomNavToday.route == backStackEntry.value?.destination?.route
+
+            val backgroundToday = if (selectToday) RedGsg else ColorWhite
+            val textColorToday = if (selectToday) ColorWhite else ColorTextButton
+
             Button(
-                onClick =  {},
+                onClick = {
+                    navController.navigate(NavigationRouteDriver.BottomNavToday.route)
+                },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Red
+                    backgroundColor = backgroundToday
                 ),
                 shape = RoundedCornerShape(
                     50,
@@ -45,7 +62,7 @@ fun ToggleButtons(today: String, week: String, month: String ) {
                     contentDescription = null, modifier = Modifier.size(17.dp),
                     tint = Color.White
                 )
-                Text(text = today, color = Color.White)
+                Text(text = NavigationRouteDriver.BottomNavToday.name, color = textColorToday)
             }
         }
 
@@ -57,8 +74,15 @@ fun ToggleButtons(today: String, week: String, month: String ) {
                     end.linkTo(ThreeRoutes.start)
                 }
         ){
+            val selectWeekly = NavigationRouteDriver.BottomNavWeekly.route == backStackEntry.value?.destination?.route
+
+            val background = if (selectWeekly) RedGsg else ColorWhite
+            val textColor = if (selectWeekly) ColorWhite else ColorTextButton
+
             Button(
-                onClick = { },
+                onClick = {
+                    navController.navigate(NavigationRouteDriver.BottomNavWeekly.route)
+                },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 shape = RoundedCornerShape(
                     0,
@@ -67,10 +91,10 @@ fun ToggleButtons(today: String, week: String, month: String ) {
                     0
                 ),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.White,
+                    backgroundColor = background,
                 ),
             ){
-                Text(text = week)
+                Text(text = NavigationRouteDriver.BottomNavWeekly.name, color = textColor)
             }
         }
         Box(
@@ -81,8 +105,16 @@ fun ToggleButtons(today: String, week: String, month: String ) {
                     end.linkTo(parent.end)
                 }
         ){
+
+            val selectMonthly = NavigationRouteDriver.BottomNavMonthly.route == backStackEntry.value?.destination?.route
+
+            val background = if (selectMonthly) RedGsg else ColorWhite
+            val textColor = if (selectMonthly) ColorWhite else ColorTextButton
+
             TextButton(
-                onClick = {  },
+                onClick = {
+                    navController.navigate(NavigationRouteDriver.BottomNavMonthly.route)
+                },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 1.dp,
@@ -96,10 +128,10 @@ fun ToggleButtons(today: String, week: String, month: String ) {
                     0
                 ),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.White,
+                    backgroundColor = background,
                 ),
             ) {
-                Text(text = month)
+                Text(text = NavigationRouteDriver.BottomNavMonthly.name, color = textColor)
             }
         }
         createHorizontalChain(OneRoutes, TwoRoutes , ThreeRoutes , chainStyle = ChainStyle.Packed)

@@ -1,6 +1,8 @@
 package gsg.corp.driver_presentation.screens.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,5 +39,17 @@ fun MyRoutesStatistics() {
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Reprogram : 2")
         }
+    }
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 18.dp, end = 18.dp, top = 15.dp), ) {
+        Divider(
+            Modifier
+                .height(1.dp)
+                .background(
+                    Color(0xFFA5A4A4)
+                )
+        )
     }
 }

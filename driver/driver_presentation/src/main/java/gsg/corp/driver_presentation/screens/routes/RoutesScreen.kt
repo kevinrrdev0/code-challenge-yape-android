@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -22,26 +23,26 @@ import gsg.corp.core_ui.ColorGray
 
 @Composable
 fun RoutesScreen(
-    viewModel: RoutesViewModel = hiltViewModel(),
+    viewModel: RoutesViewModel = hiltViewModel()
 ) {
 
     viewModel.onGetRoutesTypes()
 
-    val routesList = listOf("ajasj","dasd")
+    val routesList = viewModel.routeType.value
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.size(15.dp))
-        ButtonRoutes(one = "Recolección", two = "Express", three = "   Zonas   " ,{},{})
+        ButtonRoutes(one = "Recolección", two = "Express", three = "   Zonas   " )
         Spacer(modifier = Modifier.size(15.dp))
         LazyColumn() {
             itemsIndexed(
                 items = routesList
             ) {index, r ->
                 CardsRoutes(
-                    ruteText = r,
-                    district = "Surco",
-                    client = "w",
-                    cell = "w",
+                    ruteText = r.codeTracking,
+                    district = r.clientAddressDistrict,
+                    client = r.clientFullName,
+                    cell = r.clientPhoneFirst,
                     onClick = {}
                 )
             }
@@ -114,14 +115,7 @@ fun CardsRoutes(
 }
 
 @Composable
-fun ButtonRoutes(
-    one : String,
-    two : String,
-    three : String,
-    onClickZones: () -> Unit,
-    onClickExpress: () -> Unit,
-)
-    {
+fun ButtonRoutes(one : String, two : String, three : String) {
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
         val(OneRoutes, TwoRoutes , ThreeRoutes, IconMap) = createRefs()
         Box(
@@ -158,7 +152,7 @@ fun ButtonRoutes(
                 }
         ){
             Button(
-                onClick = onClickExpress,
+                onClick = { },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 shape = RoundedCornerShape(
                     0,
@@ -182,7 +176,7 @@ fun ButtonRoutes(
                 }
         ){
             TextButton(
-                onClick = onClickZones,
+                onClick = {  },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 1.dp,
@@ -214,7 +208,7 @@ fun ButtonRoutes(
                 contentDescription = null,
                 modifier = Modifier
                     .size(45.dp)
-                    .padding(top = 5.dp, start = 9.dp)
+                    .padding(top = 5.dp, start = 9.dp),
 
                 )
         }
