@@ -14,12 +14,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import gsg.corp.core_ui.ColorGray
+import gsg.corp.core_ui.ColorTextButton
+import gsg.corp.core_ui.ColorWhite
+import gsg.corp.core_ui.RedGsg
+import gsg.corp.core_ui.navigation.NavigationRouteDriver
+import gsg.corp.driver_presentation.screens.routes.navigation.ButtonsRoutesNavGraph
 
 @Composable
 fun RoutesScreen(
@@ -29,12 +36,13 @@ fun RoutesScreen(
     viewModel.onGetRoutesTypes()
 
     val routesList = viewModel.routeType.value
+    val navController = rememberNavController()
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.size(15.dp))
-        ButtonRoutes(one = "Recolección", two = "Express", three = "   Zonas   " )
+        ButtonRoutes(navController)
         Spacer(modifier = Modifier.size(15.dp))
-        LazyColumn() {
+        LazyColumn {
             itemsIndexed(
                 items = routesList
             ) {index, r ->
@@ -43,12 +51,12 @@ fun RoutesScreen(
                     district = r.clientAddressDistrict,
                     client = r.clientFullName,
                     cell = r.clientPhoneFirst,
-                    onClick = {}
+                    onClick = {navController.navigate(NavigationRouteDriver.CardButtonNavHarvest.route)}
                 )
             }
         }
+        ButtonsRoutesNavGraph(navController = navController)
     }
-
 }
 @Composable
 fun CardsRoutes(
@@ -109,28 +117,36 @@ fun CardsRoutes(
                         .size(30.dp)
                 )
             }
-
         }
     }
 }
 
 @Composable
-fun ButtonRoutes(one : String, two : String, three : String) {
+fun ButtonRoutes( navController: NavHostController) {
+
+    val backStackEntry = navController.currentBackStackEntryAsState()
+
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
         val(OneRoutes, TwoRoutes , ThreeRoutes, IconMap) = createRefs()
         Box(
             modifier = Modifier
+                .height(35.dp)
                 .constrainAs(OneRoutes) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     end.linkTo(TwoRoutes.start)
                 }
         ){
+            val selectHarvest =  NavigationRouteDriver.BottomNavHarvest.route == backStackEntry.value?.destination?.route
+            val backgroundHarvest = if (selectHarvest) RedGsg else ColorWhite
+            val textColorHarvest = if (selectHarvest) ColorWhite else ColorTextButton
             Button(
-                onClick =  {},
+                onClick =  {
+                    navController.navigate(NavigationRouteDriver.BottomNavHarvest.route)
+                           },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Red
+                    backgroundColor = backgroundHarvest
                 ),
                 shape = RoundedCornerShape(
                     50,
@@ -139,20 +155,27 @@ fun ButtonRoutes(one : String, two : String, three : String) {
                     50
                 ),
             ) {
-                Text(text = one, color = Color.White)
+                Text(text = NavigationRouteDriver.BottomNavHarvest.name, color = textColorHarvest)
             }
         }
 
         Box(
             modifier = Modifier
-                .constrainAs(TwoRoutes){
+                .height(35.dp)
+                .constrainAs(TwoRoutes) {
                     top.linkTo(parent.top)
                     start.linkTo(OneRoutes.end)
                     end.linkTo(ThreeRoutes.start)
                 }
         ){
+            val selectExpress =  NavigationRouteDriver.BottomNavExpress.route == backStackEntry.value?.destination?.route
+
+            val backgroundExpress = if (selectExpress) RedGsg else ColorWhite
+            val textColorExpress = if (selectExpress) ColorWhite else ColorTextButton
             Button(
-                onClick = { },
+                onClick = {
+                    navController.navigate(NavigationRouteDriver.BottomNavExpress.route)
+                },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
                 shape = RoundedCornerShape(
                     0,
@@ -161,28 +184,30 @@ fun ButtonRoutes(one : String, two : String, three : String) {
                     0
                 ),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.White,
+                    backgroundColor = backgroundExpress,
                 ),
             ){
-                Text(text = two)
+                Text(text = NavigationRouteDriver.BottomNavExpress.name , color = textColorExpress)
             }
         }
         Box(
             modifier = Modifier
-                .constrainAs(ThreeRoutes){
+                .height(35.dp)
+                .constrainAs(ThreeRoutes) {
                     top.linkTo(parent.top)
                     start.linkTo(TwoRoutes.end)
-                    end.linkTo(parent.end)
+                    end.linkTo(IconMap.start)
                 }
         ){
+            val selectZones =  NavigationRouteDriver.BottomNavZones.route == backStackEntry.value?.destination?.route
+
+            val backgroundZones = if (selectZones) RedGsg else ColorWhite
+            val textColorZones = if (selectZones) ColorWhite else ColorTextButton
             TextButton(
-                onClick = {  },
+                onClick = {
+                    navController.navigate(NavigationRouteDriver.BottomNavZones.route)
+                          },
                 border = BorderStroke(1.dp, Color(0xFF79747E)),
-                elevation = ButtonDefaults.elevation(
-                    defaultElevation = 1.dp,
-                    pressedElevation = 0.dp,
-                    disabledElevation = 0.dp
-                ),
                 shape = RoundedCornerShape(
                     0,
                     50,
@@ -190,14 +215,16 @@ fun ButtonRoutes(one : String, two : String, three : String) {
                     0
                 ),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.White,
+                    backgroundColor = backgroundZones,
                 ),
             ) {
-                Text(text = three)
+                Text(text = NavigationRouteDriver.BottomNavZones.name, color = textColorZones)
             }
         }
         Box(modifier = Modifier
-            .constrainAs(IconMap){
+            .width(41.dp)
+            .height(32.dp)
+            .constrainAs(IconMap) {
                 top.linkTo(parent.top)
                 start.linkTo(ThreeRoutes.end)
                 end.linkTo(parent.end)
@@ -207,8 +234,6 @@ fun ButtonRoutes(one : String, two : String, three : String) {
                 painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.group),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(45.dp)
-                    .padding(top = 5.dp, start = 9.dp),
 
                 )
         }

@@ -235,7 +235,7 @@ fun CollectionData() {
                     .width(125.dp)
                     .height(35.dp)
             ) {
-                Text(text = "Ver Cuentas")
+                Text(text = "Ver Cuentas",fontSize = 13.sp)
             }
             ExpressDialogScreen(show = show) { show = false }
         }

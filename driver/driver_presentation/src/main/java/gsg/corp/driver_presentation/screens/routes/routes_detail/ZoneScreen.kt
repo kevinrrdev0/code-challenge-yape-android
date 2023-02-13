@@ -247,7 +247,7 @@ fun ZonesButton() {
                     .width(125.dp)
                     .height(35.dp)
             ) {
-                Text(text = "Ver Cuentas")
+                Text(text = "Ver Cuentas", fontSize = 13.sp)
             }
         }
 
