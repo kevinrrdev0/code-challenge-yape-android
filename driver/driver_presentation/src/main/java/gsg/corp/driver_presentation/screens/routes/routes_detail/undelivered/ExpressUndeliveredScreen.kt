@@ -186,7 +186,6 @@ fun ExpressContent() {
                 }
             }
         }
-
         if (isLoding){
             RescheduledTextField()
         }
