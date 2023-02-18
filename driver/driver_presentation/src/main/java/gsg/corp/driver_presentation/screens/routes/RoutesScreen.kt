@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,10 +40,10 @@ fun RoutesScreen(
                 items = routesList
             ) {index, r ->
                 CardsRoutes(
-                    ruteText = r.codeTracking,
-                    district = r.clientAddressDistrict,
-                    client = r.clientFullName,
-                    cell = r.clientPhoneFirst,
+                    ruteText = "fdsdsf",
+                    district = "fdsfsd",
+                    client = "hbjfdsjhb",
+                    cell = "hbdfsjhbfdsjhb",
                     onClick = {}
                 )
             }
@@ -60,15 +61,14 @@ fun CardsRoutes(
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(150.dp)
-        .padding(19.dp),
+        .height(130.dp)
+        .padding(11.dp),
         elevation = 7.dp,
-        shape = RoundedCornerShape(20.dp)
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .background(color = ColorGray)
-            ,
         ) {
             Icon(
                 painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.group_2 ),
@@ -77,37 +77,43 @@ fun CardsRoutes(
                     .size(90.dp)
                     .padding(10.dp)
                     .align(Alignment.CenterVertically)
-
             )
-
             Column(
                 modifier = Modifier
+                    .width(200.dp)
                     .fillMaxHeight()
                     .padding(top = 15.dp)
-                ,
-                Arrangement.SpaceAround
             ) {
                 Text(text = "Rutas: $ruteText", fontWeight = FontWeight.SemiBold)
                 Text(text = "Distrito: $district")
                 Text(text = "Cliente: $client")
+                Spacer(modifier = Modifier.height(3.dp))
                 Text(text = "Tlf: $cell")
             }
-            Icon(
-                painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.ic_baseline_content_copy_24 ),
-                contentDescription = null ,
-                modifier = Modifier
-                    .size(30.dp)
-                    .align(Alignment.CenterVertically)
-                    .clickable { }
-            )
-            IconButton(onClick = onClick, modifier = Modifier.align(Alignment.CenterVertically)) {
+            Column(
+                Modifier
+                    .align(Alignment.CenterVertically)) {
                 Icon(
-                    painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.vector ),
+                    painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.ic_baseline_content_copy_24 ),
                     contentDescription = null ,
                     modifier = Modifier
-                        .padding()
-                        .size(30.dp)
+                        .size(28.dp)
+                        .align(Alignment.End)
+                        .clickable { }
                 )
+            }
+            Column(
+                Modifier
+                    .align(Alignment.CenterVertically)){
+                IconButton(onClick = onClick, modifier = Modifier.align(Alignment.End)) {
+                    Icon(
+                        painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.vector ),
+                        contentDescription = null ,
+                        modifier = Modifier
+                            .padding()
+                            .size(28.dp)
+                    )
+                }
             }
 
         }
