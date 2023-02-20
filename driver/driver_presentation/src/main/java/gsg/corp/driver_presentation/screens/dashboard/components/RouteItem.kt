@@ -99,21 +99,21 @@ fun RouteItem(
                             fallback(gsg.corp.core.R.drawable.ic_logo_gsg)
                         }
                     ),
-                    contentDescription = routeUi.route.customer,
+                    contentDescription = routeUi.route.product_detail,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(topStart = 5.dp))
                 )
                 Column() {
-                    Text(text = "${routeUi.route.customer}",
+                    Text(text = "${routeUi.route.product_name}",
                         style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         modifier = Modifier.width(160.dp),
                         overflow = TextOverflow.Ellipsis)
-                    Text(text = "${routeUi.route.product}",
+                    Text(text = "${routeUi.route.product_name}",
                         style = MaterialTheme.typography.subtitle1.copy(fontSize = 14.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Medium,
@@ -122,10 +122,10 @@ fun RouteItem(
                         overflow = TextOverflow.Ellipsis)
                 }
 
-                GlobalCall(isEnable = routeUi.route.customerPhone.isNotBlank(),
-                    phone = routeUi.route.customerPhone)
-                GlobalCall(isEnable = routeUi.route.customerOtherPhone.isNotBlank(),
-                    phone = routeUi.route.customerOtherPhone)
+                GlobalCall(isEnable = routeUi.route.cel1.isNotBlank(),
+                    phone = routeUi.route.cel1)
+                GlobalCall(isEnable = routeUi.route.cel2.isNotBlank(),
+                    phone = routeUi.route.cel2)
 
 
             }
@@ -133,9 +133,9 @@ fun RouteItem(
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp))
             {
-                Text(text = "Distrito: ${routeUi.route.customerDistrict}")
-                Text(text = "Direccion: ${routeUi.route.customerAddress}")
-                Text(text = "Referencia: ${routeUi.route.customerRef}")
+                Text(text = "Distrito: ${routeUi.route.district}")
+                Text(text = "Direccion: ${routeUi.route.address}")
+                Text(text = "Referencia: ${routeUi.route.address_ref}")
             }
             Row(
                 Modifier
@@ -144,7 +144,7 @@ fun RouteItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "H: ${routeUi.route.dateRoute.substring(11)}")
+                Text(text = "H: ${routeUi.route.date_route.substring(11)}")
 
                 Card(modifier = Modifier
                     .padding(4.dp)
@@ -161,7 +161,7 @@ fun RouteItem(
                     }
                 }
 
-                GlobalWhatsApp(routeUi.route.customerPhone.isNotBlank(),routeUi.route.customerPhone)
+                GlobalWhatsApp(routeUi.route.telephone1.isNotBlank(),routeUi.route.telephone1)
             }
         }
         AnimatedVisibility(visible = routeUi.isExpanded) {
@@ -193,13 +193,13 @@ fun RouteItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column() {
-                        Text(text = "${routeUi.route.provider}",
+                        Text(text = "${routeUi.route.product_name}",
                             style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                             textAlign = TextAlign.Start,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis)
-                        Text(text = "${routeUi.route.payMethod}",
+                        Text(text = "${routeUi.route.pay_method}",
                             style = MaterialTheme.typography.subtitle1.copy(fontSize = 14.sp),
                             textAlign = TextAlign.Start,
                             fontWeight = FontWeight.Medium,
@@ -208,11 +208,11 @@ fun RouteItem(
                     }
                     Row() {
                         GlobalCall(
-                            isEnable = routeUi.route.providerPhone.isNotBlank(),
-                        phone = routeUi.route.providerPhone)
+                            isEnable = routeUi.route.cel1.isNotBlank(),
+                        phone = routeUi.route.cel1)
                         GlobalCall(
-                            isEnable = routeUi.route.providerOtherPhone.isNotBlank(),
-                            phone = routeUi.route.providerOtherPhone)
+                            isEnable = routeUi.route.cel2.isNotBlank(),
+                            phone = routeUi.route.cel2)
                     }
 
                 }
@@ -221,13 +221,13 @@ fun RouteItem(
                     .fillMaxWidth()
                     .padding(bottom = 2.dp)
                     ) {
-                    Text(text = "S/. ${routeUi.route.amountCollect}",
+                    Text(text = "S/. ${routeUi.route.amount_collect}",
                         style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis)
-                    Text(text = "Detalle: ${routeUi.route.payDetail}",
+                    Text(text = "Detalle: ${routeUi.route.pay_method}",
                         style = MaterialTheme.typography.subtitle1.copy(fontSize = 14.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Medium)

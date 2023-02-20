@@ -47,17 +47,7 @@ class RouteViewModel @Inject constructor(
         state = state.copy(loading = true)
         viewModelScope.launch {
             driverUseCases
-                .getRoutes(id)
-                .onSuccess {
-                    state = state.copy(listRoutes = it.map {
-                            r -> RouteUiState(r, false)
-                    })
-                    state = state.copy(loading = false)
-                }
-                .onFailure {
-                    state = state.copy(loading = false)
-                }
-
+                .getRoutes()
         }
     }
 
