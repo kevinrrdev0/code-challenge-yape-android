@@ -10,7 +10,12 @@ import gsg.corp.driver_presentation.screens.routes.screens.RoutesCollectionScree
 import gsg.corp.driver_presentation.screens.routes.screens.RoutesZonesScreen
 
 @Composable
-fun ButtonsRoutesNavGraph(navController: NavHostController) {
+fun ButtonsRoutesNavGraph(
+    navController: NavHostController,
+    onCollectionScreen: () -> Unit,
+    onExpressScreen: () -> Unit,
+    onZonesScreen: () -> Unit
+) {
     NavHost(
         navController = navController,
         route = NavigationRouteDriver.BottomNavRoutes.route,
@@ -19,17 +24,23 @@ fun ButtonsRoutesNavGraph(navController: NavHostController) {
         composable(
             route = NavigationRouteDriver.BottomNavHarvest.route
         ){
-            RoutesCollectionScreen()
+            RoutesCollectionScreen(
+                onClick = onCollectionScreen
+            )
         }
         composable(
             route = NavigationRouteDriver.BottomNavExpress.route
         ){
-            RouteExpressScreen()
+            RouteExpressScreen(
+                onClick = onExpressScreen
+            )
         }
         composable(
             route = NavigationRouteDriver.BottomNavZones.route
         ){
-            RoutesZonesScreen()
+            RoutesZonesScreen(
+                onClick = onZonesScreen
+            )
         }
     }
 }

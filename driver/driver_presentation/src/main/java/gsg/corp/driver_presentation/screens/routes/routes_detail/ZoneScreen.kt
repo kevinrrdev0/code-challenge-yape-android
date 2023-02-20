@@ -14,9 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gsg.corp.driver_presentation.R
 
-@Preview
 @Composable
-fun ZoneScreen() {
+fun ZoneScreen(
+    onUndeliveredScreen: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -47,7 +48,9 @@ fun ZoneScreen() {
             )
             ZonesButton()
             Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
-                ButtonsStateDelivered()
+                ButtonsStateDelivered(
+                    onClickUndelivered = onUndeliveredScreen
+                )
             }
         }
     }
@@ -255,7 +258,9 @@ fun ZonesButton() {
 }
 
 @Composable
-fun ButtonsStateDelivered() {
+fun ButtonsStateDelivered(
+    onClickUndelivered: () -> Unit
+) {
     Row(modifier = Modifier.padding(15.dp)) {
         TextButton(
             onClick = {},

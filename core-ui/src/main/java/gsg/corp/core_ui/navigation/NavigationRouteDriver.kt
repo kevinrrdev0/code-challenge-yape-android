@@ -25,4 +25,7 @@ sealed class NavigationRouteDriver(val route:String,val name:String=""){
     object CardButtonNavHarvest: NavigationRouteDriver("card_button_nav_harvest")
     object CardButtonNavExpress: NavigationRouteDriver("card_button_nav_express")
     object CardButtonNavZones: NavigationRouteDriver("card_button_nav_zones")
+
+    object NoCollectedNav: NavigationRouteDriver("no_collected_nav")
+    object UndeliveredNav: NavigationRouteDriver("undelivered_nav")
 }
