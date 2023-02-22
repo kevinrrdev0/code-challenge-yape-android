@@ -7,9 +7,7 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -29,21 +27,27 @@ import gsg.corp.driver_presentation.R
 @Preview
 @Composable
 fun CollectionScreen() {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .verticalScroll(rememberScrollState())
+    ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
                 text = "Recolección - RUT-REC1A",
                 fontWeight = FontWeight.Bold,
-                fontSize = 25.sp
+                fontSize = 24.sp
             )
             Spacer(
                 modifier = Modifier
                     .height(30.dp)
             )
             DataDetail()
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(45.dp)
+            )
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -82,36 +86,34 @@ fun DataDetail() {
             )
             Text(text = "Empresa:")
         }
-        Row {
-            Text(
-                text = "FRIS SPORTRS",
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .padding(start = 21.dp)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(170.dp)
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.vector__1_),
-                contentDescription = null,
-                tint = Color(0xFF5CEE3C)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(7.dp)
-            )
+        Row(){
             Box(
-                Modifier
-                    .background(Color(0xFF25D2D8))
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_phone_24),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp)
+                Text(
+                    text = "Fritz Sports",
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .padding(start = 21.dp)
                 )
+                Box(modifier = Modifier
+                    .padding(end = 40.dp)
+                    .align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.vector__1_),
+                        contentDescription = null,
+                        tint = Color(0xFF5CEE3C)
+                    )
+                }
+                Box(modifier = Modifier.align(Alignment.TopEnd)){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_phone),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
             }
         }
         Row {
@@ -127,21 +129,22 @@ fun DataDetail() {
                 .height(3.dp)
         )
         Row(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = "Av. la marina 245 curze con choristar",
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .padding(start = 15.dp)
-            )
-            Spacer(
-                modifier = Modifier.width(40.dp)
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_content_copy_24),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp)
-            )
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Av. la marina 245 curze con choristar",
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .padding(start = 21.dp)
+                )
+                Box(Modifier.align(Alignment.TopEnd)) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_content_copy_24),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(24.dp)
+                    )
+                }
+            }
         }
         Spacer(
             modifier = Modifier
@@ -199,12 +202,15 @@ fun ButtonCollected() {
             modifier = Modifier.weight(1f)
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                painter = painterResource(id = R.drawable.ic_x),
                 contentDescription = null
             )
-            Text(text = "No Recolectado")
+            Text(
+                text = "No Recolectado",
+                fontSize = 14.sp
+            )
         }
-        Spacer(modifier = Modifier.width(20.dp))
+        Spacer(modifier = Modifier.width(15.dp))
         TextButton(
             onClick = {},
             colors = ButtonDefaults.buttonColors(
@@ -215,13 +221,15 @@ fun ButtonCollected() {
             modifier = Modifier.weight(1f)
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_check_24),
+                painter = painterResource(id = R.drawable.ic_check),
                 contentDescription = null
             )
-            Text(text = "Recolectado")
+            Text(
+                text = "Recolectado",
+                fontSize = 14.sp
+            )
         }
     }
-
 }
 
 @Composable
