@@ -105,14 +105,14 @@ fun ExpressContent() {
             modifier = Modifier
                 .height(10.dp)
         )
-        Row() {
+        Row {
             Icon(painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.carbon_enterprise), contentDescription = null)
             Text(text ="Empresa")
         }
         Spacer(modifier = Modifier
             .height(3.dp)
         )
-        Row() {
+        Row {
 
             Text(
                 text = "FRIS SPORTRS",

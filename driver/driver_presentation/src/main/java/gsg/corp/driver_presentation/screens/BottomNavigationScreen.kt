@@ -26,7 +26,12 @@ import gsg.corp.driver_presentation.navigation.BottomNavGraph
 import gsg.corp.driver_presentation.screens.dashboard.components.BottomNavItem
 
 @Composable
-fun BottomNavigationScreen(navController: NavHostController = rememberNavController()) {
+fun BottomNavigationScreen(
+    navController: NavHostController = rememberNavController(),
+    onCollectionScreen: () -> Unit,
+    onExpressScreen: () -> Unit,
+    onZonesScreen: () -> Unit
+) {
     Scaffold(bottomBar = {
         BottomNavigationBar(items = listOf(
             BottomNavItem(
@@ -40,12 +45,12 @@ fun BottomNavigationScreen(navController: NavHostController = rememberNavControl
                 Icons.Outlined.LocationOn
             ),
             BottomNavItem(
-                NavigationRouteDriver.BottomNavRoutes.name,
+                NavigationRouteDriver.BottomNavNews.name,
                 NavigationRouteDriver.BottomNavNews.route,
                 Icons.Outlined.Newspaper
             ),
             BottomNavItem(
-                NavigationRouteDriver.BottomNavRoutes.name,
+                NavigationRouteDriver.BottomNavProfile.name,
                 NavigationRouteDriver.BottomNavProfile.route,
                 Icons.Outlined.Person
             )
@@ -55,7 +60,12 @@ fun BottomNavigationScreen(navController: NavHostController = rememberNavControl
         })
     }) {
         Column(modifier = Modifier.padding(it)) {
-            BottomNavGraph(navController)
+            BottomNavGraph(
+                navController = navController,
+                onCollectionScreen = onCollectionScreen,
+                onExpressScreen = onExpressScreen,
+                onZonesScreen = onZonesScreen
+            )
         }
     }
 

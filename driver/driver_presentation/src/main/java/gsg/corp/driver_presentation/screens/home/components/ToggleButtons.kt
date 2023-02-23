@@ -57,11 +57,13 @@ fun ToggleButtons(
                     50
                 ),
             ) {
-                Icon(
-                    painterResource(id = R.drawable.ic_baseline_check_24),
-                    contentDescription = null, modifier = Modifier.size(17.dp),
-                    tint = Color.White
-                )
+                if (selectToday) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_baseline_check_24),
+                        contentDescription = null, modifier = Modifier.size(17.dp),
+                        tint = Color.White
+                    )
+                }
                 Text(text = NavigationRouteDriver.BottomNavToday.name, color = textColorToday)
             }
         }
@@ -94,6 +96,13 @@ fun ToggleButtons(
                     backgroundColor = background,
                 ),
             ){
+                if (selectWeekly) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_baseline_check_24),
+                        contentDescription = null, modifier = Modifier.size(17.dp),
+                        tint = Color.White
+                    )
+                }
                 Text(text = NavigationRouteDriver.BottomNavWeekly.name, color = textColor)
             }
         }
@@ -131,6 +140,13 @@ fun ToggleButtons(
                     backgroundColor = background,
                 ),
             ) {
+                if (selectMonthly) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_baseline_check_24),
+                        contentDescription = null, modifier = Modifier.size(17.dp),
+                        tint = Color.White
+                    )
+                }
                 Text(text = NavigationRouteDriver.BottomNavMonthly.name, color = textColor)
             }
         }

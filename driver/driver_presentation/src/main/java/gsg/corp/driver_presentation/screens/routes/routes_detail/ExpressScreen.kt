@@ -19,9 +19,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import gsg.corp.driver_presentation.R
 
-@Preview
 @Composable
-fun ExpressScreen() {
+fun ExpressScreen(
+    onUndeliveredScreen: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -57,7 +58,9 @@ fun ExpressScreen() {
         )
         CollectionData()
         Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
-            ExpressDeliveries()
+            ExpressDeliveries(
+                onClickUndelivered = onUndeliveredScreen
+            )
         }
     }
 }
@@ -236,7 +239,7 @@ fun CollectionData() {
                     .width(135.dp)
                     .height(35.dp)
             ) {
-                Text(text = "Ver Cuentas")
+                Text(text = "Ver Cuentas",fontSize = 13.sp)
             }
             ExpressDialogScreen(show = show) { show = false }
         }
@@ -245,10 +248,12 @@ fun CollectionData() {
 }
 
 @Composable
-fun ExpressDeliveries() {
+fun ExpressDeliveries(
+    onClickUndelivered: () -> Unit
+) {
     Row(modifier = Modifier.padding(15.dp)) {
         TextButton(
-            onClick = {},
+            onClick = { onClickUndelivered() },
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
                 backgroundColor = Color.Red

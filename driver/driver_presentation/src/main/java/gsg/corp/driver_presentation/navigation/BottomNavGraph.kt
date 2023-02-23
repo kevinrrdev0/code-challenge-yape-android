@@ -11,7 +11,12 @@ import gsg.corp.driver_presentation.screens.profile.ProfileScreen
 import gsg.corp.driver_presentation.screens.routes.RoutesScreen
 
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun BottomNavGraph(
+    navController: NavHostController,
+    onCollectionScreen: () -> Unit,
+    onExpressScreen: () -> Unit,
+    onZonesScreen: () -> Unit
+) {
     NavHost(
         navController = navController,
         route = NavigationRouteDriver.BottomNavigation.route,
@@ -26,7 +31,11 @@ fun BottomNavGraph(navController: NavHostController) {
         composable(
             route = NavigationRouteDriver.BottomNavRoutes.route
         ) {
-            RoutesScreen()
+            RoutesScreen(
+                onCollectionScreen = onCollectionScreen,
+                onExpressScreen = onExpressScreen,
+                onZonesScreen = onZonesScreen
+            )
         }
         composable(
             route = NavigationRouteDriver.BottomNavNews.route

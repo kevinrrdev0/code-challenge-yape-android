@@ -7,7 +7,9 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -24,13 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gsg.corp.driver_presentation.R
 
-@Preview
 @Composable
-fun CollectionScreen() {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .verticalScroll(rememberScrollState())
-    ) {
+fun CollectionScreen(
+    onNoCollectedScreen: () -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
@@ -62,7 +62,9 @@ fun CollectionScreen() {
         }
     }
     Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
-        ButtonCollected()
+        ButtonCollected(
+            onClickNoCollected = onNoCollectedScreen
+        )
     }
 }
 
@@ -189,7 +191,9 @@ fun DataDetail() {
     }
 }
 @Composable
-fun ButtonCollected() {
+fun ButtonCollected(
+    onClickNoCollected: () -> Unit
+) {
 
     Row(modifier = Modifier.padding(15.dp)) {
         TextButton(

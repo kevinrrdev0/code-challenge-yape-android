@@ -17,4 +17,15 @@ sealed class NavigationRouteDriver(val route:String,val name:String=""){
     object BottomNavToday: NavigationRouteDriver("bottom_nav_today", "Hoy")
     object BottomNavWeekly: NavigationRouteDriver("bottom_nav_weekly", "Semanal")
     object BottomNavMonthly: NavigationRouteDriver("bottom_nav_monthly", "Mensual")
+
+    object BottomNavHarvest: NavigationRouteDriver("bottom_nav_harvest", "Recolección")
+    object BottomNavExpress: NavigationRouteDriver("bottom_nav_express", "Express")
+    object BottomNavZones: NavigationRouteDriver("bottom_nav_zones", "Zonas")
+
+    object CardButtonNavHarvest: NavigationRouteDriver("card_button_nav_harvest")
+    object CardButtonNavExpress: NavigationRouteDriver("card_button_nav_express")
+    object CardButtonNavZones: NavigationRouteDriver("card_button_nav_zones")
+
+    object NoCollectedNav: NavigationRouteDriver("no_collected_nav")
+    object UndeliveredNav: NavigationRouteDriver("undelivered_nav")
 }

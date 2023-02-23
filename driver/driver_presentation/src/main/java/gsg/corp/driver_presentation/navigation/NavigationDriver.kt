@@ -5,7 +5,10 @@ import androidx.navigation.compose.composable
 import gsg.corp.core_ui.navigation.NavigationRouteDriver
 import gsg.corp.core_ui.navigation.NavigationRouteModule
 import gsg.corp.driver_presentation.screens.BottomNavigationScreen
-import gsg.corp.driver_presentation.screens.route.RouteScreen
+import gsg.corp.driver_presentation.screens.routes.routes_detail.CollectionScreen
+import gsg.corp.driver_presentation.screens.routes.routes_detail.ExpressScreen
+import gsg.corp.driver_presentation.screens.routes.routes_detail.ZoneScreen
+import gsg.corp.driver_presentation.screens.routes.routes_detail.undelivered.ExpressUndeliveredScreen
 
 
 object NavigationDriver {
@@ -18,13 +21,45 @@ object NavigationDriver {
             composable(
                 route = NavigationRouteDriver.BottomNavigation.route
             ) {
-                BottomNavigationScreen()
+                BottomNavigationScreen(
+                    onCollectionScreen = { navController.navigate(NavigationRouteDriver.CardButtonNavHarvest.route) },
+                    onExpressScreen = { navController.navigate(NavigationRouteDriver.CardButtonNavExpress.route) },
+                    onZonesScreen = { navController.navigate(NavigationRouteDriver.CardButtonNavZones.route) }
+                )
             }
+            composable(
+                route = NavigationRouteDriver.CardButtonNavHarvest.route
+            ) {
+                CollectionScreen(
+                    onNoCollectedScreen = { navController.navigate(NavigationRouteDriver.NoCollectedNav.route) }
+                )
+            }
+            composable(
+                route = NavigationRouteDriver.CardButtonNavExpress.route
+            ) {
+                ExpressScreen(
+                    onUndeliveredScreen = { navController.navigate(NavigationRouteDriver.UndeliveredNav.route) }
+                )
+            }
+            composable(
+                route = NavigationRouteDriver.CardButtonNavZones.route
+            ) {
+                ZoneScreen(
+                    onUndeliveredScreen = { navController.navigate(NavigationRouteDriver.UndeliveredNav.route) }
+                )
+            }
+            composable(
+                route = NavigationRouteDriver.NoCollectedNav.route
+            ) {
 
+            }
+            composable(
+                route = NavigationRouteDriver.UndeliveredNav.route
+            ) {
+                ExpressUndeliveredScreen()
+            }
         }
     }
-
-
 }
 
 //   composable(

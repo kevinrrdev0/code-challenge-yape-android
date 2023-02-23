@@ -19,9 +19,10 @@ import androidx.compose.ui.window.Dialog
 import gsg.corp.driver_presentation.R
 import gsg.corp.driver_presentation.screens.route_detail.RouteDetailScreen
 
-@Preview
 @Composable
-fun ZoneScreen() {
+fun ZoneScreen(
+    onUndeliveredScreen: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -56,7 +57,9 @@ fun ZoneScreen() {
             )
             ZonesButton()
             Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
-                ButtonsStateDelivered()
+                ButtonsStateDelivered(
+                    onClickUndelivered = onUndeliveredScreen
+                )
             }
         }
     }
@@ -243,14 +246,16 @@ fun ZonesButton() {
                     .width(135.dp)
                     .height(35.dp)
             ) {
-                Text(text = "Ver Cuentas")
+                Text(text = "Ver Cuentas", fontSize = 13.sp)
             }
             //ExpressDialogScreen(show = show) { show = false }
         }
     }
 }
 @Composable
-fun ButtonsStateDelivered() {
+fun ButtonsStateDelivered(
+    onClickUndelivered: () -> Unit
+) {
     Row(modifier = Modifier.padding(15.dp)) {
         TextButton(
             onClick = {},
