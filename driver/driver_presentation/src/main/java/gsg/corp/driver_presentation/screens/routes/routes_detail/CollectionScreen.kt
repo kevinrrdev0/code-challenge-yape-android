@@ -26,9 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gsg.corp.driver_presentation.R
 
-@Preview
 @Composable
-fun CollectionScreen() {
+fun CollectionScreen(
+    onNoCollectedScreen: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -58,7 +59,9 @@ fun CollectionScreen() {
         }
     }
     Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
-        ButtonCollected()
+        ButtonCollected(
+            onClickNoCollected = onNoCollectedScreen
+        )
     }
 }
 
@@ -186,7 +189,9 @@ fun DataDetail() {
     }
 }
 @Composable
-fun ButtonCollected() {
+fun ButtonCollected(
+    onClickNoCollected: () -> Unit
+) {
 
     Row(modifier = Modifier.padding(15.dp)) {
         TextButton(
