@@ -192,7 +192,7 @@ fun LoginScreen(
                                     text = "Login",
                                     displayProgressBar = false,
                                     onClick = {
-                                        onLoginSuccess()
+                                        viewModel.onLogin()
                                         // TODO("LOGIN")
                                     }
                                 )
