@@ -223,11 +223,11 @@ fun CollectionData() {
             Text(text = "efectivo / Transferencia / Plin / Yape",  fontWeight = FontWeight.SemiBold)
 
             Spacer(
-                modifier = Modifier.size(2.dp)
+                modifier = Modifier.height(13.dp)
             )
             Text(text = "Cuentas para las transferencias")
             Spacer(
-                modifier = Modifier.height(6.dp)
+                modifier = Modifier.height(17.dp)
             )
             Button(onClick = { show = true},
                 colors = ButtonDefaults
@@ -288,7 +288,7 @@ fun ExpressDeliveries(
 @Composable
 fun ExpressDialogScreen(show: Boolean, exit: () -> Unit,) {
 
-    val test = listOf("test")
+    val test = listOf("test","asdasd",  )
 
     if (show) {
         Dialog(
@@ -299,7 +299,7 @@ fun ExpressDialogScreen(show: Boolean, exit: () -> Unit,) {
                     .clip(RoundedCornerShape(16.dp))
                     .verticalScroll(rememberScrollState())
                     .width(393.dp)
-                    .height(500.dp)
+                    .heightIn(0.dp ,500.dp)
             ){
                 Column(
                     modifier = Modifier
@@ -316,7 +316,7 @@ fun ExpressDialogScreen(show: Boolean, exit: () -> Unit,) {
                             Spacer(modifier = Modifier.height(5.dp))
                         }
                     LazyColumn (
-                        Modifier.height(365.dp)
+                        Modifier.heightIn(0.dp, 365.dp)
                             ) {
                         itemsIndexed(
                             items = test

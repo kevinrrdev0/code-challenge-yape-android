@@ -4,6 +4,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun RoutesZonesScreen() {
+fun RoutesZonesScreen(onClick : () -> Unit) {
     Text(text = "estamos en zonas")
 }

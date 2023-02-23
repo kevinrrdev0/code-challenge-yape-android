@@ -228,13 +228,13 @@ fun ZonesButton() {
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(
-                modifier = Modifier.height(2.dp)
+                modifier = Modifier.height(11.dp)
             )
             Text(
                 text = "Cuentas para las transferencias"
             )
             Spacer(
-                modifier = Modifier.height(6.dp)
+                modifier = Modifier.height(17.dp)
             )
             Button(onClick = { show = true},
                 colors = ButtonDefaults

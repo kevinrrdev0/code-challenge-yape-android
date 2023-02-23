@@ -4,6 +4,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun RouteExpressScreen() {
+fun RouteExpressScreen(onClick : () -> Unit) {
     Text(text = "estamos en Express")
 }
