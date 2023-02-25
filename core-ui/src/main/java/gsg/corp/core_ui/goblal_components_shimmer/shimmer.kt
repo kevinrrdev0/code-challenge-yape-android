@@ -111,7 +111,7 @@ fun MyRoutesShimmer() {
 }
 
 @Composable
-fun hsisjsjs() {
+fun CardRoutesShimmer() {
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(130.dp)
@@ -180,7 +180,7 @@ fun hsisjsjs() {
 }
 
 @Composable
-fun Pruebacolection() {
+fun RoutesCollectionShimmer() {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -195,7 +195,7 @@ fun Pruebacolection() {
                 modifier = Modifier
                     .height(30.dp)
             )
-            //Screen data  Collection
+            //Screen data  Collection y mas
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -338,7 +338,7 @@ fun Pruebacolection() {
 
 
         }
-    //Borrar Screen si no es poarte de su pantalla
+    //Borrar Screen si no es parte de su pantalla
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(start = 12.dp))
