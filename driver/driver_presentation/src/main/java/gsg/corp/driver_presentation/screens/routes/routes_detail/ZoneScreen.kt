@@ -1,18 +1,23 @@
 package gsg.corp.driver_presentation.screens.routes.routes_detail
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import gsg.corp.driver_presentation.R
+import gsg.corp.driver_presentation.screens.route_detail.RouteDetailScreen
 
 @Composable
 fun ZoneScreen(
@@ -32,6 +37,10 @@ fun ZoneScreen(
                     .height(30.dp)
             )
             ZoneDataDetail()
+            Spacer(
+                modifier = Modifier
+                    .height(45.dp)
+            )
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -77,35 +86,33 @@ fun ZoneDataDetail() {
             Text(text = "Empresa:")
         }
         Row {
-            Text(
-                text = "FRIS SPORTRS",
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .padding(start = 21.dp)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(170.dp)
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.vector__1_),
-                contentDescription = null,
-                tint = Color(0xFF5CEE3C)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(7.dp)
-            )
             Box(
-                Modifier
-                    .background(Color(0xFF25D2D8))
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_phone_24),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp)
+                Text(
+                    text = "Fritz Sports",
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .padding(start = 21.dp)
                 )
+                Box(modifier = Modifier
+                    .padding(end = 40.dp)
+                    .align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.vector__1_),
+                        contentDescription = null,
+                        tint = Color(0xFF5CEE3C)
+                    )
+                }
+                Box(modifier = Modifier.align(Alignment.TopEnd)){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_phone),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
             }
         }
         Row() {
@@ -125,16 +132,7 @@ fun ZoneDataDetail() {
                 text = "Av. la marina 245 curze con choristar",
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
-                    .padding(start = 15.dp)
-            )
-            Spacer(
-                modifier = Modifier.width(40.dp)
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_content_copy_24),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp)
+                    .padding(start = 21.dp)
             )
         }
         Spacer(
@@ -177,13 +175,12 @@ fun ZoneDataDetail() {
             )
             Text(text = "4", fontWeight = FontWeight.SemiBold)
         }
-
-
     }
 }
 
 @Composable
 fun ZonesButton() {
+    var show by remember { mutableStateOf(false) }
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 12.dp))
@@ -228,35 +225,33 @@ fun ZonesButton() {
             )
             Text(
                 text = "efectivo / Transferencia / Plin / Yape",
-                fontWeight = FontWeight.ExtraBold
+                fontWeight = FontWeight.SemiBold
             )
-
             Spacer(
-                modifier = Modifier.height(2.dp)
+                modifier = Modifier.height(11.dp)
             )
             Text(
                 text = "Cuentas para las transferencias"
             )
             Spacer(
-                modifier = Modifier.height(6.dp)
+                modifier = Modifier.height(17.dp)
             )
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = { show = true},
                 colors = ButtonDefaults
                     .buttonColors
                         (backgroundColor = Color.Red,
                         contentColor = Color.White),
                 shape = RoundedCornerShape(25),
                 modifier = Modifier
-                    .width(125.dp)
+                    .width(135.dp)
                     .height(35.dp)
             ) {
                 Text(text = "Ver Cuentas", fontSize = 13.sp)
             }
+            //ExpressDialogScreen(show = show) { show = false }
         }
-
     }
 }
-
 @Composable
 fun ButtonsStateDelivered(
     onClickUndelivered: () -> Unit

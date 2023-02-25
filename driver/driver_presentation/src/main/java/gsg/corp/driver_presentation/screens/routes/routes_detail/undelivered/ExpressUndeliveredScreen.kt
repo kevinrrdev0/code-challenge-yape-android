@@ -1,8 +1,6 @@
 package gsg.corp.driver_presentation.screens.routes.routes_detail.undelivered
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -27,7 +25,10 @@ import androidx.compose.ui.unit.toSize
 @Preview
 @Composable
 fun ExpressUndeliveredScreen() {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .verticalScroll(rememberScrollState())
+    ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ){
@@ -41,38 +42,44 @@ fun ExpressUndeliveredScreen() {
                     .height(30.dp)
             )
             ExpressContent()
+            Spacer(
+                modifier = Modifier
+                    .height(45.dp)
+            )
         }
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(start = 18.dp, end = 18.dp)) {
+                .padding(start = 18.dp, end = 18.dp)
+        ) {
             Divider(
                 Modifier
                     .height(1.dp)
                     .background(Color(0xFFA5A4A4))
             )
-        }
             ExpresssFoto("estado")
             ExpresssFoto("cobro")
-
-        Column(modifier = Modifier.fillMaxWidth(), Arrangement.Bottom) {
-            Row(
-                modifier = Modifier
-                    .padding(start = 37.dp, end = 37.dp),
-                Arrangement.SpaceEvenly
-            ){
-                ButtonFin2("Cancelar",
-                    modifier = Modifier
-                        .width(125.dp)
-                )
-                Spacer(modifier = Modifier.width(95.dp))
-                ButtonFin3("Guardar",
-                    modifier = Modifier
-                        .width(125.dp)
-
-                )
-            }
         }
+
+            Column(modifier = Modifier.fillMaxWidth(), Arrangement.Bottom) {
+                Row(
+                    modifier = Modifier
+                        .padding(start = 29.dp, end = 29.dp),
+                ) {
+                    ButtonFin2(
+                        "Cancelar",
+                        modifier = Modifier
+                            .width(115.dp)
+                    )
+                    Spacer(modifier = Modifier.width(94.dp))
+                    ButtonFin3(
+                        "Guardar",
+                        modifier = Modifier
+                            .width(115.dp)
+
+                    )
+                }
+            }
     }
 }
 @Composable
@@ -137,13 +144,13 @@ fun ExpressContent() {
         }
         Column(
             Modifier
-                .padding(start = 20.dp)
+                .padding(start = 21.dp)
                 .fillMaxWidth()) {
             OutlinedTextField(
                 value = selectedText,
                 onValueChange = { selectedText = it },
                 modifier = Modifier
-                    .width(185.dp)
+                    .width(220.dp)
                     .onGloballyPositioned { coordinates ->
                         //this value is used to assign to the DropDown the same widthT
                         textfieldSize = coordinates.size.toSize()
@@ -213,7 +220,6 @@ fun RescheduledTextField() {
             ),
             label = {Text("Fecha de la reprogramacion")}
         )
-
     }
 }
 
@@ -233,7 +239,6 @@ fun ExpresssFoto(foto : String) {
         Row() {
             Image(painter =painterResource(id = gsg.corp.driver_presentation.R.drawable.image) , contentDescription = null
             )
-
             Column(
                 Modifier,
                 Arrangement.SpaceBetween,
@@ -279,7 +284,6 @@ fun ExpresssFoto(foto : String) {
                 }
             }
         }
-
     }
 }
 @Composable
@@ -308,7 +312,6 @@ fun ButtonFin3(text : String, modifier: Modifier = Modifier) {
         ),
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
-
     ) {
         Icon(
             painter = painterResource(id = gsg.corp.driver_presentation.R.drawable.ic_baseline_check_24),

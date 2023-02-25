@@ -22,12 +22,11 @@ fun HomeScreen() {
     val navController = rememberNavController()
 
      Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-         Spacer(modifier = Modifier.size(12.dp))
+         Spacer(modifier = Modifier.height(18.dp))
          Username( username = "Daniel Flores")
          Spacer(modifier = Modifier.height(18.dp))
          TopButton(navController)
          Spacer(modifier = Modifier.height(29.dp))
-         MyRoutesStatistics()
 
          ToggleButtonsNavGraph(navController = navController)
      }
@@ -36,12 +35,12 @@ fun HomeScreen() {
 @Composable
 fun Username( username: String) {
     Row() {
-        Text(text = "Bienvenido", fontSize = 26.sp)
+        Text(text = "Bienvenido", fontSize = 22.sp)
 
         Spacer(
-            modifier = Modifier.width(12.dp))
+            modifier = Modifier.width(5.dp))
 
-        Text(text = username , fontWeight = FontWeight.ExtraBold, fontSize = 26.sp)
+        Text(text = username , fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
     }
 }
 
