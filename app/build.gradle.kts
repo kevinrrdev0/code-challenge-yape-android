@@ -64,6 +64,7 @@ dependencies {
     implementation(Compose.viewModelCompose)
     implementation(Compose.activityCompose)
     implementation(AndroidX.constraintLayout)
+    implementation(AndroidX.splashScreen)
     //implementation(Accompanist.navigation)
     //implementation(Accompanist.animationNav)
 
