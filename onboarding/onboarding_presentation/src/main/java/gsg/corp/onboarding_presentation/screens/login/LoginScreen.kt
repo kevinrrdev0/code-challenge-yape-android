@@ -200,24 +200,6 @@ fun LoginScreen(
                         }
                     }
                 }
-
-                FloatingActionButton(
-                    modifier = Modifier
-                        .size(56.dp)
-                        .constrainAs(fab) {
-                            top.linkTo(surface.top, margin = (-36).dp)
-                            end.linkTo(surface.end, margin = 36.dp)
-                        },
-                    backgroundColor = MaterialTheme.colors.primary,
-                    onClick = { }
-                ) {
-                    Icon(
-                        modifier = Modifier.size(36.dp),
-                        imageVector = Icons.Default.ArrowForward,
-                        contentDescription = "Forward Icon",
-                        tint = Color.White
-                    )
-                }
             }
         }
     }
