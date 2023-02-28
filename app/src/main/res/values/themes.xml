@@ -4,4 +4,10 @@
     <style name="Theme.Ruterito" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
     </style>
+
+    <style name="Theme.App.Ruterito.SlashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#EC0707</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/bg_main_red</item>
+        <item name="postSplashScreenTheme">@style/Theme.Ruterito</item>
+    </style>
 </resources>
