@@ -18,7 +18,19 @@ class OnBoardingRepositoryImpl(private val api: OnBoardingApi, connectionUtils: 
             executeWithConnection {
                 val loginDto = api.verificationUser(VerificationRequest(user, password))
                 if (loginDto.isSuccessful) {
-                    Resource.Success(data = loginDto.body()?.data?.toUserInfo())
+                    // get headers
+                    val headers = loginDto.headers().get("Set-Cookie")
+                    val headerValues = headers?.split(";")
+                    var token: String? = null
+                    if (headerValues != null) {
+                        for (value in headerValues) {
+                            if (value.startsWith("TokenGSG=")) {
+                                token = value.substringAfter("=")
+                                break
+                            }
+                        }
+                    }
+                    Resource.Success(data = loginDto.body()?.data?.toUserInfo(token?:""))
                 } else {
                     val errorMessage =
                         loginDto.errorBody()?.string()?.let {
