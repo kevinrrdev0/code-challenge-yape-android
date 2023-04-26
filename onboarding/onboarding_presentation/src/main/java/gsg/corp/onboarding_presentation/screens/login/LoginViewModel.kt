@@ -44,7 +44,7 @@ class LoginViewModel
     init {
         if (pref.loadSaveCredentials()) {
             state = state.copy(
-                username = pref.loadUserInfo().username,
+                username = pref.loadUserInfo()!!.username,
                 saveCredentials = pref.loadSaveCredentials()
             )
         }

@@ -1,4 +1,4 @@
-package gsg.corp.driver_presentation.screens.route
+package gsg.corp.driver_presentation.screens.routesv2
 
 import gsg.corp.driver_domain.model.Route
 

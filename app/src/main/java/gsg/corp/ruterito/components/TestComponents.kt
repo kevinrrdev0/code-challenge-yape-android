@@ -45,7 +45,7 @@ fun PreviewButtons() {
     Column(Modifier.padding(16.dp)) {
         GlobalButton(text = "prueba", onClick = { /*TODO*/ })
         GlobalSpacerSmall()
-        GlobalCall(phone = "994")
+
         GlobalSpacerSmall()
         GlobalCamera(text = "Selec", onImageSelect = { /*TODO*/ })
         GlobalSpacerSmall()

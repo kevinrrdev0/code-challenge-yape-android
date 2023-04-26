@@ -19,7 +19,11 @@ object NavigationOnBoarding {
             composable(
                 route = NavigationRouteOnBoarding.Login.route
             ) {
-                LoginScreen( onLoginSuccess = { navController.navigate(NavigationRouteModule.ModuleDriver.route) })
+                LoginScreen( onLoginSuccess = { navController.navigate(NavigationRouteModule.ModuleDriver.route){
+                    popUpTo(navController.graph.id){
+                        inclusive =true
+                    }
+                } })
             }
         }
 

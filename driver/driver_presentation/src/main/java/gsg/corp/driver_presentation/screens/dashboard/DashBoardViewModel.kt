@@ -26,8 +26,8 @@ private val pref: Preferences
         private set
 
     init {
-        if (pref.loadUserInfo().name.isNotEmpty()){
-            name = pref.loadUserInfo().name
+        if (pref.loadUserInfo()!!.name.isNotEmpty()){
+            name = pref.loadUserInfo()!!.name
         }
     }
 

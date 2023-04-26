@@ -1,35 +1,34 @@
 package gsg.corp.driver_data.mapper
 
-import gsg.corp.driver_data.remote.dto.route.RouteDetailDto
-import gsg.corp.driver_data.remote.dto.route.RouteDto
-import gsg.corp.driver_data.remote.dto.route.RouteTypeDto
-import gsg.corp.driver_data.remote.dto.route.Routes
+import gsg.corp.driver_data.remote.dto.route.*
 import gsg.corp.driver_domain.model.Route
 import gsg.corp.driver_domain.model.RouteDetail
 import gsg.corp.driver_domain.model.RouteType
 
-fun RouteDto.toRoutes(): List<Route> {
+fun RoutesDto.toRoutes(): List<Route> {
 
     return routes.map { r->
-        Route(
-        id = r.id,
-        route_type = r.route_type,
-        driver = r.driver,
-        telephone1 = r.telephone1,
-        client = r.client,
-        cel1 = r.cel1,
-        cel2 = r.cel2,
-        district = r.district,
-        address = r.address,
-        address_ref = r.address_ref,
-        product_name = r.product_name,
-        product_detail = r.product_detail,
-        pay_method = r.pay_method,
-        amount_collect = r.amount_collect,
-        detail_payment = r.detail_payment,
-        date_route = r.date_route,
-        state = r.state,
-        cost_service = r.cost_service
+         Route(
+            address = r.address,
+            address_reference = r.address_reference,
+            advance = r.advance,
+            code_pay_method = r.code_pay_method,
+            code_tracking = r.code_tracking,
+            cost = r.cost,
+            date_route = r.date_route,
+            district = r.district,
+            driver = r.driver,
+            full_name = r.full_name,
+            id = r.id,
+            id_provider = r.id_provider,
+            name_business = r.name_business,
+            number_packages = r.number_packages,
+            other_telephone = r.other_telephone,
+            pay_amount = r.pay_amount,
+            product = r.product,
+            size = r.size,
+            st_code = r.st_code,
+            telephone = r.telephone
         )
     }
 }
@@ -45,29 +44,27 @@ fun RouteTypeDto.toRoutesTypes(): List<RouteType> {
     }
 }
 
-fun RouteDetailDto.toRouteDetail(): RouteDetail {
+fun ResponseRouteDetailDto.toRouteDetail(): RouteDetail {
     return RouteDetail(
+        address = route.address,
+        address_reference = route.address_reference,
+        advance = route.advance,
+        code_pay_method = route.code_pay_method,
+        code_tracking = route.code_tracking,
+        cost = route.cost,
+        date_route = route.date_route,
+        district = route.district,
+        driver = route.driver,
+        full_name = route.full_name,
         id = route.id,
-        codeTracking = route.code_tracking,
-        idBusiness = route.id_business,
-        idRouteType = route.id_route_type,
-        codeCollectPoint = route.code_collect_point,
-        clientFullName = route.client_full_name,
-        clientPhoneFirst = route.client_telephone_1,
-        clientPhoneSecond = route.client_telephone_2,
-        clientAddress = route.client_address,
-        clientAddressReference = route.client_address_reference,
-        clientAddressDistrict = route.client_address_district,
-        clientAddressComments = route.client_address_comments,
-        dateRegister = route.date_register,
-        dateRoute = route.date_route,
+        id_provider = route.id_provider,
+        name_business = route.name_business,
+        number_packages = route.number_packages,
+        other_telephone = route.other_telephone,
+        pay_amount = route.pay_amount,
         product = route.product,
-        productDetail = route.product_detail,
-        numberPackages = route.number_packages,
-        numberProducts = route.number_products,
-        codePayMethod = route.code_pay_method,
-        payAmount = route.pay_amount,
-        payComments = route.pay_comments,
-        flkActive = route.flk_active
+        size = route.size,
+        st_code = route.st_code,
+        telephone = route.telephone
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import gsg.corp.driver_presentation.screens.home.components.FilterButtons
 import gsg.corp.driver_presentation.screens.home.components.MyRoutesStatistics
 import gsg.corp.driver_presentation.screens.home.components.ToggleButtons
 import gsg.corp.driver_presentation.screens.home.navigation.ToggleButtonsNavGraph
@@ -19,16 +20,14 @@ import gsg.corp.driver_presentation.screens.home.navigation.ToggleButtonsNavGrap
 @Composable
 fun HomeScreen() {
 
-    val navController = rememberNavController()
-
      Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
          Spacer(modifier = Modifier.height(18.dp))
          Username( username = "Daniel Flores")
          Spacer(modifier = Modifier.height(18.dp))
-         TopButton(navController)
+         FilterButtons(
+             selectOption = 1
+         )
          Spacer(modifier = Modifier.height(29.dp))
-
-         ToggleButtonsNavGraph(navController = navController)
      }
 }
 
@@ -42,11 +41,4 @@ fun Username( username: String) {
 
         Text(text = username , fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
     }
-}
-
-@Composable
-fun TopButton(navController: NavHostController) {
-    ToggleButtons(
-        navController = navController
-    )
 }

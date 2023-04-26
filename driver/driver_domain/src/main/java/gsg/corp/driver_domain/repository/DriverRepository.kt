@@ -15,5 +15,5 @@ interface DriverRepository {
 
     suspend fun getRouteType(): Resource<List<RouteType>>
 
-    suspend fun getRouteDetail(): Resource<RouteDetail>
+    suspend fun getRouteDetail(idRoute:Int): Resource<RouteDetail>
 }

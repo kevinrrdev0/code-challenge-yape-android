@@ -44,7 +44,7 @@ class DriverRepositoryImpl(
     override suspend fun getRoute(): Resource<List<Route>> {
         return try {
             executeWithConnection {
-                val routesDto = api.getRoute()
+                val routesDto = api.getRoutes()
                 if (routesDto.isSuccessful) {
                     Resource.Success(data = routesDto.body()?.data?.toRoutes())
                 }else{
@@ -91,10 +91,10 @@ class DriverRepositoryImpl(
         }
     }
 
-    override suspend fun getRouteDetail(): Resource<RouteDetail> {
+    override suspend fun getRouteDetail(idRoute:Int): Resource<RouteDetail> {
         return try {
             executeWithConnection {
-                val routeDetailDto = api.getRouteDetail()
+                val routeDetailDto = api.getRouteDetail(idRoute)
                 if (routeDetailDto.isSuccessful) {
                     Resource.Success(data = routeDetailDto.body()?.data?.toRouteDetail())
                 } else {

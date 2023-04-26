@@ -1,4 +1,4 @@
-package gsg.corp.driver_presentation.screens.route
+package gsg.corp.driver_presentation.screens.routesv2
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,8 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import gsg.corp.core.util.UiEvent
+import gsg.corp.core.R
+import gsg.corp.core.data.network.model.response.Resource
 import gsg.corp.core.domain.preferences.Preferences
+import gsg.corp.core.global_models.MessageError
+import gsg.corp.core.util.UiEvent
+import gsg.corp.core.util.UiText
 import gsg.corp.driver_domain.use_case.DriverUseCases
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -25,11 +29,8 @@ class RouteViewModel @Inject constructor(
 
     var state by mutableStateOf(RouteState())
         private set
-
-
     init {
-        getRoutes(id = pref.loadUserInfo().id)
-
+        getRoutes(id = pref.loadUserInfo()!!.id)
     }
 
     fun onEvent(event: RouteEvent){
@@ -39,15 +40,36 @@ class RouteViewModel @Inject constructor(
                     it.copy(isExpanded = !it.isExpanded)
                 }else it
             })
+            is RouteEvent.OnHideError -> state = state.copy(messageError = MessageError(isVisible = false))
         }
-
     }
-
     private fun getRoutes(id: Int) {
         state = state.copy(loading = true)
         viewModelScope.launch {
-            driverUseCases
+            val result =  driverUseCases
                 .getRoutes()
+            when (result) {
+                is Resource.Success -> {
+                    result.data?.let{ routes->
+                        val routeListUi = routes.map {
+                            RouteUiState(it,false)
+                        }
+                        state = state.copy(listRoutes = routeListUi,loading = false)
+                    }
+
+                    _uiEvent.send(UiEvent.Success)
+                }
+                is Resource.Error -> {
+                    state = state.copy(
+                        loading = false,
+                        messageError = MessageError(
+                            isVisible = true,
+                            description = result.message
+                                ?: UiText.StringResource(R.string.error_login)
+                        )
+                    )
+                }
+            }
         }
     }
 

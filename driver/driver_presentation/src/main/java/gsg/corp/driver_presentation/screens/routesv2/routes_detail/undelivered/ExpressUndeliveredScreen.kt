@@ -1,4 +1,4 @@
-package gsg.corp.driver_presentation.screens.routes.routes_detail.undelivered
+package gsg.corp.driver_presentation.screens.routesv2.routes_detail.undelivered
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

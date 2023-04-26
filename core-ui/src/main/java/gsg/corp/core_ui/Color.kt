@@ -16,7 +16,9 @@ val ColorWhite = Color(0xFFEEEEEE)
 val ColorSuccess = Color(0xFF22BB33)
 val ColorReject = Color(0xFFB00020)
 val ColorRescheduled =  Color(0xFFFFAA00)
+val ColorInfo = Color(0xFF2196F3)
 val ColorRegister = Color(0xFF808080)
+val ColorDefault = Color(0xFF808080)
 
 val ColorCall = Color(0xFF2196F3)
 

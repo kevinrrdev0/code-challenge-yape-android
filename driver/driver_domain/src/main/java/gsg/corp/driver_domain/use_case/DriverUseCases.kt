@@ -4,5 +4,5 @@ data class DriverUseCases(
     val getRoutes: GetRoutes,
     val updateRoute: UpdateRoute,
     val getRoutesTypes: GetRoutesTypes,
-    val getRoutesDetail: GetRouteDetail
+    val getRouteDetail: GetRouteDetail
 )

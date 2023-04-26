@@ -1,14 +1,14 @@
 package gsg.corp.driver_presentation.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.composable
 import gsg.corp.core_ui.navigation.NavigationRouteDriver
 import gsg.corp.core_ui.navigation.NavigationRouteModule
+import gsg.corp.core_ui.navigation.ROUTE_ID
 import gsg.corp.driver_presentation.screens.BottomNavigationScreen
-import gsg.corp.driver_presentation.screens.routes.routes_detail.CollectionScreen
-import gsg.corp.driver_presentation.screens.routes.routes_detail.ExpressScreen
-import gsg.corp.driver_presentation.screens.routes.routes_detail.ZoneScreen
-import gsg.corp.driver_presentation.screens.routes.routes_detail.undelivered.ExpressUndeliveredScreen
+import gsg.corp.driver_presentation.screens.routesv2.routes_detail.RouteDetailScreen
+import gsg.corp.driver_presentation.screens.routesv2.routes_detail.RouteDetailViewModel
 
 
 object NavigationDriver {
@@ -21,70 +21,25 @@ object NavigationDriver {
             composable(
                 route = NavigationRouteDriver.BottomNavigation.route
             ) {
-                BottomNavigationScreen(
-                    onCollectionScreen = { navController.navigate(NavigationRouteDriver.CardButtonNavHarvest.route) },
-                    onExpressScreen = { navController.navigate(NavigationRouteDriver.CardButtonNavExpress.route) },
-                    onZonesScreen = { navController.navigate(NavigationRouteDriver.CardButtonNavZones.route) }
-                )
+                BottomNavigationScreen(onClickRouteDetail = { id ->
+                    navController.navigate(NavigationRouteDriver.RouteDetail.passId(id))
+                })
             }
-            composable(
-                route = NavigationRouteDriver.CardButtonNavHarvest.route
-            ) {
-                CollectionScreen(
-                    onNoCollectedScreen = { navController.navigate(NavigationRouteDriver.NoCollectedNav.route) }
-                )
-            }
-            composable(
-                route = NavigationRouteDriver.CardButtonNavExpress.route
-            ) {
-                ExpressScreen(
-                    onUndeliveredScreen = { navController.navigate(NavigationRouteDriver.UndeliveredNav.route) }
-                )
-            }
-            composable(
-                route = NavigationRouteDriver.CardButtonNavZones.route
-            ) {
-                ZoneScreen(
-                    onUndeliveredScreen = { navController.navigate(NavigationRouteDriver.UndeliveredNav.route) }
-                )
-            }
-            composable(
-                route = NavigationRouteDriver.NoCollectedNav.route
-            ) {
 
-            }
             composable(
-                route = NavigationRouteDriver.UndeliveredNav.route
+                route = NavigationRouteDriver.RouteDetail.route,
+                arguments = listOf(
+                    navArgument(ROUTE_ID) {
+                        type = NavType.IntType
+                        defaultValue = 0
+                    }
+                )
             ) {
-                ExpressUndeliveredScreen()
+                val viewModel = hiltViewModel<RouteDetailViewModel>()
+                val state = viewModel.state
+                RouteDetailScreen(state= state, onEvent = viewModel::onEvent)
             }
+
         }
     }
 }
-
-//   composable(
-//                route = NavigationRouteDriver.Home.route
-//            ) {
-//                DashBoardScreen(navController,onNextClick = { navController.navigate(NavigationRouteDriver.Routes.route) })
-//            }
-//
-//            composable(
-//                route = NavigationRouteDriver.Routes.route
-//            ) {
-//                RouteScreen(onGoDetail = { id ->
-//                    navController.navigate(NavigationRouteDriver.RouteDetail.passId(id))
-//                })
-//            }
-//
-//            composable(
-//                route = NavigationRouteDriver.RouteDetail.route,
-//                arguments = listOf(
-//                    navArgument(ROUTE_ID) {
-//                        type = NavType.IntType
-//                        defaultValue = 0
-//                    }
-//                )
-//            ) {
-//                //val id = it.arguments?.getInt(ROUTE_DETAIL_ID)!!
-//                RouteDetailScreen()
-//            }

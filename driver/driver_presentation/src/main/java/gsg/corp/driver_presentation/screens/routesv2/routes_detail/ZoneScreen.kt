@@ -1,9 +1,7 @@
-package gsg.corp.driver_presentation.screens.routes.routes_detail
+package gsg.corp.driver_presentation.screens.routesv2.routes_detail
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -12,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,16 +18,22 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import gsg.corp.driver_presentation.R
 
+
+@Preview(showBackground = true)
 @Composable
-fun ExpressScreen(
+fun PreviewZoneScreen() {
+    ZoneScreen(onUndeliveredScreen = {})
+}
+@Composable
+fun ZoneScreen(
     onUndeliveredScreen: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(16.dp)
-        ){
+        ) {
             Text(
-                text = "Express RUT-EXP1A",
+                text = "Zona - RUT-ZON1-1A",
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp
             )
@@ -36,41 +41,42 @@ fun ExpressScreen(
                 modifier = Modifier
                     .height(30.dp)
             )
-            ExpressData()
+            ZoneDataDetail()
             Spacer(
                 modifier = Modifier
-                    .height(15.dp)
+                    .height(45.dp)
             )
-        }
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(start = 18.dp, end = 18.dp)) {
-            Divider(
+            Column(
                 Modifier
-                    .height(1.dp)
-                    .background(Color(0xFFA5A4A4))
+                    .fillMaxWidth()
+                    .padding(start = 18.dp, end = 18.dp)) {
+                Divider(
+                    Modifier
+                        .height(1.dp)
+                        .background(Color(0xFFA5A4A4))
+                )
+            }
+            Spacer(
+                modifier = Modifier
+                    .height(19.dp)
             )
-        }
-        Spacer(
-            modifier = Modifier
-                .height(19.dp)
-        )
-        CollectionData()
-        Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
-            ExpressDeliveries(
-                onClickUndelivered = onUndeliveredScreen
-            )
+            ZonesButton()
+            Column(modifier = Modifier.fillMaxSize(), Arrangement.Bottom) {
+                ButtonsStateDelivered(
+                    onClickUndelivered = onUndeliveredScreen
+                )
+            }
         }
     }
 }
+
 @Composable
-fun ExpressData() {
+fun ZoneDataDetail() {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Datos del Express"
+            text = "Datos de la entrega"
         )
         Spacer(
             modifier = Modifier
@@ -78,11 +84,11 @@ fun ExpressData() {
         )
         Row {
             Icon(
-                painter = painterResource(id = R.drawable.vector__3_),
+                painter = painterResource(id = R.drawable.carbon_enterprise),
                 contentDescription = null,
                 modifier = Modifier.padding(end = 7.dp)
             )
-            Text(text = "Cliente")
+            Text(text = "Empresa:")
         }
         Row {
             Box(
@@ -90,10 +96,10 @@ fun ExpressData() {
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "kevin Reyes",
+                    text = "Fritz Sports",
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier
-                        .padding(start = 25.dp)
+                        .padding(start = 21.dp)
                 )
                 Box(modifier = Modifier
                     .padding(end = 40.dp)
@@ -114,7 +120,7 @@ fun ExpressData() {
                 }
             }
         }
-        Row {
+        Row() {
             Icon(
                 painter = painterResource(id = R.drawable.vector__2_),
                 contentDescription = null,
@@ -128,12 +134,11 @@ fun ExpressData() {
         )
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "Av. angelica gamarra cuadra 7",
+                text = "Av. la marina 245 curze con choristar",
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
                     .padding(start = 21.dp)
             )
-
         }
         Spacer(
             modifier = Modifier
@@ -143,10 +148,10 @@ fun ExpressData() {
             modifier = Modifier.padding(start = 21.dp)
         ) {
             Text(
-                text = "Referencia"
+                text = "Refereccion"
             )
             Text(
-                text = "Frente KFC",
+                text = "Fuente al parque de la libertad",
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(
@@ -154,10 +159,10 @@ fun ExpressData() {
                     .height(3.dp)
             )
             Text(
-                text = "Producto a entregar"
+                text = "Producto:"
             )
             Text(
-                text = "zapatillas nike talla 42",
+                text = "Zapatillas nike",
                 fontWeight = FontWeight.SemiBold
             )
         }
@@ -165,7 +170,7 @@ fun ExpressData() {
         Row(
             modifier = Modifier
                 .padding(start = 21.dp)
-        ){
+        ) {
             Text(
                 text = "Cantidad:"
             )
@@ -173,12 +178,13 @@ fun ExpressData() {
                 modifier = Modifier
                     .width(3.dp)
             )
-            Text(text = "3", fontWeight = FontWeight.SemiBold)
+            Text(text = "4", fontWeight = FontWeight.SemiBold)
         }
     }
 }
+
 @Composable
-fun CollectionData() {
+fun ZonesButton() {
     var show by remember { mutableStateOf(false) }
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -219,13 +225,19 @@ fun CollectionData() {
             Spacer(
                 modifier = Modifier.size(2.dp)
             )
-            Text(text = "Metodo de Pago")
-            Text(text = "efectivo / Transferencia / Plin / Yape",  fontWeight = FontWeight.SemiBold)
-
-            Spacer(
-                modifier = Modifier.height(13.dp)
+            Text(
+                text = "Metodo de Pago"
             )
-            Text(text = "Cuentas para las transferencias")
+            Text(
+                text = "efectivo / Transferencia / Plin / Yape",
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(
+                modifier = Modifier.height(11.dp)
+            )
+            Text(
+                text = "Cuentas para las transferencias"
+            )
             Spacer(
                 modifier = Modifier.height(17.dp)
             )
@@ -233,27 +245,25 @@ fun CollectionData() {
                 colors = ButtonDefaults
                     .buttonColors
                         (backgroundColor = Color.Red,
-                    contentColor = Color.White),
+                        contentColor = Color.White),
                 shape = RoundedCornerShape(25),
                 modifier = Modifier
                     .width(135.dp)
                     .height(35.dp)
             ) {
-                Text(text = "Ver Cuentas",fontSize = 13.sp)
+                Text(text = "Ver Cuentas", fontSize = 13.sp)
             }
-            ExpressDialogScreen(show = show) { show = false }
+            //ExpressDialogScreen(show = show) { show = false }
         }
-
     }
 }
-
 @Composable
-fun ExpressDeliveries(
+fun ButtonsStateDelivered(
     onClickUndelivered: () -> Unit
 ) {
     Row(modifier = Modifier.padding(15.dp)) {
         TextButton(
-            onClick = { onClickUndelivered() },
+            onClick = {},
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
                 backgroundColor = Color.Red
@@ -282,114 +292,6 @@ fun ExpressDeliveries(
                 contentDescription = null
             )
             Text(text = "Entregado")
-        }
-    }
-}
-@Composable
-fun ExpressDialogScreen(show: Boolean, exit: () -> Unit,) {
-
-    val test = listOf("test","asdasd",  )
-
-    if (show) {
-        Dialog(
-            onDismissRequest = {}
-        ) {
-            Card(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .verticalScroll(rememberScrollState())
-                    .width(393.dp)
-                    .heightIn(0.dp ,500.dp)
-            ){
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.White)
-                        .padding(horizontal = 12.dp, vertical = 24.dp)
-                ) {
-                        Column (Modifier.fillMaxWidth()){
-                            Text(
-                                text = "Nro de Cuentas del Proveedor",
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
-                                color = Color(0xFF656060)
-                            )
-                            Spacer(modifier = Modifier.height(5.dp))
-                        }
-                    LazyColumn (
-                        Modifier.heightIn(0.dp, 365.dp)
-                            ) {
-                        itemsIndexed(
-                            items = test
-                        ) {index, t ->
-                            Spacer(modifier = Modifier.height(15.dp))
-                                Row(
-                                    Modifier
-                                        .padding(start = 15.dp), Arrangement.Center
-                                ) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.carbon_enterprise),
-                                        contentDescription = null
-                                    )
-                                    Spacer(modifier = Modifier.width(7.dp))
-                                    Text(
-                                        text = t,
-                                        fontSize = 16.sp,
-                                        color = Color(0xFF656060),
-                                        modifier = Modifier.padding(bottom = 4.dp)
-                                    )
-                                }
-                                Column(
-                                    Modifier.padding(start = 44.dp)
-                                ){
-                                    Text(
-                                        text = t, fontWeight = FontWeight.Bold
-                                    )
-                                    Text(
-                                        text = t,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                                Spacer(
-                                    modifier = Modifier
-                                        .height(9.dp)
-                                )
-                                Column(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(start = 18.dp, end = 18.dp)
-                                ) {
-                                    Divider(
-                                        Modifier
-                                            .height(1.dp)
-                                            .background(Color(0xFFA5A4A4))
-                                    )
-                                }
-
-                        }
-                    }
-                    Column (Modifier.fillMaxWidth()){
-                        Spacer(
-                            modifier = Modifier
-                                .height(36.dp)
-                        )
-                        Row(
-                            Modifier
-                                .clickable { exit() }
-                        ){
-                            Icon(
-                                painter = painterResource(id = R.drawable.arrowleft2),
-                                contentDescription = null,
-                                tint = Color.Red
-                            )
-                            Text(
-                                text = "Atras",
-                                color = Color.Red,
-                                modifier = Modifier.align(Alignment.CenterVertically)
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 }

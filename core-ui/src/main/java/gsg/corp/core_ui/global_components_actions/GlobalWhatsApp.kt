@@ -12,10 +12,11 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.QuestionAnswer
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun GlobalWhatsApp(isEnable: Boolean = true,phone:String) {
+fun GlobalWhatsApp(isEnable: Boolean = true,phone:String,modifier: Modifier) {
     val context = LocalContext.current
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=51$phone"))
     val callResultLauncher = rememberLauncherForActivityResult(
@@ -26,7 +27,8 @@ fun GlobalWhatsApp(isEnable: Boolean = true,phone:String) {
         onClick = {
             callResultLauncher.launch(intent)
                   },
-        enabled = isEnable
+        enabled = isEnable,
+        modifier = modifier
     ) {
         Icon(
             imageVector = Icons.Outlined.QuestionAnswer,

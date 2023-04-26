@@ -28,9 +28,7 @@ import gsg.corp.driver_presentation.screens.dashboard.components.BottomNavItem
 @Composable
 fun BottomNavigationScreen(
     navController: NavHostController = rememberNavController(),
-    onCollectionScreen: () -> Unit,
-    onExpressScreen: () -> Unit,
-    onZonesScreen: () -> Unit
+    onClickRouteDetail: (Int) -> Unit
 ) {
     Scaffold(bottomBar = {
         BottomNavigationBar(items = listOf(
@@ -62,9 +60,7 @@ fun BottomNavigationScreen(
         Column(modifier = Modifier.padding(it)) {
             BottomNavGraph(
                 navController = navController,
-                onCollectionScreen = onCollectionScreen,
-                onExpressScreen = onExpressScreen,
-                onZonesScreen = onZonesScreen
+                onClickRouteDetail
             )
         }
     }
@@ -82,7 +78,7 @@ fun BottomNavigationBar(
     val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(modifier = modifier, backgroundColor = RedGsg, elevation = 5.dp) {
         items.forEach { item ->
-            Log.d("xd", "BottomNavigationBar: backStackEntry")
+
             val selected = item.route == backStackEntry.value?.destination?.route
             BottomNavigationItem(selected = selected, onClick = { onItemClick(item) },
                 selectedContentColor = Orange, unselectedContentColor = Color.White, icon = {

@@ -21,7 +21,7 @@ class DefaultPreferences(
         saveUserInfo(userInfo)
     }
 
-    override fun loadUserInfo(): UserInfo {
+    override fun loadUserInfo(): UserInfo? {
         return Gson().fromJson(preferenceManager.getString(KEY_USER), UserInfo::class.java)
     }
 

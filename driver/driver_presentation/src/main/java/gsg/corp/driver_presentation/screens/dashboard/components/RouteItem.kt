@@ -29,9 +29,7 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import gsg.corp.core_ui.*
-import gsg.corp.core_ui.global_components_actions.GlobalCall
-import gsg.corp.core_ui.global_components_actions.GlobalWhatsApp
-import gsg.corp.driver_presentation.screens.route.RouteUiState
+import gsg.corp.driver_presentation.screens.routesv2.RouteUiState
 
 
 @ExperimentalCoilApi
@@ -44,7 +42,7 @@ fun RouteItem(
 ) {
     val spacing = LocalSpacing.current
 
-    val colorState = when (routeUi.route.state) {
+    val colorState = when (routeUi.route.st_code) {
         "ENTREGADO" -> {
             ColorSuccess
         }
@@ -99,21 +97,21 @@ fun RouteItem(
                             fallback(gsg.corp.core.R.drawable.ic_logo_gsg)
                         }
                     ),
-                    contentDescription = routeUi.route.product_detail,
+                    contentDescription = routeUi.route.product,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(topStart = 5.dp))
                 )
                 Column() {
-                    Text(text = "${routeUi.route.product_name}",
+                    Text(text = "${routeUi.route.product}",
                         style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         modifier = Modifier.width(160.dp),
                         overflow = TextOverflow.Ellipsis)
-                    Text(text = "${routeUi.route.product_name}",
+                    Text(text = "${routeUi.route.product}",
                         style = MaterialTheme.typography.subtitle1.copy(fontSize = 14.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Medium,
@@ -122,10 +120,7 @@ fun RouteItem(
                         overflow = TextOverflow.Ellipsis)
                 }
 
-                GlobalCall(isEnable = routeUi.route.cel1.isNotBlank(),
-                    phone = routeUi.route.cel1)
-                GlobalCall(isEnable = routeUi.route.cel2.isNotBlank(),
-                    phone = routeUi.route.cel2)
+
 
 
             }
@@ -135,7 +130,7 @@ fun RouteItem(
             {
                 Text(text = "Distrito: ${routeUi.route.district}")
                 Text(text = "Direccion: ${routeUi.route.address}")
-                Text(text = "Referencia: ${routeUi.route.address_ref}")
+                Text(text = "Referencia: ${routeUi.route.address_reference}")
             }
             Row(
                 Modifier
@@ -144,7 +139,7 @@ fun RouteItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "H: ${routeUi.route.date_route.substring(11)}")
+                Text(text = "H: ${routeUi.route.date_route}")
 
                 Card(modifier = Modifier
                     .padding(4.dp)
@@ -154,14 +149,13 @@ fun RouteItem(
                 {
                     Row(modifier = Modifier.padding(4.dp),
                         verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "${routeUi.route.state}",
+                        Text(text = "${routeUi.route.st_code}",
                             style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                             textAlign = TextAlign.Center,
                             fontWeight = FontWeight.Medium)
                     }
                 }
 
-                GlobalWhatsApp(routeUi.route.telephone1.isNotBlank(),routeUi.route.telephone1)
             }
         }
         AnimatedVisibility(visible = routeUi.isExpanded) {
@@ -193,13 +187,13 @@ fun RouteItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column() {
-                        Text(text = "${routeUi.route.product_name}",
+                        Text(text = "${routeUi.route.product}",
                             style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                             textAlign = TextAlign.Start,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis)
-                        Text(text = "${routeUi.route.pay_method}",
+                        Text(text = "${routeUi.route.code_pay_method}",
                             style = MaterialTheme.typography.subtitle1.copy(fontSize = 14.sp),
                             textAlign = TextAlign.Start,
                             fontWeight = FontWeight.Medium,
@@ -207,12 +201,7 @@ fun RouteItem(
                             overflow = TextOverflow.Ellipsis)
                     }
                     Row() {
-                        GlobalCall(
-                            isEnable = routeUi.route.cel1.isNotBlank(),
-                        phone = routeUi.route.cel1)
-                        GlobalCall(
-                            isEnable = routeUi.route.cel2.isNotBlank(),
-                            phone = routeUi.route.cel2)
+
                     }
 
                 }
@@ -221,13 +210,13 @@ fun RouteItem(
                     .fillMaxWidth()
                     .padding(bottom = 2.dp)
                     ) {
-                    Text(text = "S/. ${routeUi.route.amount_collect}",
+                    Text(text = "S/. ${routeUi.route.pay_amount}",
                         style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis)
-                    Text(text = "Detalle: ${routeUi.route.pay_method}",
+                    Text(text = "Detalle: ${routeUi.route.code_pay_method}",
                         style = MaterialTheme.typography.subtitle1.copy(fontSize = 14.sp),
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Medium)

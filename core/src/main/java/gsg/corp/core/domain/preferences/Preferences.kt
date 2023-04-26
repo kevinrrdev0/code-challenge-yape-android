@@ -9,7 +9,7 @@ interface Preferences {
     suspend fun saveToken(token: String)
 
     fun saveUser(userInfo: UserInfo)
-    fun loadUserInfo(): UserInfo
+    fun loadUserInfo(): UserInfo?
 
     fun saveCredentials(flk: Boolean)
     fun loadSaveCredentials(): Boolean

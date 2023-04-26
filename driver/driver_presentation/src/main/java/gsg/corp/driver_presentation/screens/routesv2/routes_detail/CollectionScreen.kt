@@ -1,4 +1,4 @@
-package gsg.corp.driver_presentation.screens.routes.routes_detail
+package gsg.corp.driver_presentation.screens.routesv2.routes_detail
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder

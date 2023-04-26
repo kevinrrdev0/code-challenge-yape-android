@@ -5,7 +5,7 @@ import gsg.corp.driver_domain.model.RouteDetail
 import gsg.corp.driver_domain.repository.DriverRepository
 
 class GetRouteDetail(private val repository: DriverRepository) {
-    suspend operator fun invoke(): Resource<RouteDetail> {
-        return repository.getRouteDetail()
+    suspend operator fun invoke(idRoute:Int): Resource<RouteDetail> {
+        return repository.getRouteDetail(idRoute)
     }
 }
