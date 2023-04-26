@@ -6,6 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CreditCard
+import androidx.compose.material.icons.outlined.QuestionAnswer
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +19,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import gsg.corp.core_ui.global_components_inputs.GlobalExtraSpacerSmall
 import gsg.corp.core_ui.global_components_texts.TextBody
+import gsg.corp.core_ui.global_components_texts.TextSubTitle
 import gsg.corp.core_ui.global_components_ui.BoxLoadAnimation
 import gsg.corp.driver_domain.model.RouteDetail
 import gsg.corp.driver_presentation.R
@@ -30,45 +35,117 @@ fun RouteDetailScreen(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Un
             .background(MaterialTheme.colors.background)
     ) {
         if (!state.isLoading) {
-            //ExpressScreen(onUndeliveredScreen = {})
             BodyRouteDetail(state.routeDetail)
         }
     }
-
     BoxLoadAnimation(state.isLoading)
-
 }
 
 @Composable
 fun BodyRouteDetail(routeDetail: RouteDetail) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         Text(
-            text = "Detall de Ruta ${routeDetail.code_tracking}",
+            text = "Detalle de Ruta ${routeDetail.code_tracking}",
             fontWeight = FontWeight.Bold,
             fontSize = 25.sp
         )
-        Row {
-            Icon(
-                painter = painterResource(id = R.drawable.vector__3_),
-                contentDescription = null,
-                modifier = Modifier.padding(end = 7.dp)
-            )
-            TextBody(body = routeDetail.full_name)
-        }
-        Row {
-            Icon(
-                painter = painterResource(id = R.drawable.vector__2_),
-                contentDescription = null,
-                modifier = Modifier.padding(end = 7.dp)
-            )
-            TextBody(body = routeDetail.address)
-        }
-        TextBody(body = "Ref.: ${routeDetail.address}")
+        RouteDetailOrder(routeDetail)
+        GlobalExtraSpacerSmall()
+        Divider(
+            Modifier
+                .height(1.dp)
+                .background(Color(0xFFA5A4A4))
+        )
+        GlobalExtraSpacerSmall()
+        RoutePayOrder(routeDetail)
+
+
     }
 }
 
+@Composable
+fun RouteDetailOrder(routeDetail: RouteDetail) {
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            painter = painterResource(id = R.drawable.vector__3_),
+            contentDescription = null,
+            modifier = Modifier.size(22.dp).padding(end = 4.dp)
+        )
+        TextBody(body = routeDetail.full_name)
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            painter = painterResource(id = R.drawable.vector__2_),
+            contentDescription = null,
+            modifier = Modifier.size(22.dp).padding(end = 4.dp)
+        )
+        TextBody(body = "${routeDetail.address} / ${routeDetail.district} ")
+    }
+    TextBody(body = "Ref.: ${routeDetail.address}")
+    TextBody(body = "Prod.: ${routeDetail.product}")
+    TextBody(body = "Cant. Paquetes: ${routeDetail.number_packages}")
+}
+
+@Composable
+fun RoutePayOrder(routeDetail: RouteDetail) {
+    var showClientAccounts by remember { mutableStateOf(false) }
+    var showGSGAccounts by remember { mutableStateOf(false) }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            painter = painterResource(id = R.drawable.vector__4_),
+            contentDescription = null,
+            modifier = Modifier.size(22.dp).padding(end = 4.dp)
+        )
+        TextBody(body = "Costo: ${routeDetail.cost} / Adelanto: ${routeDetail.advance} / Cobrar: ${routeDetail.pay_amount}")
+    }
+    TextBody(body = "Metodo de Pago: ${routeDetail.code_pay_method}")
+
+    Row(horizontalArrangement = Arrangement.SpaceBetween){
+        Button(
+            onClick = { showClientAccounts = true },
+            colors = ButtonDefaults
+                .buttonColors
+                    (
+                    backgroundColor = Color.Red,
+                    contentColor = Color.White
+                ),
+            shape = RoundedCornerShape(16)
+
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.CreditCard,
+                contentDescription = null,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            TextSubTitle("Ver Cuentas Cliente")
+        }
+        Button(
+            onClick = { showGSGAccounts = true },
+            colors = ButtonDefaults
+                .buttonColors
+                    (
+                    backgroundColor = Color.Red,
+                    contentColor = Color.White
+                ),
+            shape = RoundedCornerShape(8)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.CreditCard,
+                contentDescription = null,
+                modifier = Modifier.padding(end = 7.dp)
+            )
+            TextSubTitle("Ver Cuentas GSG")
+        }
+    }
+
+    ExpressDialogScreen(show = showClientAccounts) { showClientAccounts = false }
+    ExpressDialogScreen(show = showGSGAccounts) { showGSGAccounts = false }
+}
 
 @Composable
 fun ExpressScreen(
@@ -353,7 +430,9 @@ fun ExpressDialogScreen(show: Boolean, exit: () -> Unit) {
 
     if (show) {
         Dialog(
-            onDismissRequest = {}
+            onDismissRequest = {
+                exit()
+            }
         ) {
             Card(
                 modifier = Modifier

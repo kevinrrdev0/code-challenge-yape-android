@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="@color/white" />
+    </item>
+
+    <item
+        android:width="140dp"
+        android:height="140dp"
+        android:bottom="10dp"
+        android:drawable="@drawable/logo_gsg_final"
+        android:gravity="center"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="10dp" />
+
+</layer-list>

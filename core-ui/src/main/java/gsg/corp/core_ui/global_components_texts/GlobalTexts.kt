@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 fun TextTitle(title: String,modifier: Modifier = Modifier,fontWeight: FontWeight= FontWeight.Bold) {
     Text(
         text = title,
-        style = MaterialTheme.typography.h6.copy(fontSize = 12.sp),
+        style = MaterialTheme.typography.h6.copy(fontSize = 13.sp),
         textAlign = TextAlign.Start,
         fontWeight = fontWeight,
         maxLines = 1,
@@ -29,7 +29,7 @@ fun TextTitle(title: String,modifier: Modifier = Modifier,fontWeight: FontWeight
 fun TextSubTitle(subTile: String, modifier: Modifier = Modifier,fontWeight: FontWeight= FontWeight.Bold) {
     Text(
         text = subTile,
-        style = MaterialTheme.typography.subtitle1.copy(fontSize = 11.sp),
+        style = MaterialTheme.typography.subtitle1.copy(fontSize = 12.sp),
         textAlign = TextAlign.Start,
         fontWeight = fontWeight,
         maxLines = 1,
@@ -44,7 +44,7 @@ fun TextSubTitle(subTile: String, modifier: Modifier = Modifier,fontWeight: Font
 fun TextBody(body: String, modifier: Modifier = Modifier, fontWeight: FontWeight= FontWeight.Normal) {
     Text(
         text = body,
-        style = MaterialTheme.typography.body1.copy(fontSize = 11.sp),
+        style = MaterialTheme.typography.body1.copy(fontSize = 12.sp),
         textAlign = TextAlign.Start,
         fontWeight = fontWeight,
         maxLines = 1,
