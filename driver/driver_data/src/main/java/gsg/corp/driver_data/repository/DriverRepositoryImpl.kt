@@ -124,20 +124,18 @@ class DriverRepositoryImpl(
 
         return try {
             executeWithConnection {
-
                 val images = mutableListOf<MultipartBody.Part>()
                 val file = File(request.photoOrder)
                 if (file.exists()) {
                     val requestFile = file.asRequestBody("image/jpg".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("images", file.name, requestFile)
+                    val body = MultipartBody.Part.createFormData("images", "STATUS_ORDER.jpg", requestFile)
                     images.add(body)
                 }
-
 
                 val file2 = File(request.photoCollect)
                 if (file2.exists()) {
                     val requestFile = file2.asRequestBody("image/jpg".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("images", file2.name, requestFile)
+                    val body = MultipartBody.Part.createFormData("images", "STATUS_COLLECT.jpg", requestFile)
                     images.add(body)
                 }
                 Log.d("kevinrrdev", " order -> ${request.photoOrder} collect-> ${request.photoCollect}")
