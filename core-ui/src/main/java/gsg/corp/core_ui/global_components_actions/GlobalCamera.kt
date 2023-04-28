@@ -43,6 +43,7 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
@@ -154,16 +155,8 @@ fun GlobalCamera(text: String, onImageSelect: (String) -> Unit) {
                                         context, Manifest.permission.CAMERA
                                     ),
                                     -> {
-                                        if (ContextCompat.checkSelfPermission(
-                                                context, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                            ) == 1
-                                        ) {
                                             latestTmpUri = getUri(context = context)
                                             cameraLauncher.launch(latestTmpUri)
-                                        } else {
-                                            permissionLauncher.launch(arrayOf(Manifest.permission.CAMERA,
-                                                Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                                        }
                                     }
                                     else -> {
                                         permissionLauncher.launch(arrayOf(Manifest.permission.CAMERA,
@@ -199,11 +192,25 @@ fun GlobalCamera(text: String, onImageSelect: (String) -> Unit) {
 }
 
 private fun getUri(context: Context): Uri {
-    val tmpFile = File.createTempFile("img", ".png", context.cacheDir).apply {
-        createNewFile()
-        deleteOnExit()
+    val photoFile = File(
+        getOutputDirectory(context),
+        SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis()) + ".jpg"
+    )
+    return Uri.fromFile(photoFile)
+}
+
+
+private fun getOutputDirectory(context: Context): File {
+
+    val mediaDir = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        context.externalMediaDirs.firstOrNull()?.let { mediaDir ->
+            File(mediaDir, "Ruterito").apply { mkdirs() }
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     }
-    return FileProvider.getUriForFile(context.applicationContext,
-        "${context.packageName}.provider",
-        tmpFile)
+
+    return mediaDir ?: context.filesDir
+
 }

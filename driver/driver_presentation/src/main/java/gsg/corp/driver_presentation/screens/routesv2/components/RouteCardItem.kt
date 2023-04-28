@@ -126,15 +126,15 @@ fun RouteCardItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TextBody(body = "Tlf1.: ${routeItem.telephone}")
                 Spacer(modifier = Modifier.width(4.dp))
-                GlobalCall(phone = routeItem.telephone, modifier = Modifier.size(18.dp))
+                GlobalCall(phone = routeItem.telephone, modifier = Modifier.size(22.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                GlobalWhatsApp(phone = routeItem.telephone, modifier = Modifier.size(18.dp))
+                GlobalWhatsApp(phone = routeItem.telephone, modifier = Modifier.size(22.dp))
                 Spacer(modifier = Modifier.width(16.dp))
                 TextBody(body = "Tlf2.: ${routeItem.other_telephone}")
                 Spacer(modifier = Modifier.width(4.dp))
-                GlobalCall(phone = routeItem.other_telephone, modifier = Modifier.size(18.dp))
+                GlobalCall(phone = routeItem.other_telephone, modifier = Modifier.size(22.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                GlobalWhatsApp(phone = routeItem.telephone, modifier = Modifier.size(18.dp))
+                GlobalWhatsApp(phone = routeItem.telephone, modifier = Modifier.size(22.dp))
             }
             TextBody(body = "Prod.: ${routeItem.product}")
             AnimatedVisibility(visible = routeUi.isExpanded) {

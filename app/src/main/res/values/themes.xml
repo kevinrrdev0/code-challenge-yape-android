@@ -20,7 +20,9 @@
         <item name="android:windowBackground">@drawable/bg_splash</item>
     </style>
 
-
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#EC0707</item>
+    </style>
 <!--    <style name="Theme.App.Ruterito.SlashScreen" parent="Theme.SplashScreen">-->
 <!--        <item name="windowSplashScreenBackground">#EC0707</item>-->
 <!--        <item name="windowSplashScreenAnimatedIcon">@drawable/bg_main_red</item>-->

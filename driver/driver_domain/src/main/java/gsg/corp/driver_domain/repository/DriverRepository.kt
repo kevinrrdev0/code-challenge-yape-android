@@ -2,9 +2,7 @@ package gsg.corp.driver_domain.repository
 
 import android.net.Uri
 import gsg.corp.core.data.network.model.response.Resource
-import gsg.corp.driver_domain.model.Route
-import gsg.corp.driver_domain.model.RouteDetail
-import gsg.corp.driver_domain.model.RouteType
+import gsg.corp.driver_domain.model.*
 import java.io.File
 
 interface DriverRepository {
@@ -16,4 +14,5 @@ interface DriverRepository {
     suspend fun getRouteType(): Resource<List<RouteType>>
 
     suspend fun getRouteDetail(idRoute:Int): Resource<RouteDetail>
+    suspend fun updateStateOrder(request: RouteStateRequest): Resource<GeneralResponse>
 }

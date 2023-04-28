@@ -1,19 +1,18 @@
 package gsg.corp.core_ui.global_components_actions
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.QuestionAnswer
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import gsg.corp.core_ui.R
 
 @Composable
 fun GlobalWhatsApp(isEnable: Boolean = true,phone:String,modifier: Modifier) {
@@ -31,8 +30,9 @@ fun GlobalWhatsApp(isEnable: Boolean = true,phone:String,modifier: Modifier) {
         modifier = modifier
     ) {
         Icon(
-            imageVector = Icons.Outlined.QuestionAnswer,
-            contentDescription = null
+            painter = painterResource(id = R.drawable.icon_whatsapp_message),
+            contentDescription = "WhatsApp",
+            tint = Color(0xFF5CEE3C)
         )
     }
 }

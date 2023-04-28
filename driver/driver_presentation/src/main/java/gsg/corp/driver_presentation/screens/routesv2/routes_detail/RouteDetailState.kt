@@ -20,8 +20,9 @@ data class RouteDetailState(
         GeneralType(14, "ENTREGADO")
     ),
     val comment: String = "",
-    val pathPhotoState: String = "",
-    val pathPhotoCollect: String = "",
+    val dateRescheduled: String = "",
+    val photoOrder: String = "",
+    val photoCollect:  String = "",
     val isLoading: Boolean = false,
     val messageError: MessageError = MessageError(),
     val routeDetail:RouteDetail = RouteDetail()

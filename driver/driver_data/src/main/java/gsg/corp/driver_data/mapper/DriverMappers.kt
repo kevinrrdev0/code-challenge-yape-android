@@ -1,8 +1,10 @@
 package gsg.corp.driver_data.mapper
 
 import gsg.corp.driver_data.remote.dto.route.*
+import gsg.corp.driver_data.remote.request.MetadataRequest
 import gsg.corp.driver_domain.model.Route
 import gsg.corp.driver_domain.model.RouteDetail
+import gsg.corp.driver_domain.model.RouteStateRequest
 import gsg.corp.driver_domain.model.RouteType
 
 fun RoutesDto.toRoutes(): List<Route> {
@@ -66,5 +68,14 @@ fun ResponseRouteDetailDto.toRouteDetail(): RouteDetail {
         size = route.size,
         st_code = route.st_code,
         telephone = route.telephone
+    )
+}
+
+fun RouteStateRequest.toMetadataRequest():MetadataRequest{
+    return MetadataRequest(
+        idRoute= idRoute,
+        id_state_tracking=id_state_tracking,
+        comment=comment,
+        dateRescheduled=dateRescheduled
     )
 }

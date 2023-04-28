@@ -56,6 +56,14 @@ dependencies {
     implementation Compose.activityCompose
     implementation AndroidX.constraintLayout
 
+    implementation Camera.camera2
+    implementation Camera.cameraLifecycle
+    implementation Camera.cameraVideo
+    implementation Camera.cameraView
+    implementation Camera.cameraExt
+
+    implementation Accompanist.permissions
+    implementation Coil.coilCompose
 
     kapt DaggerHilt.hiltCompiler
     implementation DaggerHilt.hiltAndroid

@@ -21,7 +21,8 @@ object DriverDomainModule {
             getRoutes = GetRoutes(repository),
             updateRoute = UpdateRoute(repository),
             getRoutesTypes = GetRoutesTypes(repository),
-            getRouteDetail = GetRouteDetail(repository)
+            getRouteDetail = GetRouteDetail(repository),
+            updateStateOrder = UpdateStateOrder(repository)
         )
     }
 

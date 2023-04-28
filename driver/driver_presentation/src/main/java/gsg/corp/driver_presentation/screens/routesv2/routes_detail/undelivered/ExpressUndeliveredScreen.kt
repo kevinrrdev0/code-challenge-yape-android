@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ExpressUndeliveredScreen() {
     Column(modifier = Modifier

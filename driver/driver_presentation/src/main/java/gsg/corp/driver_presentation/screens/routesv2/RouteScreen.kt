@@ -11,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import gsg.corp.core_ui.LocalSpacing
 import gsg.corp.core_ui.global_components_dialogs.GlobalDialogError
 import gsg.corp.core_ui.global_components_ui.BoxLoadAnimation
-import gsg.corp.core_ui.global_components_ui.LoadingAnimation
 import gsg.corp.driver_domain.model.Route
 import gsg.corp.driver_presentation.screens.routesv2.components.RouteCardItem
 
@@ -26,7 +25,6 @@ fun RouteScreen(state: RouteState, onEvent: (RouteEvent) -> Unit, onGoDetail: (I
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

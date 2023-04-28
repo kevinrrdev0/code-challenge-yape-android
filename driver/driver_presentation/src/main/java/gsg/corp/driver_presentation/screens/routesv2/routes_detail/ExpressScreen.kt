@@ -19,10 +19,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import gsg.corp.driver_presentation.R
 
-@Composable
-fun PreviewZoneExpress() {
-    ExpressScreen(onUndeliveredScreen = {})
-}
 //@Composable
 //fun ExpressScreen(
 //    onUndeliveredScreen: () -> Unit
