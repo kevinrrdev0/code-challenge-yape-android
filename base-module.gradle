@@ -15,11 +15,33 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            keyAlias 'ruterito'
+            keyPassword 'Rut2023KevDev@InfinityLevel'
+            storeFile file('../.buildconfig/ruterito.keystore')
+            storePassword 'Rut2023KevDev@InfinityLevel'
         }
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        qa {
+            debuggable true
+
+        }
+
+        debug {
+            debuggable true
+            buildConfigField 'String', "URL_BASE_TEST", URL_BASE_TEST
+        }
+
+
     }
     compileOptions {
         coreLibraryDesugaringEnabled true

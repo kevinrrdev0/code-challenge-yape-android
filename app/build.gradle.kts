@@ -20,10 +20,20 @@ android {
             useSupportLibrary = true
         }
     }
-
+    val stringType = "String"
     buildTypes {
         getByName("release") {
+            buildConfigField(stringType, "BASE_URL", properties["URL_BASE_PROD"].toString())
+        }
+        create("qa") {
+            signingConfig = signingConfigs.getByName("debug")
+            isDebuggable = true
+            isShrinkResources = false
             isMinifyEnabled = false
+            buildConfigField(stringType, "BASE_URL", properties["URL_BASE_PROD"].toString())
+        }
+        getByName("debug") {
+            buildConfigField(stringType, "BASE_URL", properties["URL_BASE_DEV"].toString())
         }
     }
     buildFeatures {

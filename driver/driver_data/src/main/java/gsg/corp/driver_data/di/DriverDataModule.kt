@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import gsg.corp.core.util.BASE_URL
 import gsg.corp.core.util.ConnectionUtils
 import gsg.corp.driver_data.remote.DriverApi
 import gsg.corp.driver_data.repository.DriverRepositoryImpl
@@ -13,6 +12,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -21,9 +21,9 @@ object DriverDataModule {
 
     @Provides
     @Singleton
-    fun provideDriverApi(client: OkHttpClient): DriverApi {
+    fun provideDriverApi(client: OkHttpClient,@Named("baseUrl") baseUrl: String): DriverApi {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(client)
             .build()

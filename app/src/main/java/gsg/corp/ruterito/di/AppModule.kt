@@ -9,16 +9,22 @@ import gsg.corp.core.domain.preferences.Preferences
 import gsg.corp.core.preferences.DefaultPreferences
 import gsg.corp.core.preferences.PreferenceManager
 import gsg.corp.core.util.PREFERENCES_FILE_NAME
+import gsg.corp.ruterito.BuildConfig
 import gsg.corp.ruterito.interceptors.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
+    @Provides
+    @Named("baseUrl")
+    fun provideBaseUrl(): String {
+        return BuildConfig.BASE_URL
+    }
     @Singleton
     @Provides
     fun provideAuthInterceptor(preferences: Preferences): AuthInterceptor =

@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import gsg.corp.core.util.BASE_URL
+import gsg.corp.core.BuildConfig
 import gsg.corp.core.util.ConnectionUtils
 import gsg.corp.onboarding_data.remote.OnBoardingApi
 import gsg.corp.onboarding_data.repository.OnBoardingRepositoryImpl
@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -22,8 +23,8 @@ object OnBoardingModule {
     // one api for one module
     @Provides
     @Singleton
-    fun provideOnBoardingApi(client: OkHttpClient): OnBoardingApi = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+    fun provideOnBoardingApi(client: OkHttpClient,@Named("baseUrl") baseUrl: String): OnBoardingApi = Retrofit.Builder()
+        .baseUrl(baseUrl)
         .addConverterFactory(MoshiConverterFactory.create())
         .client(client)
         .build()

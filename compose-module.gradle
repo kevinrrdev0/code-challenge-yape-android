@@ -29,6 +29,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        qa {
+            debuggable true
+
+        }
+        debug {
+            debuggable true
+        }
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
