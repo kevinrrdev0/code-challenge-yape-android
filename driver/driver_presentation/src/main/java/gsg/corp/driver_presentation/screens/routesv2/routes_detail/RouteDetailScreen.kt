@@ -6,6 +6,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,7 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import gsg.corp.core.domain.model.GeneralType
 import gsg.corp.core_ui.global_components_actions.CameraView
 import gsg.corp.core_ui.global_components_actions.DatePickerComponent
@@ -36,6 +42,7 @@ import gsg.corp.core_ui.global_components_texts.TextSubTitle
 import gsg.corp.core_ui.global_components_ui.BoxLoadAnimation
 import gsg.corp.driver_domain.model.RouteDetail
 import gsg.corp.driver_presentation.R
+import gsg.corp.driver_presentation.screens.routesv2.components.CustomDropDown
 
 
 @Preview
@@ -234,85 +241,28 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
 
 @Composable
 fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit) {
-    CustomDropDown(
-        state.listState,
-        state.state,
-        onEventDropDown = { id, name->onEvent(RouteDetailEvent.OnStateSelected(id,name))})
+    val stateCode = state.routeDetail.st_code
+    OutlinedTextField(
+        value = stateCode,
+        onValueChange = {},
+        readOnly = true,
+        label = { Text(text = "Estado del pedido") },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color.Red,
+            backgroundColor = Color.Transparent,
+            leadingIconColor = Color.Red,
+            cursorColor = Color.Red,
+            focusedLabelColor = Color.Red,
+        )
+    )
 
-    if (state.state.name == "REPROGRAMADO") {
+    if (stateCode == "REPROGRAMADO") {
         GlobalSpacerSmall()
-        DatePickerComponent(
-            date = state.dateRescheduled,
-            label = "Fecha de la reprogramacion",
-            onDateSelected = { firstFormat, _ ->
-                onEvent(RouteDetailEvent.OnDateRescheduledEnter(firstFormat))
-            })
-    } else {
-        onEvent(RouteDetailEvent.OnDateRescheduledEnter(""))
-    }
-    GlobalSpacerSmall()
-    GlobalInput(
-        state.comment,
-        "Ingresar Comentario",
-        maxLines = 3,
-        onValueChange = { onEvent(RouteDetailEvent.OnCommentEnter(it)) })
-
-    if (state.state.name == "ENTREGADO" || state.state.name == "RECHAZADO" || state.state.name == "PERDIDO") {
-        GlobalSpacerSmall()
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            ImagePicker(label = "Foto Pedido", onPhotoIsTaken = {
-                it?.let { uri ->
-                    onEvent(RouteDetailEvent.OnTakePhotoOrder(uri))
-                }
-
-            })
-            ImagePicker(label = "Foto Pago", onPhotoIsTaken = {
-                it?.let { uri ->
-                    onEvent(RouteDetailEvent.OnTakePhotoCollect(uri))
-                }
-            })
-        }
-    }
-
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun CustomDropDown(
-    listItems: List<GeneralType>,
-    stateSelected: GeneralType,
-    onEventDropDown: (Int,String) -> Unit
-) {
-    val contextForToast = LocalContext.current.applicationContext
-
-    // state of the menu
-    var expanded by remember {
-        mutableStateOf(false)
-    }
-
-    // remember the selected item
-    var selectedItem by remember {
-        mutableStateOf(stateSelected)
-    }
-
-    // box
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = {
-            expanded = !expanded
-        }
-    ) {
-        // text field
         OutlinedTextField(
-            value = selectedItem.name,
+            value = state.dateRescheduled,
             onValueChange = {},
             readOnly = true,
-            label = { Text(text = "Estado del pedido") },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expanded
-                )
-            },
+            label = { Text(text = "Fecha de la reprogramacion") },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Red,
                 backgroundColor = Color.Transparent,
@@ -321,30 +271,76 @@ fun CustomDropDown(
                 focusedLabelColor = Color.Red,
             )
         )
-        //menu
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
+
+    }
+    GlobalSpacerSmall()
+    GlobalInput(
+        state.routeDetail.comment,
+        "Comentario",
+        maxLines = 3,
+        onValueChange = { onEvent(RouteDetailEvent.OnCommentEnter(it)) })
+
+    if (stateCode == "ENTREGADO" || stateCode == "RECHAZADO" || stateCode == "PERDIDO") {
+        GlobalSpacerSmall()
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            if (state.routeDetail.pathPhotoState.isNotEmpty()){
+                AsyncCoilImage(state.routeDetail.pathPhotoState)
+            }
+            if (state.routeDetail.otherPathPhotoState.isNotEmpty()){
+                AsyncCoilImage(state.routeDetail.otherPathPhotoState)
+            }
+
+
+        }
+    }
+}
+
+@Composable
+fun AsyncCoilImage(url: String) {
+    var imageZoom by remember {
+        mutableStateOf(false)
+    }
+
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(url)
+            .crossfade(true)
+            .build(),
+        placeholder = painterResource(R.drawable.image),
+        contentDescription = "full description",//stringResource(R.string.description)
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.size(128.dp).clickable {
+            imageZoom = true
+        }
+    )
+
+    if (imageZoom){
+        Dialog(
+            onDismissRequest = { imageZoom = false },
+            properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
         ) {
-            listItems.forEach { option ->
-                DropdownMenuItem(onClick = {
-                    selectedItem = option
-                    // put event
-                    onEventDropDown(
-                            selectedItem.id,
-                            selectedItem.name
-                    )
-                    Toast.makeText(contextForToast, option.name, Toast.LENGTH_SHORT).show()
-                    expanded = false
-                }) {
-                    Text(text = option.name)
-                }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(450.dp)
+                    .background(Color.Black)
+                    .clickable(onClick = { imageZoom = false })
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(url)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.image),
+                    contentDescription = "full description",//stringResource(R.string.description)
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop
+                )
             }
         }
     }
 
 }
-
 
 @Composable
 fun ExpressDialogScreen(show: Boolean, exit: () -> Unit) {

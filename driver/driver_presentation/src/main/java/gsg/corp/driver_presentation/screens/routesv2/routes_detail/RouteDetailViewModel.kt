@@ -75,7 +75,7 @@ class RouteDetailViewModel @Inject constructor(
                 is Resource.Success -> {
                     result.data?.let { routeDetail ->
                         //val routeListUi = routes.
-                        state = state.copy(isLoading = false, routeDetail = routeDetail)
+                        state = state.copy(isLoading = false, routeDetail = routeDetail,)
                     }
                     _uiEvent.send(UiEvent.Success)
                 }

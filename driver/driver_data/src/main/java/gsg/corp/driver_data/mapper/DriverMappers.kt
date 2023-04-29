@@ -68,8 +68,13 @@ fun ResponseRouteDetailDto.toRouteDetail(): RouteDetail {
         pay_amount = route.pay_amount,
         product = route.product,
         size = route.size,
+        st_id = route.st_id,
         st_code = route.st_code,
-        telephone = route.telephone
+        telephone = route.telephone,
+        pathPhotoState = route.path_photo_state,
+        otherPathPhotoState = route.other_path_photo_state,
+        dateRescheduled = route.date_rescheduled,
+        comment = route.comment
     )
 }
 
