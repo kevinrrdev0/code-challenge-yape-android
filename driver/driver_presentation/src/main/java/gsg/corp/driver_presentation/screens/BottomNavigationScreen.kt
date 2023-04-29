@@ -28,7 +28,8 @@ import gsg.corp.driver_presentation.screens.dashboard.components.BottomNavItem
 @Composable
 fun BottomNavigationScreen(
     navController: NavHostController = rememberNavController(),
-    onClickRouteDetail: (Int) -> Unit
+    onClickRouteDetail: (Int) -> Unit,
+    onClickUpdateStatus: (Int) -> Unit
 ) {
     Scaffold(bottomBar = {
         BottomNavigationBar(items = listOf(
@@ -60,7 +61,8 @@ fun BottomNavigationScreen(
         Column(modifier = Modifier.padding(it)) {
             BottomNavGraph(
                 navController = navController,
-                onClickRouteDetail
+                onClickRouteDetail=onClickRouteDetail,
+                onClickUpdateStatus = onClickUpdateStatus
             )
         }
     }

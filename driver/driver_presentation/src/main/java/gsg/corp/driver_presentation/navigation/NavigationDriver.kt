@@ -9,6 +9,8 @@ import gsg.corp.core_ui.navigation.ROUTE_ID
 import gsg.corp.driver_presentation.screens.BottomNavigationScreen
 import gsg.corp.driver_presentation.screens.routesv2.routes_detail.RouteDetailScreen
 import gsg.corp.driver_presentation.screens.routesv2.routes_detail.RouteDetailViewModel
+import gsg.corp.driver_presentation.screens.routesv2.update_route.UpdateStateOrderScreen
+import gsg.corp.driver_presentation.screens.routesv2.update_route.UpdateStateOrderViewModel
 
 
 object NavigationDriver {
@@ -23,7 +25,10 @@ object NavigationDriver {
             ) {
                 BottomNavigationScreen(onClickRouteDetail = { id ->
                     navController.navigate(NavigationRouteDriver.RouteDetail.passId(id))
-                })
+                }, onClickUpdateStatus = {id->
+                    navController.navigate(NavigationRouteDriver.UpdateStateOrder.passId(id))
+                }
+                )
             }
 
             composable(
@@ -38,6 +43,24 @@ object NavigationDriver {
                 val viewModel = hiltViewModel<RouteDetailViewModel>()
                 val state = viewModel.state
                 RouteDetailScreen(state= state, onEvent = viewModel::onEvent)
+            }
+
+            composable(
+                route = NavigationRouteDriver.UpdateStateOrder.route,
+                arguments = listOf(
+                    navArgument(ROUTE_ID) {
+                        type = NavType.IntType
+                        defaultValue = 0
+                    }
+                )
+            ) {
+                val viewModel = hiltViewModel<UpdateStateOrderViewModel>()
+                val state = viewModel.state
+                val uiEvent = viewModel.uiEvent
+                UpdateStateOrderScreen(state= state,uiEvent=uiEvent, onEvent = viewModel::onEvent, onNavigateUp = {
+
+                    navController.popBackStack()
+                })
             }
 
         }

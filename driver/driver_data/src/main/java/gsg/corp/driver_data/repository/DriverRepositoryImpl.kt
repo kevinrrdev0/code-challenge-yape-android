@@ -128,17 +128,17 @@ class DriverRepositoryImpl(
                 val file = File(request.photoOrder)
                 if (file.exists()) {
                     val requestFile = file.asRequestBody("image/jpg".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("images", "STATUS_ORDER.jpg", requestFile)
+                    val body = MultipartBody.Part.createFormData("images", "STATUS_ORDER-${file.name}", requestFile)
                     images.add(body)
                 }
 
                 val file2 = File(request.photoCollect)
                 if (file2.exists()) {
                     val requestFile = file2.asRequestBody("image/jpg".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("images", "STATUS_COLLECT.jpg", requestFile)
+                    val body = MultipartBody.Part.createFormData("images", "STATUS_COLLECT-${file.name}", requestFile)
                     images.add(body)
                 }
-                Log.d("kevinrrdev", " order -> ${request.photoOrder} collect-> ${request.photoCollect}")
+
                 val moshi = Moshi.Builder().build()
                 val jsonAdapter = moshi.adapter(MetadataRequest::class.java)
                 val json = jsonAdapter.toJson(request.toMetadataRequest())

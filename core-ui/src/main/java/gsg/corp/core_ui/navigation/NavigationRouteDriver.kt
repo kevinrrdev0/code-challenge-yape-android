@@ -14,6 +14,12 @@ sealed class NavigationRouteDriver(val route:String,val name:String=""){
         }
     }
 
+    object UpdateStateOrder : NavigationRouteDriver("state_order?$ROUTE_ID={$ROUTE_ID}") {
+        fun passId(id: Int): String {
+            return "state_order?$ROUTE_ID=$id"
+        }
+    }
+
     object BottomNavToday: NavigationRouteDriver("bottom_nav_today", "Hoy")
     object BottomNavWeekly: NavigationRouteDriver("bottom_nav_weekly", "Semanal")
     object BottomNavMonthly: NavigationRouteDriver("bottom_nav_monthly", "Mensual")

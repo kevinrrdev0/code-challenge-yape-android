@@ -6,6 +6,8 @@ import gsg.corp.driver_domain.model.Route
 import gsg.corp.driver_domain.model.RouteDetail
 import gsg.corp.driver_domain.model.RouteStateRequest
 import gsg.corp.driver_domain.model.RouteType
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 fun RoutesDto.toRoutes(): List<Route> {
 
@@ -72,10 +74,22 @@ fun ResponseRouteDetailDto.toRouteDetail(): RouteDetail {
 }
 
 fun RouteStateRequest.toMetadataRequest():MetadataRequest{
+    val dateRescheduleFinal = if (dateRescheduled.isNotEmpty()){
+        // Convertir la cadena en un objeto LocalDate
+        val date = LocalDate.parse(dateRescheduled, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+// Formatear la fecha en la cadena deseada
+        val formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        formattedDate
+    }else{
+        dateRescheduled
+    }
+
+
     return MetadataRequest(
         idRoute= idRoute,
-        id_state_tracking=id_state_tracking,
+        idUser = idUser,
+        idStateTracking=idStateTracking,
         comment=comment,
-        dateRescheduled=dateRescheduled
+        dateRescheduled=dateRescheduleFinal
     )
 }

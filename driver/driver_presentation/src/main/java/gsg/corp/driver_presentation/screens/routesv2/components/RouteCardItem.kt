@@ -9,6 +9,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Preview
+import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material.icons.outlined.Preview
+import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Call
 import androidx.compose.runtime.Composable
@@ -53,7 +57,7 @@ fun PreviewRouteCardItem() {
                 address = "Jr. Hualcan 2323, Urb. las claritas",
                 address_reference = "cerca al parque la libertad"
             )
-        ), onClick = {}, onGoDetail = {})
+        ), onClick = {}, onGoUpdateStatus = {}, onGoDetailStatus = {})
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -61,7 +65,8 @@ fun PreviewRouteCardItem() {
 fun RouteCardItem(
     routeUi: RouteUiState,
     onClick: () -> Unit,
-    onGoDetail: () -> Unit,
+    onGoUpdateStatus: () -> Unit,
+    onGoDetailStatus: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val spacing = LocalSpacing.current
@@ -85,25 +90,31 @@ fun RouteCardItem(
         }
     }
 
-    Card(elevation = 10.dp, modifier = modifier
-        .fillMaxWidth()
-        .padding(8.dp, 8.dp, 8.dp, 0.dp), onClick = onClick) {
+    Card(
+        elevation = 10.dp, modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp, 8.dp, 8.dp, 0.dp), onClick = onClick
+    ) {
         Column(modifier.padding(8.dp)) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row{
+                Row {
                     TextTitle(title = routeItem.district)
                     GlobalSpacerMidRow()
-                    Card(modifier = Modifier
-                        .clickable { },
+                    Card(
+                        modifier = Modifier
+                            .clickable { },
                         backgroundColor = colorState,
-                        elevation = 2.dp)//shape = RoundedCornerShape(8.dp)
+                        elevation = 2.dp
+                    )//shape = RoundedCornerShape(8.dp)
                     {
-                        Row(modifier = Modifier.padding(2.dp),
-                            verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            modifier = Modifier.padding(2.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             TextSubTitle(subTile = routeUi.route.st_code)
                         }
                     }
@@ -142,26 +153,45 @@ fun RouteCardItem(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    TextBody(body = "Metodo de Pago.: ${routeItem.code_pay_method}",fontWeight = FontWeight.Bold)
-                    TextBody(body = "Monto a Cobrar: S/ ${routeItem.pay_amount}", fontWeight = FontWeight.Bold)
+                    TextBody(
+                        body = "Metodo de Pago.: ${routeItem.code_pay_method}",
+                        fontWeight = FontWeight.Bold
+                    )
+                    TextBody(
+                        body = "Monto a Cobrar: S/ ${routeItem.pay_amount}",
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
             Row(
                 Modifier
-                    .fillMaxWidth()
-                    .clickable { onGoDetail() },
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically) {
-               TextBody(body = "Ir a detalle")
-                IconButton(
-                    modifier=Modifier.size(16.dp),
-                    onClick = onGoDetail
-                ) {
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Row(Modifier
+                    .clickable { onGoDetailStatus() },
+                    verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        imageVector = Icons.Rounded.ArrowForward,
-                        contentDescription = null
+                        imageVector = Icons.Outlined.Visibility,
+                        contentDescription = "Icon Visibility",
+                        modifier = Modifier.size(16.dp)
                     )
+                    TextBody(body = "Ver detalle del estado")
                 }
+
+                Row(Modifier
+                    .clickable { onGoUpdateStatus() },
+                    verticalAlignment = Alignment.CenterVertically) {
+                    TextBody(body = "Actualizar estado")
+                    Icon(
+                        imageVector = Icons.Outlined.ArrowForward,
+                        contentDescription = "Icon Visibility",
+                        modifier = Modifier.size(16.dp)
+                    )
+
+                }
+
             }
         }
 

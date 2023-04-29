@@ -237,7 +237,7 @@ fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit
     CustomDropDown(
         state.listState,
         state.state,
-        onEventDropDown = { onEvent(it) })
+        onEventDropDown = { id, name->onEvent(RouteDetailEvent.OnStateSelected(id,name))})
 
     if (state.state.name == "REPROGRAMADO") {
         GlobalSpacerSmall()
@@ -281,7 +281,7 @@ fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit
 fun CustomDropDown(
     listItems: List<GeneralType>,
     stateSelected: GeneralType,
-    onEventDropDown: (RouteDetailEvent) -> Unit
+    onEventDropDown: (Int,String) -> Unit
 ) {
     val contextForToast = LocalContext.current.applicationContext
 
@@ -331,10 +331,8 @@ fun CustomDropDown(
                     selectedItem = option
                     // put event
                     onEventDropDown(
-                        RouteDetailEvent.OnStateSelected(
                             selectedItem.id,
                             selectedItem.name
-                        )
                     )
                     Toast.makeText(contextForToast, option.name, Toast.LENGTH_SHORT).show()
                     expanded = false

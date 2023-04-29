@@ -15,9 +15,8 @@ import gsg.corp.driver_domain.model.Route
 import gsg.corp.driver_presentation.screens.routesv2.components.RouteCardItem
 
 
-
 @Composable
-fun RouteScreen(state: RouteState, onEvent: (RouteEvent) -> Unit, onGoDetail: (Int) -> Unit) {
+fun RouteScreen(state: RouteState, onEvent: (RouteEvent) -> Unit, onGoDetail: (Int) -> Unit,onGoUpdateStatus: (Int) -> Unit) {
 
     val spacing = LocalSpacing.current
     val context = LocalContext.current
@@ -25,19 +24,28 @@ fun RouteScreen(state: RouteState, onEvent: (RouteEvent) -> Unit, onGoDetail: (I
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            items(state.listRoutes) { route ->
-                RouteCardItem(
-                    route,
-                    onClick = { onEvent(RouteEvent.OnToggleRouteClick(route)) },
-                    onGoDetail = {
-                        onGoDetail(route.route.id)
-                    })
+        if (!state.loading){
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                items(state.listRoutes) { route ->
+                    RouteCardItem(
+                        route,
+                        onClick = { onEvent(RouteEvent.OnToggleRouteClick(route)) },
+                        onGoUpdateStatus = {
+                            // ir a ver estado
+                            // aqui se motrara la pantall del pedido su estado su comentario y sus fotos en caso tenga
+                            onGoUpdateStatus(route.route.id)
+                        },
+                        onGoDetailStatus = {
+
+                            onGoDetail(route.route.id)
+                        })
+                }
             }
         }
+
 
         BoxLoadAnimation(state.loading)
 
@@ -69,5 +77,5 @@ fun PreviewRouteScreen() {
                     Route()
                 )
             )
-        ), onEvent = {}, onGoDetail = {})
+        ), onEvent = {}, onGoDetail = {}, onGoUpdateStatus = {})
 }

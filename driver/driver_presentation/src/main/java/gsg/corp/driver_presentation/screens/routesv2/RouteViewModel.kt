@@ -29,9 +29,6 @@ class RouteViewModel @Inject constructor(
 
     var state by mutableStateOf(RouteState())
         private set
-    init {
-        getRoutes(id = pref.loadUserInfo()!!.id)
-    }
 
     fun onEvent(event: RouteEvent){
         when(event){
@@ -43,9 +40,10 @@ class RouteViewModel @Inject constructor(
             is RouteEvent.OnHideError -> state = state.copy(messageError = MessageError(isVisible = false))
         }
     }
-    private fun getRoutes(id: Int) {
+    fun getRoutes() {
         state = state.copy(loading = true)
         viewModelScope.launch {
+            val idUser = pref.loadUserInfo()!!.id
             val result =  driverUseCases
                 .getRoutes()
             when (result) {

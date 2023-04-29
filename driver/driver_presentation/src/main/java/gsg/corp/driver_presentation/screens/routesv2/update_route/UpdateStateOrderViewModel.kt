@@ -1,6 +1,5 @@
-package gsg.corp.driver_presentation.screens.routesv2.routes_detail
+package gsg.corp.driver_presentation.screens.routesv2.update_route
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -25,13 +24,13 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class RouteDetailViewModel @Inject constructor(
+class UpdateStateOrderViewModel @Inject constructor(
     private val driverUseCases: DriverUseCases,
     savedStateHandle: SavedStateHandle,
     private val pref: Preferences,
 ) : ViewModel() {
 
-    var state by mutableStateOf(RouteDetailState())
+    var state by mutableStateOf(UpdateStateOrderState())
         private set
 
     private val _uiEvent = Channel<UiEvent>()
@@ -46,22 +45,22 @@ class RouteDetailViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: RouteDetailEvent) {
+    fun onEvent(event: UpdateStateOrderEvent) {
         when (event) {
-            is RouteDetailEvent.OnCommentEnter -> state.copy(comment = event.comment)
-            is RouteDetailEvent.OnTakePhotoOrder -> state.copy(photoOrder = event.pathPhotoOrder)
-            is RouteDetailEvent.OnTakePhotoCollect -> state.copy(photoCollect = event.pathPhotoCollect)
-            is RouteDetailEvent.OnStateSelected -> state.copy(
+            is UpdateStateOrderEvent.OnCommentEnter -> state.copy(comment = event.comment)
+            is UpdateStateOrderEvent.OnTakePhotoOrder -> state.copy(photoOrder = event.pathPhotoOrder)
+            is UpdateStateOrderEvent.OnTakePhotoCollect -> state.copy(photoCollect = event.pathPhotoCollect)
+            is UpdateStateOrderEvent.OnStateSelected -> state.copy(
                 state = GeneralType(
                     event.id,
                     event.name
                 )
             )
-            is RouteDetailEvent.OnDateRescheduledEnter -> {
+            is UpdateStateOrderEvent.OnDateRescheduledEnter -> {
                 val aea = event.dateRescheduled
                 state.copy(dateRescheduled = aea)
             }
-            RouteDetailEvent.OnUpdateOrder -> {
+            UpdateStateOrderEvent.OnUpdateOrder -> {
                 updateState()
                 state.copy()
             }
@@ -113,7 +112,7 @@ class RouteDetailViewModel @Inject constructor(
                         //val routeListUi = routes.
                         state = state.copy(isLoading = false)
                     }
-                    _uiEvent.send(UiEvent.Success)
+                    _uiEvent.send(UiEvent.NavigateUp)
                 }
                 is Resource.Error -> {
                     state = state.copy(
@@ -127,19 +126,6 @@ class RouteDetailViewModel @Inject constructor(
                 }
             }
         }
-
-    }
-
-    fun onPathChange(item: String) {
-//        state = state.copy(path = item)
-    }
-
-    fun onUploadPhoto() {
-//        val file = File(state.path)
-//        viewModelScope.launch {
-//            driverUseCases.updateRoute(file = file, uri = Uri.fromFile(file), state.path)
-//        }
-
     }
 
 }

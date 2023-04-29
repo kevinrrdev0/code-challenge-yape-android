@@ -1,6 +1,7 @@
 package gsg.corp.driver_presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,7 +16,8 @@ import gsg.corp.driver_presentation.screens.routesv2.RouteViewModel
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
-    onClickRouteDetail : (Int)->Unit
+    onClickRouteDetail : (Int)->Unit,
+    onClickUpdateStatus:(Int) ->Unit
 ) {
     NavHost(
         navController = navController,
@@ -33,11 +35,19 @@ fun BottomNavGraph(
         ) {
             val viewModel = hiltViewModel<RouteViewModel>()
             val state = viewModel.state
+
+            LaunchedEffect(Unit) {
+                viewModel.getRoutes()
+            }
+
             RouteScreen(
                 state,
                 onEvent = viewModel::onEvent,
                 onGoDetail = {
                     onClickRouteDetail(it)
+                },
+                onGoUpdateStatus = {
+                    onClickUpdateStatus(it)
                 }
             )
         }
