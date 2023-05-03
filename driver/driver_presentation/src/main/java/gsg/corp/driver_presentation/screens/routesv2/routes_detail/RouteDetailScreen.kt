@@ -238,7 +238,6 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
 
 }
 
-
 @Composable
 fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit) {
     val stateCode = state.routeDetail.st_code
@@ -253,8 +252,15 @@ fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit
             leadingIconColor = Color.Red,
             cursorColor = Color.Red,
             focusedLabelColor = Color.Red,
+        ),
+        modifier = Modifier.width(200.dp).then(
+            Modifier.size(
+                TextFieldSize.Unspecified.copy(
+                    height = 20.dp //ajusta el alto del campo de texto a 20dp
+                )
+            )
         )
-    )
+        )
 
     if (stateCode == "REPROGRAMADO") {
         GlobalSpacerSmall()
@@ -283,10 +289,10 @@ fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit
     if (stateCode == "ENTREGADO" || stateCode == "RECHAZADO" || stateCode == "PERDIDO") {
         GlobalSpacerSmall()
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            if (state.routeDetail.pathPhotoState.isNotEmpty()){
+            if (state.routeDetail.pathPhotoState.isNotEmpty()) {
                 AsyncCoilImage(state.routeDetail.pathPhotoState)
             }
-            if (state.routeDetail.otherPathPhotoState.isNotEmpty()){
+            if (state.routeDetail.otherPathPhotoState.isNotEmpty()) {
                 AsyncCoilImage(state.routeDetail.otherPathPhotoState)
             }
 
@@ -309,12 +315,14 @@ fun AsyncCoilImage(url: String) {
         placeholder = painterResource(R.drawable.image),
         contentDescription = "full description",//stringResource(R.string.description)
         contentScale = ContentScale.Crop,
-        modifier = Modifier.size(128.dp).clickable {
-            imageZoom = true
-        }
+        modifier = Modifier
+            .size(128.dp)
+            .clickable {
+                imageZoom = true
+            }
     )
 
-    if (imageZoom){
+    if (imageZoom) {
         Dialog(
             onDismissRequest = { imageZoom = false },
             properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
