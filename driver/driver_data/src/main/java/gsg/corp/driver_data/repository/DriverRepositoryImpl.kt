@@ -147,7 +147,18 @@ class DriverRepositoryImpl(
 
                 val routeDto = api.uploadImagenes(metadata, images)
                 if (routeDto.isSuccessful) {
-                    Resource.Success(data = GeneralResponse( "error todo mal"))
+                    // Borra el archivo temporal
+                    val file = File(request.photoOrder)
+                    if (file.exists()){
+                        file.delete()
+                    }
+                    val file2 = File(request.photoCollect)
+                    if (file2.exists()){
+                        file2.deleteRecursively()
+                    }
+
+
+                    Resource.Success(data = GeneralResponse( "estado actualizado corectamente"))
                 } else {
                     val errorMessage =
                         routeDto.errorBody()?.string()?.let {

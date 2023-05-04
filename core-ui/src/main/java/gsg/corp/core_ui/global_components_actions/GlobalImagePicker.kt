@@ -33,6 +33,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
 import gsg.corp.core_ui.R
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,20 +73,30 @@ fun ImagePicker(
         contract = ActivityResultContracts.TakePicture(),
         onResult = { success ->
             hasImage = success
-            if (hasImage) {
-                val cacheDir = context.cacheDir
-                val path = imageUri?.path?.let {
-                    if (it.startsWith("/")) {
-                        (cacheDir.parentFile?.absolutePath ?: "") + it
-                    } else {
-                        cacheDir.absolutePath + "/" + it
-                    }
-                }
-
-                onPhotoIsTaken(path)
-            }
         }
     )
+
+    if (hasImage) {
+        val cacheDir = context.cacheDir
+        val path = imageUri?.path?.let {
+            if (it.startsWith("/")) {
+                (cacheDir.parentFile?.absolutePath ?: "") + it
+            } else {
+                cacheDir.absolutePath + "/" + it
+            }
+        }
+
+        LaunchedEffect(hasImage) {
+            val compressedImageFile = withContext(Dispatchers.IO) {
+                Compressor.compress(context, File(path))
+            }
+            // Eliminar la imagen original de la carpeta de caché
+            val cacheFile = File(path)
+            cacheFile.delete()
+
+            onPhotoIsTaken(compressedImageFile.path)
+        }
+    }
 
     //permissions
     val cameraPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

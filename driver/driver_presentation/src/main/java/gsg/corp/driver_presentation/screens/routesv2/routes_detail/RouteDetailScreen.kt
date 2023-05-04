@@ -26,14 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
-import gsg.corp.core.domain.model.GeneralType
-import gsg.corp.core_ui.global_components_actions.CameraView
-import gsg.corp.core_ui.global_components_actions.DatePickerComponent
-import gsg.corp.core_ui.global_components_actions.GlobalCamera
-import gsg.corp.core_ui.global_components_actions.ImagePicker
 import gsg.corp.core_ui.global_components_inputs.GlobalInput
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerMid
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerSmall
@@ -42,7 +35,6 @@ import gsg.corp.core_ui.global_components_texts.TextSubTitle
 import gsg.corp.core_ui.global_components_ui.BoxLoadAnimation
 import gsg.corp.driver_domain.model.RouteDetail
 import gsg.corp.driver_presentation.R
-import gsg.corp.driver_presentation.screens.routesv2.components.CustomDropDown
 
 
 @Preview
@@ -252,15 +244,8 @@ fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit
             leadingIconColor = Color.Red,
             cursorColor = Color.Red,
             focusedLabelColor = Color.Red,
-        ),
-        modifier = Modifier.width(200.dp).then(
-            Modifier.size(
-                TextFieldSize.Unspecified.copy(
-                    height = 20.dp //ajusta el alto del campo de texto a 20dp
-                )
-            )
         )
-        )
+    )
 
     if (stateCode == "REPROGRAMADO") {
         GlobalSpacerSmall()
@@ -295,8 +280,6 @@ fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit
             if (state.routeDetail.otherPathPhotoState.isNotEmpty()) {
                 AsyncCoilImage(state.routeDetail.otherPathPhotoState)
             }
-
-
         }
     }
 }

@@ -71,6 +71,7 @@ dependencies {
 
     implementation Accompanist.permissions
     implementation Coil.coilCompose
+    implementation Compressor.compress
 
     kapt DaggerHilt.hiltCompiler
     implementation DaggerHilt.hiltAndroid
