@@ -31,7 +31,7 @@ import gsg.corp.core_ui.global_components_inputs.GlobalInput
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerMid
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerSmall
 import gsg.corp.core_ui.global_components_texts.TextBody
-import gsg.corp.core_ui.global_components_texts.TextSubTitle
+import gsg.corp.core_ui.global_components_texts.TextSubtitle
 import gsg.corp.core_ui.global_components_ui.BoxLoadAnimation
 import gsg.corp.driver_domain.model.RouteDetail
 import gsg.corp.driver_presentation.R
@@ -138,7 +138,7 @@ fun RouteDetailOrder(routeDetail: RouteDetail) {
                         .size(22.dp)
                         .padding(end = 4.dp)
                 )
-                TextBody(body = routeDetail.full_name)
+                TextBody(text = routeDetail.full_name)
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -150,9 +150,9 @@ fun RouteDetailOrder(routeDetail: RouteDetail) {
                         .size(22.dp)
                         .padding(end = 4.dp)
                 )
-                TextBody(body = "${routeDetail.address} / ${routeDetail.district} ")
+                TextBody(text = "${routeDetail.address} / ${routeDetail.district} ")
             }
-            TextBody(body = "Ref.: ${routeDetail.address}")
+            TextBody(text = "Ref.: ${routeDetail.address}")
         }
     }
 
@@ -167,8 +167,8 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
             .fillMaxWidth()
     ) {
         Column(Modifier.padding(14.dp)) {
-            TextBody(body = "Prod.: ${routeDetail.product}")
-            TextBody(body = "Cant. Paquetes: ${routeDetail.number_packages}")
+            TextBody(text = "Prod.: ${routeDetail.product}")
+            TextBody(text = "Cant. Paquetes: ${routeDetail.number_packages}")
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.vector__4_),
@@ -178,9 +178,9 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
                         .size(22.dp)
                         .padding(end = 4.dp)
                 )
-                TextBody(body = "Costo: ${routeDetail.cost} / Adelanto: ${routeDetail.advance} / Cobrar: ${routeDetail.pay_amount}")
+                TextBody(text = "Costo: ${routeDetail.cost} / Adelanto: ${routeDetail.advance} / Cobrar: ${routeDetail.pay_amount}")
             }
-            TextBody(body = "Metodo de Pago: ${routeDetail.code_pay_method}")
+            TextBody(text = "Metodo de Pago: ${routeDetail.code_pay_method}")
         }
     }
 
@@ -204,7 +204,7 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
                 contentDescription = null,
                 modifier = Modifier.padding(end = 8.dp)
             )
-            TextSubTitle("Cuentas Cliente")
+            TextSubtitle("Cuentas Cliente")
         }
         Button(
             onClick = { showGSGAccounts = true },
@@ -221,7 +221,7 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
                 contentDescription = null,
                 modifier = Modifier.padding(end = 7.dp)
             )
-            TextSubTitle("Cuentas GSG")
+            TextSubtitle("Cuentas GSG")
         }
     }
 

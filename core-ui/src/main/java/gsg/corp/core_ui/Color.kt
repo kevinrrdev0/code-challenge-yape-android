@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 val RedGsg = Color(0xFFEC0000)
 val DarkRedGsg = Color(0xFFA60000)
-val Orange =  Color(0xFFFFAA00)
+val Orange =  Color(0xFFFFBC36)
 val CarbColor = Color(0xFFEEFF00)
 val LightGray = Color(0xFF808080)
 val FatColor = Color(0xFFF44336)

@@ -25,7 +25,7 @@ object NavigationDriver {
             ) {
                 BottomNavigationScreen(onClickRouteDetail = { id ->
                     navController.navigate(NavigationRouteDriver.RouteDetail.passId(id))
-                }, onClickUpdateStatus = {id->
+                }, onClickUpdateStatus = { id ->
                     navController.navigate(NavigationRouteDriver.UpdateStateOrder.passId(id))
                 }
                 )
@@ -42,7 +42,7 @@ object NavigationDriver {
             ) {
                 val viewModel = hiltViewModel<RouteDetailViewModel>()
                 val state = viewModel.state
-                RouteDetailScreen(state= state, onEvent = viewModel::onEvent)
+                RouteDetailScreen(state = state, onEvent = viewModel::onEvent)
             }
 
             composable(
@@ -57,10 +57,14 @@ object NavigationDriver {
                 val viewModel = hiltViewModel<UpdateStateOrderViewModel>()
                 val state = viewModel.state
                 val uiEvent = viewModel.uiEvent
-                UpdateStateOrderScreen(state= state,uiEvent=uiEvent, onEvent = viewModel::onEvent, onNavigateUp = {
+                UpdateStateOrderScreen(
+                    state = state,
+                    uiEvent = uiEvent,
+                    onEvent = viewModel::onEvent,
+                    onNavigateUp = {
 
-                    navController.popBackStack()
-                })
+                        navController.popBackStack()
+                    })
             }
 
         }

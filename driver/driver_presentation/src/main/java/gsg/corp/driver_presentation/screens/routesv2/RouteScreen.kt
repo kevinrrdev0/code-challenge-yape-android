@@ -74,7 +74,7 @@ fun PreviewRouteScreen() {
         RouteState(
             listOf(
                 RouteUiState(
-                    Route()
+                    Route(address = "rpeuba")
                 )
             )
         ), onEvent = {}, onGoDetail = {}, onGoUpdateStatus = {})
