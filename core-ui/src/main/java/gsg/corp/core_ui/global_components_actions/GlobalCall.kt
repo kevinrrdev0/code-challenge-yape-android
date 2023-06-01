@@ -63,12 +63,8 @@ fun GlobalCall(isEnable: Boolean = true,phone:String,modifier: Modifier) {
             enabled = isEnable
         ) {
             Icon(
-                imageVector = Icons.Rounded.Call,
-                contentDescription = "Cel1"
+                painter = painterResource(id = R.drawable.ic_call_phone_to_action),
+                contentDescription = "Phone"
             )
         }
-
-
-
-
 }

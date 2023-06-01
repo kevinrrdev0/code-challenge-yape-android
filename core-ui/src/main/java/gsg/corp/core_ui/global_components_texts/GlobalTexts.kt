@@ -9,15 +9,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import gsg.corp.core_ui.TextBlack
 import gsg.corp.core_ui.setSomeWordsToBold
 
 @Composable
 fun TextHeadline(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         text = text,
@@ -31,8 +33,8 @@ fun TextHeadline(
 fun TextHeadline2(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         text = text,
@@ -46,8 +48,8 @@ fun TextHeadline2(
 fun TextHeadline3(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         text = text,
@@ -61,8 +63,8 @@ fun TextHeadline3(
 fun TextHeadline4(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         text = text,
@@ -77,8 +79,8 @@ fun TextHeadline4(
 fun TextSubtitle(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         text = text,
@@ -92,8 +94,8 @@ fun TextSubtitle(
 fun TextSubtitle2(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         text = text,
@@ -108,25 +110,46 @@ fun TextSubtitle2(
 fun TextBody(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
-    fontWeight: FontWeight = FontWeight.Normal
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
+    maxLines: Int = 10,
+    fontWeight: FontWeight = FontWeight.Normal,
+    textDecoration: TextDecoration = TextDecoration.None,
+    boldHighlighting: Boolean = false,
+    boldText: List<String> = emptyList(),
+    overflow: TextOverflow = TextOverflow.Clip
 ) {
-    Text(
-        text = text,
-        modifier = modifier,
-        color = textColor,
-        textAlign = textAlign,
-        style = MaterialTheme.typography.body1.copy(fontWeight = fontWeight)
-    )
+    if (boldHighlighting) {
+        Text(
+            text = setSomeWordsToBold(text, boldText.ifEmpty { listOf(text) }),
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            maxLines=maxLines,
+            textDecoration = textDecoration,
+            overflow=overflow,
+            style = MaterialTheme.typography.body1.copy(fontWeight = fontWeight)
+        )
+    }else{
+        Text(
+            text = text,
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            maxLines=maxLines,
+            overflow=overflow,
+            style = MaterialTheme.typography.body1.copy(fontWeight = fontWeight)
+        )
+    }
+
 }
 
 @Composable
 fun TextBody2(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
     fontWeight: FontWeight = FontWeight.Normal,
     textDecoration: TextDecoration = TextDecoration.None,
     boldHighlighting: Boolean = false,
@@ -158,8 +181,8 @@ fun TextBody2(
 fun TextCaption(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black,
-    textAlign: TextAlign = TextAlign.Center,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
     fontWeight: FontWeight = FontWeight.Normal,
     maxLines: Int = 1,
     boldHighlighting: Boolean = false,

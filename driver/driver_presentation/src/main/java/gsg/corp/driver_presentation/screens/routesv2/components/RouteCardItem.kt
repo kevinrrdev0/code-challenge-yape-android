@@ -14,15 +14,25 @@ import androidx.compose.material.icons.rounded.Call
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import gsg.corp.core_ui.*
 import gsg.corp.core_ui.R
 import gsg.corp.core_ui.global_components_actions.GlobalCall
 import gsg.corp.core_ui.global_components_actions.GlobalWhatsApp
+import gsg.corp.core_ui.global_components_inputs.GlobalExtraSpacerSmall
+import gsg.corp.core_ui.global_components_inputs.GlobalExtraSpacerSmallRow
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerLarge
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerMidRow
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerRowLarge
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerRowMedium
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerRowMediumLarge
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerRowSmall
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerSmall
 import gsg.corp.core_ui.global_components_texts.TextBody
 import gsg.corp.core_ui.global_components_texts.TextBody2
 import gsg.corp.core_ui.global_components_texts.TextSubtitle2
@@ -67,140 +77,246 @@ fun RouteCardItem(
     val spacing = LocalSpacing.current
     val routeItem = routeUi.route
 
-    val colorState = when (routeUi.route.st_code) {
+    val (colorState, colorDotState) = when (routeUi.route.st_code) {
         "ENTREGADO" -> {
-            ColorSuccess
+            Pair(ColorSuccess, ColorDotSuccess)
         }
+
         "RECHAZADO" -> {
-            ColorReject
+            Pair(ColorReject, ColorDotReject)
         }
+
         "REPROGRAMADO" -> {
-            ColorRescheduled
+            Pair(ColorRescheduled, ColorDotRescheduled)
         }
+
         "PENDIENTE" -> {
-            ColorDefault
+            Pair(ColorDefault, ColorDotDefault)
         }
+
         else -> {
-            ColorInfo
+            Pair(ColorInfo, ColorDotInfo)
         }
     }
 
     Card(
         shape = RoundedCornerShape(12.dp),
-        elevation = 10.dp, modifier = modifier
+        elevation = 8.dp, modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp, 8.dp, 8.dp, 0.dp), onClick = onClick
+            .padding(16.dp, 16.dp, 16.dp, 0.dp), onClick = onClick
     ) {
-        Column(modifier.padding(16.dp)) {
+        Column {
+            Column(modifier.padding(8.dp, 8.dp, 8.dp, 0.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
 
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                painter = painterResource(id = R.drawable.ic_bar_code),
+                                contentDescription = "Bar Code"
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            TextBody(text = routeItem.code_tracking, boldHighlighting = true)
+                        }
+                        GlobalSpacerRowMediumLarge()
+                        StatusRoute(colorState, colorDotState, routeItem.st_code)
+                    }
+
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        imageVector = if (routeUi.isExpanded) {
+                            Icons.Default.KeyboardArrowUp
+                        } else Icons.Default.KeyboardArrowDown,
+                        contentDescription = if (routeUi.isExpanded) {
+                            "coll"
+                        } else "yolo"
+                    )
+                }
+                GlobalExtraSpacerSmall()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        painter = painterResource(id = R.drawable.ic_client),
+                        contentDescription = "Client"
+                    )
+                    GlobalExtraSpacerSmallRow()
+                    TextBody(
+                        text = routeItem.full_name, maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                GlobalExtraSpacerSmall()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        painter = painterResource(id = R.drawable.ic_location),
+                        contentDescription = "location"
+                    )
+                    GlobalExtraSpacerSmallRow()
+                    TextBody(
+                        text = "${routeItem.district} - ${routeItem.address}", maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                AnimatedVisibility(visible = routeUi.isExpanded) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        GlobalExtraSpacerSmall()
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                painter = painterResource(id = R.drawable.ic_map_ref),
+                                contentDescription = "Map"
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            TextBody(
+                                text = routeItem.address_reference, maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        GlobalExtraSpacerSmall()
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                painter = painterResource(id = R.drawable.ic_chat_message),
+                                contentDescription = "Map"
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            TextBody(
+                                text = "Comentario del cliente modificar BackEnd TEst de prueba",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        GlobalExtraSpacerSmall()
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                painter = painterResource(id = R.drawable.ic_box_package),
+                                contentDescription = "Package"
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            TextBody(
+                                text = "${routeItem.number_packages} / ${routeItem.product}",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        GlobalExtraSpacerSmall()
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                painter = painterResource(id = R.drawable.ic_product_detail),
+                                contentDescription = "Detail Product"
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            TextBody(
+                                text = "Detalle del producto modificar el backend", maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        GlobalExtraSpacerSmall()
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                painter = painterResource(id = R.drawable.ic_wallet),
+                                contentDescription = "Wallet"
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            TextBody(text = "${routeItem.code_pay_method} / ${routeItem.pay_amount}")
+                        }
+
+                        GlobalExtraSpacerSmall()
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                painter = painterResource(id = R.drawable.ic_call_phone),
+                                contentDescription = "Phone"
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            PhoneNumberActions(routeItem.telephone)
+                            if (routeItem.other_telephone.isNotEmpty()) {
+                                GlobalSpacerRowSmall()
+                                PhoneNumberActions(routeItem.other_telephone)
+                            }
+
+                        }
+                        GlobalSpacerSmall()
+                    }
+                }
+            }
+
+            if (!routeUi.isExpanded) {
+                GlobalSpacerSmall()
+            }
+            Divider(thickness = 1.dp, color = RedGsg)
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .fillMaxWidth()
+                    .clickable {
+                    }
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Row {
-                    Row {
-
-                        Icon(
-                            modifier = Modifier.size(24.dp),
-                            painter = painterResource(id = R.drawable.ic_bar_code),
-                            contentDescription = "Cel1"
-                        )
-                        TextBody2(text = routeItem.district,boldHighlighting=true)
-                    }
-
-                    GlobalSpacerMidRow()
-                    Card(
-                        modifier = Modifier
-                            .clickable { },
-                        backgroundColor = colorState,
-                        elevation = 2.dp
-                    )//shape = RoundedCornerShape(8.dp)
-                    {
-                        Row(
-                            modifier = Modifier.padding(2.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            TextSubtitle2(text = routeUi.route.st_code)
-                        }
-                    }
-                }
-
+                TextBody(text = "Ir a detalle", textColor = RedGsg, boldHighlighting = true)
+                GlobalExtraSpacerSmallRow()
                 Icon(
                     modifier = Modifier.size(18.dp),
-                    imageVector = if (routeUi.isExpanded) {
-                        Icons.Default.KeyboardArrowUp
-                    } else Icons.Default.KeyboardArrowDown,
-                    contentDescription = if (routeUi.isExpanded) {
-                        "coll"
-                    } else "yolo"
+                    painter = painterResource(id = R.drawable.ic_login_action),
+                    contentDescription = "login action",
+                    tint = RedGsg
                 )
             }
+//onGoDetailStatus()
+            //onGoUpdateStatus()
 
-            TextBody(text = routeItem.address)
-            TextBody(text = "Ref: ${routeItem.address_reference}")
-            TextBody(text = "Cli.: ${routeItem.full_name}")
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                TextBody(text = "Tlf1.: ${routeItem.telephone}")
-                Spacer(modifier = Modifier.width(4.dp))
-                GlobalCall(phone = routeItem.telephone, modifier = Modifier.size(22.dp))
-                Spacer(modifier = Modifier.width(4.dp))
-                GlobalWhatsApp(phone = routeItem.telephone, modifier = Modifier.size(22.dp))
-                Spacer(modifier = Modifier.width(16.dp))
-                TextBody(text = "Tlf2.: ${routeItem.other_telephone}")
-                Spacer(modifier = Modifier.width(4.dp))
-                GlobalCall(phone = routeItem.other_telephone, modifier = Modifier.size(22.dp))
-                Spacer(modifier = Modifier.width(4.dp))
-                GlobalWhatsApp(phone = routeItem.telephone, modifier = Modifier.size(22.dp))
-            }
-            TextBody(text = "Prod.: ${routeItem.product}")
-            AnimatedVisibility(visible = routeUi.isExpanded) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    TextBody(
-                        text = "Metodo de Pago.: ${routeItem.code_pay_method}",
-                        fontWeight = FontWeight.Bold
-                    )
-                    TextBody(
-                        text = "Monto a Cobrar: S/ ${routeItem.pay_amount}",
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                Row(Modifier
-                    .clickable { onGoDetailStatus() },
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Outlined.Visibility,
-                        contentDescription = "Icon Visibility",
-                        modifier = Modifier.size(16.dp)
-                    )
-                    TextBody(text = "Ver detalle del estado")
-                }
-
-                Row(Modifier
-                    .clickable { onGoUpdateStatus() },
-                    verticalAlignment = Alignment.CenterVertically) {
-                    TextBody(text = "Actualizar estado")
-                    Icon(
-                        imageVector = Icons.Outlined.ArrowForward,
-                        contentDescription = "Icon Visibility",
-                        modifier = Modifier.size(16.dp)
-                    )
-
-                }
-
-            }
         }
 
     }
+
+}
+
+@Composable
+fun StatusRoute(colorState: Color, colorDot: Color, text: String) {
+    Card(
+        backgroundColor = colorState,
+        shape = RoundedCornerShape(4.dp)
+    )
+    {
+        Row(
+            modifier = Modifier.padding(horizontal = 2.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(6.dp),
+                painter = painterResource(id = R.drawable.ic_dot),
+                contentDescription = "login action",
+                tint = colorDot
+            )
+            GlobalExtraSpacerSmallRow()
+            TextBody2(text = text, boldHighlighting = true)
+        }
+    }
+}
+
+@Composable
+fun PhoneNumberActions(phoneNumber: String) {
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        TextBody(text = phoneNumber)
+        GlobalSpacerRowSmall()
+        GlobalCall(phone = phoneNumber, modifier = Modifier.size(22.dp))
+        GlobalSpacerRowSmall()
+        GlobalWhatsApp(phone = phoneNumber, modifier = Modifier.size(22.dp))
+    }
+
 
 }
