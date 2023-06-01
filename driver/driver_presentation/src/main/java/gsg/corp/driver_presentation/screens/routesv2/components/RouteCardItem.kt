@@ -159,7 +159,20 @@ fun RouteCardItem(
                     )
                     GlobalExtraSpacerSmallRow()
                     TextBody(
-                        text = "${routeItem.district} - ${routeItem.address}", maxLines = 1,
+                        text = routeItem.district, maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                GlobalExtraSpacerSmall()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        painter = painterResource(id = R.drawable.ic_map_ref),
+                        contentDescription = "Map"
+                    )
+                    GlobalExtraSpacerSmallRow()
+                    TextBody(
+                        text = routeItem.address, maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
@@ -168,19 +181,7 @@ fun RouteCardItem(
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
-                        GlobalExtraSpacerSmall()
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                modifier = Modifier.size(18.dp),
-                                painter = painterResource(id = R.drawable.ic_map_ref),
-                                contentDescription = "Map"
-                            )
-                            GlobalExtraSpacerSmallRow()
-                            TextBody(
-                                text = routeItem.address_reference, maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
+
                         GlobalExtraSpacerSmall()
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
