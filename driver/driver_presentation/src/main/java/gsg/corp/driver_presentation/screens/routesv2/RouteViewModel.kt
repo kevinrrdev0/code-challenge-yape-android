@@ -26,9 +26,12 @@ class RouteViewModel @Inject constructor(
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
-
     var state by mutableStateOf(RouteState())
         private set
+
+    init {
+        getRoutes()
+    }
 
     fun onEvent(event: RouteEvent){
         when(event){

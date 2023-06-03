@@ -17,15 +17,18 @@ import gsg.corp.driver_presentation.screens.routesv2.components.RouteCardItem
 
 
 @Composable
-fun RouteScreen(state: RouteState, onEvent: (RouteEvent) -> Unit, onGoDetail: (Int) -> Unit,onGoUpdateStatus: (Int) -> Unit) {
+fun RouteScreen(
+    state: RouteState,
+    onEvent: (RouteEvent) -> Unit,
+    onGoDetail: (Int) -> Unit
+) {
 
-    val spacing = LocalSpacing.current
     val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
-        if (!state.loading){
+        if (!state.loading) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -37,19 +40,12 @@ fun RouteScreen(state: RouteState, onEvent: (RouteEvent) -> Unit, onGoDetail: (I
                     RouteCardItem(
                         route,
                         onClick = { onEvent(RouteEvent.OnToggleRouteClick(route)) },
-                        onGoUpdateStatus = {
-                            // ir a ver estado
-                            // aqui se motrara la pantall del pedido su estado su comentario y sus fotos en caso tenga
-                            onGoUpdateStatus(route.route.id)
-                        },
-                        onGoDetailStatus = {
-
+                        onGoDetail = {
                             onGoDetail(route.route.id)
                         })
                 }
             }
         }
-
 
         BoxLoadAnimation(state.loading)
 
@@ -78,8 +74,8 @@ fun PreviewRouteScreen() {
         RouteState(
             listOf(
                 RouteUiState(
-                    Route(address = "rpeuba")
+                    Route(address = "Lima")
                 )
             )
-        ), onEvent = {}, onGoDetail = {}, onGoUpdateStatus = {})
+        ), onEvent = {}, onGoDetail = {})
 }

@@ -76,19 +76,93 @@ fun TextHeadline4(
 }
 
 @Composable
+fun TextHeadline5(
+    text: String,
+    modifier: Modifier = Modifier,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
+    fontWeight: FontWeight = FontWeight.Normal,
+    boldHighlighting: Boolean = false,
+    boldText: List<String> = emptyList(),
+) {
+    if (boldHighlighting) {
+        Text(
+            text = setSomeWordsToBold(text, boldText.ifEmpty { listOf(text) }),
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.h5.copy(fontWeight = fontWeight)
+        )
+    } else {
+        Text(
+            text = text,
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.h5.copy(fontWeight = fontWeight)
+        )
+
+    }
+
+}
+
+@Composable
+fun TextHeadline6(
+    text: String,
+    modifier: Modifier = Modifier,
+    textColor: Color = TextBlack,
+    textAlign: TextAlign = TextAlign.Start,
+    fontWeight: FontWeight = FontWeight.Normal,
+    boldHighlighting: Boolean = false,
+    boldText: List<String> = emptyList(),
+) {
+    if (boldHighlighting) {
+        Text(
+            text = setSomeWordsToBold(text, boldText.ifEmpty { listOf(text) }),
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.h6.copy(fontWeight = fontWeight)
+        )
+    } else {
+        Text(
+            text = text,
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.h6.copy(fontWeight = fontWeight)
+        )
+
+    }
+}
+
+@Composable
 fun TextSubtitle(
     text: String,
     modifier: Modifier = Modifier,
     textColor: Color = TextBlack,
     textAlign: TextAlign = TextAlign.Start,
+    fontWeight: FontWeight = FontWeight.Normal,
+    boldHighlighting: Boolean = false,
+    boldText: List<String> = emptyList(),
 ) {
-    Text(
-        text = text,
-        modifier = modifier,
-        color = textColor,
-        textAlign = textAlign,
-        style = MaterialTheme.typography.subtitle1
-    )
+    if (boldHighlighting) {
+        Text(
+            text = setSomeWordsToBold(text, boldText.ifEmpty { listOf(text) }),
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.subtitle1.copy(fontWeight = fontWeight)
+        )
+    }else{
+        Text(
+            text = text,
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.subtitle1.copy(fontWeight = fontWeight)
+        )
+    }
 }
 @Composable
 fun TextSubtitle2(
@@ -96,14 +170,28 @@ fun TextSubtitle2(
     modifier: Modifier = Modifier,
     textColor: Color = TextBlack,
     textAlign: TextAlign = TextAlign.Start,
+    fontWeight: FontWeight = FontWeight.Normal,
+    boldHighlighting: Boolean = false,
+    boldText: List<String> = emptyList(),
 ) {
-    Text(
-        text = text,
-        modifier = modifier,
-        color = textColor,
-        textAlign = textAlign,
-        style = MaterialTheme.typography.subtitle2
-    )
+    if (boldHighlighting) {
+        Text(
+            text = setSomeWordsToBold(text, boldText.ifEmpty { listOf(text) }),
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.subtitle2.copy(fontWeight = fontWeight)
+        )
+    }else{
+        Text(
+            text = text,
+            modifier = modifier,
+            color = textColor,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.subtitle2.copy(fontWeight = fontWeight)
+        )
+    }
+
 }
 
 @Composable

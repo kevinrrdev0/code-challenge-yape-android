@@ -12,6 +12,7 @@ val MediumGray = Color(0xFF404040)
 val DarkGray = Color(0xFF202020)
 val TextWhite = Color(0xFFEEEEEE)
 val TextBlack = Color(0xFF141938)
+val TextGray = Color(0xFF595959)
 val ColorWhite = Color(0xFFEEEEEE)
 
 val ColorBackgroundWithe = Color(0xFFFAFBFF)

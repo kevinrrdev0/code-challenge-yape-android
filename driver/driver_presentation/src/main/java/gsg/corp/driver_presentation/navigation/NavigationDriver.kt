@@ -9,6 +9,7 @@ import gsg.corp.core_ui.navigation.ROUTE_ID
 import gsg.corp.driver_presentation.screens.BottomNavigationScreen
 import gsg.corp.driver_presentation.screens.routesv2.routes_detail.RouteDetailScreen
 import gsg.corp.driver_presentation.screens.routesv2.routes_detail.RouteDetailViewModel
+import gsg.corp.driver_presentation.screens.routesv2.update_route.RouteDetailScreenV2
 import gsg.corp.driver_presentation.screens.routesv2.update_route.UpdateStateOrderScreen
 import gsg.corp.driver_presentation.screens.routesv2.update_route.UpdateStateOrderViewModel
 
@@ -24,8 +25,6 @@ object NavigationDriver {
                 route = NavigationRouteDriver.BottomNavigation.route
             ) {
                 BottomNavigationScreen(onClickRouteDetail = { id ->
-                    navController.navigate(NavigationRouteDriver.RouteDetail.passId(id))
-                }, onClickUpdateStatus = { id ->
                     navController.navigate(NavigationRouteDriver.UpdateStateOrder.passId(id))
                 }
                 )
@@ -57,12 +56,11 @@ object NavigationDriver {
                 val viewModel = hiltViewModel<UpdateStateOrderViewModel>()
                 val state = viewModel.state
                 val uiEvent = viewModel.uiEvent
-                UpdateStateOrderScreen(
+                RouteDetailScreenV2(
                     state = state,
                     uiEvent = uiEvent,
                     onEvent = viewModel::onEvent,
                     onNavigateUp = {
-
                         navController.popBackStack()
                     })
             }
