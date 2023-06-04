@@ -11,6 +11,7 @@ import gsg.corp.core.R
 import gsg.corp.core.data.network.model.response.Resource
 import gsg.corp.core.util.UiEvent
 import gsg.corp.core.domain.model.GeneralType
+import gsg.corp.core.domain.model.GeneralTypeCode
 import gsg.corp.core.domain.preferences.Preferences
 import gsg.corp.core.global_models.MessageError
 import gsg.corp.core.util.UiText
@@ -64,6 +65,16 @@ class UpdateStateOrderViewModel @Inject constructor(
                 updateState()
                 state.copy()
             }
+            is UpdateStateOrderEvent.OnCodePayMethod1Selected -> state.copy(
+                codePayMethod1 = GeneralTypeCode(event.code,event.name)
+            )
+            is UpdateStateOrderEvent.OnCodePayMethod2Selected -> state.copy(
+                codePayMethod2 = GeneralTypeCode(event.code,event.name)
+            )
+            is UpdateStateOrderEvent.OnTakePhotoPay1 -> state.copy(pathPhotoPay1 = event.pathPhotoPay1)
+            is UpdateStateOrderEvent.OnTakePhotoPay2 -> state.copy(pathPhotoPay2 = event.pathPhotoPay2)
+            is UpdateStateOrderEvent.OnFlkPay1GSGChecked -> state.copy(flkPayGSG1 = event.checked)
+            is UpdateStateOrderEvent.OnFlkPay2GSGChecked -> state.copy(flkPayGSG2 = event.checked)
         }.also { state = it }
     }
 

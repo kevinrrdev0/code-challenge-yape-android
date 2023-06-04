@@ -2,6 +2,7 @@ package gsg.corp.driver_presentation.screens.routesv2.update_route
 
 import android.net.Uri
 import gsg.corp.core.domain.model.GeneralType
+import gsg.corp.core.domain.model.GeneralTypeCode
 import gsg.corp.core.global_models.MessageError
 import gsg.corp.driver_domain.model.RouteDetail
 
@@ -25,5 +26,25 @@ data class UpdateStateOrderState(
     val photoCollect:  String = "",
     val isLoading: Boolean = false,
     val messageError: MessageError = MessageError(),
-    val routeDetail:RouteDetail = RouteDetail()
+    val routeDetail:RouteDetail = RouteDetail(),
+    val listPayMethod: List<GeneralTypeCode> = listOf(
+        GeneralTypeCode("", "Selecciona un metodo de pago"),
+        GeneralTypeCode("PAGADO", "PAGADO"),
+        GeneralTypeCode("EFECTIVO", "EFECTIVO"),
+        GeneralTypeCode("TARJETA", "TARJETA"),
+        GeneralTypeCode("BCP", "TRANSF. BCP"),
+        GeneralTypeCode("BBVA", "TRANSF. BBVA"),
+        GeneralTypeCode("INTERBANK", "TRANSF. INTERBANK"),
+        GeneralTypeCode("SCOTIABANK", "TRANSF. SCOTIABANK"),
+        GeneralTypeCode("TRANSFERENCIA", "OTRO BANCO"),
+        GeneralTypeCode("YAPE", "YAPE"),
+        GeneralTypeCode("PLIN", "PLIN"),
+        GeneralTypeCode("OTRO", "OTRO")
+    ),
+    val codePayMethod1: GeneralTypeCode = GeneralTypeCode(),
+    val flkPayGSG1 : Boolean = false,
+    val pathPhotoPay1: String = "",
+    val codePayMethod2: GeneralTypeCode = GeneralTypeCode(),
+    val flkPayGSG2 : Boolean = false,
+    val pathPhotoPay2: String = ""
 )

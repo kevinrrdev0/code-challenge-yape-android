@@ -6,15 +6,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import gsg.corp.core.domain.model.GeneralType
+import gsg.corp.core.domain.model.GeneralTypeCode
 import gsg.corp.core_ui.RedGsg
 import gsg.corp.core_ui.global_components_texts.TextBody
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CustomDropDown(
-    listItems: List<GeneralType>,
-    stateSelected: GeneralType,
-    onEventDropDown: (Int,String) -> Unit,
+fun CustomDropDownCode(
+    listItems: List<GeneralTypeCode>,
+    stateSelected: GeneralTypeCode,
+    onEventDropDown: (String,String) -> Unit,
     readOnly:Boolean = false
 ) {
     val contextForToast = LocalContext.current.applicationContext
@@ -58,7 +59,7 @@ fun CustomDropDown(
                     selectedItem = option
                     // put event
                     onEventDropDown(
-                        selectedItem.id,
+                        selectedItem.code,
                         selectedItem.name
                     )
                     Toast.makeText(contextForToast, option.name, Toast.LENGTH_SHORT).show()

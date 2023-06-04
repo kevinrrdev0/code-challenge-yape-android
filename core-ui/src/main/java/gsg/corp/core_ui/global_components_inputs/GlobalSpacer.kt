@@ -49,6 +49,13 @@ fun GlobalExtraSpacerSmallRow(isVisible:Boolean = true) {
         Spacer(modifier = Modifier.width(spacing.spaceExtraSmall))
     }
 }
+@Composable
+fun GlobalSpacerExtraSmallRow(isVisible:Boolean = true) {
+    if (isVisible){
+        val spacing = LocalSpacing.current
+        Spacer(modifier = Modifier.width(spacing.spaceExtraSmall))
+    }
+}
 
 @Composable
 fun GlobalSpacerLarge(isVisible:Boolean = true) {
@@ -85,6 +92,13 @@ fun GlobalSpacerRowSmallMedium(isVisible:Boolean = true) {
     if (isVisible){
         val spacing = LocalSpacing.current
         Spacer(modifier = Modifier.width(spacing.spaceSmallMedium))
+    }
+}
+@Composable
+fun GlobalSpacerSmallMedium(isVisible:Boolean = true) {
+    if (isVisible){
+        val spacing = LocalSpacing.current
+        Spacer(modifier = Modifier.height(spacing.spaceSmallMedium))
     }
 }
 @Composable

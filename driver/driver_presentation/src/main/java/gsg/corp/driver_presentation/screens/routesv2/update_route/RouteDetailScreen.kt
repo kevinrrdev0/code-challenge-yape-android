@@ -39,19 +39,25 @@ import gsg.corp.core_ui.R
 import gsg.corp.core_ui.RedGsg
 import gsg.corp.core_ui.TextGray
 import gsg.corp.core_ui.global_components_actions.ImagePicker
+import gsg.corp.core_ui.global_components_inputs.GlobalCheckBox
 import gsg.corp.core_ui.global_components_inputs.GlobalExtraSpacerSmall
 import gsg.corp.core_ui.global_components_inputs.GlobalExtraSpacerSmallRow
+import gsg.corp.core_ui.global_components_inputs.GlobalInput
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerExtraSmall
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerExtraSmallRow
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerMid
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerRowSmall
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerRowSmallMedium
 import gsg.corp.core_ui.global_components_inputs.GlobalSpacerSmall
+import gsg.corp.core_ui.global_components_inputs.GlobalSpacerSmallMedium
 import gsg.corp.core_ui.global_components_texts.TextBody
 import gsg.corp.core_ui.global_components_texts.TextHeadline5
 import gsg.corp.core_ui.global_components_texts.TextHeadline6
 import gsg.corp.core_ui.global_components_texts.TextSubtitle
 import gsg.corp.core_ui.global_components_texts.TextSubtitle2
 import gsg.corp.core_ui.global_components_ui.BoxLoadAnimation
+import gsg.corp.driver_presentation.screens.routesv2.components.CustomDropDown
+import gsg.corp.driver_presentation.screens.routesv2.components.CustomDropDownCode
 import gsg.corp.driver_presentation.screens.routesv2.components.PhoneNumberActions
 import kotlinx.coroutines.flow.Flow
 
@@ -84,300 +90,449 @@ fun RouteDetailScreenV2(
     ) {
         if (!state.isLoading) {
             Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
+                Modifier
                     .verticalScroll(rememberScrollState())
             ) {
-
-                TextHeadline5(
-                    text = "Orden ${item.code_tracking}",
-                    boldHighlighting = true,
-                    fontWeight = FontWeight.Bold
-                )
-                GlobalSpacerMid()
-                TextHeadline6(
-                    text = "Datos de la entrega",
-                    textColor = TextGray,
-                    boldHighlighting = true
-                )
-                GlobalSpacerSmall()
-                Row(verticalAlignment = Alignment.Top){
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 6.dp, top = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Icon(
                         modifier = Modifier
-                            .size(18.dp)
+                            .size(38.dp)
                             .clickable {
                                 onNavigateUp()
                             },
-                        painter = painterResource(id = R.drawable.ic_user),
+                        imageVector = Icons.Rounded.ChevronLeft,
                         contentDescription = null,
                         tint = RedGsg
                     )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Cliente final:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
+                    GlobalSpacerExtraSmallRow()
+                    TextHeadline5(
+                        text = "Orden ${item.code_tracking}",
+                        boldHighlighting = true,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                GlobalSpacerSmallMedium()
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                ) {
+                    TextHeadline6(
+                        text = "Datos de la entrega",
+                        textColor = TextGray,
+                        boldHighlighting = true
+                    )
+                    GlobalSpacerSmall()
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_user),
+                            contentDescription = null,
+                            tint = RedGsg
                         )
-                        GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = item.full_name,
-                            fontWeight = FontWeight.Medium
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Cliente final:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = item.full_name,
+                                fontWeight = FontWeight.Medium
+                            )
+                            GlobalSpacerExtraSmall()
+                            Row {
+                                PhoneNumberActions(
+                                    item.telephone,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                if (item.other_telephone.isNotEmpty()) {
+                                    GlobalSpacerRowSmallMedium()
+                                    PhoneNumberActions(
+                                        item.other_telephone,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                            }
+
+                        }
+                    }
+                    GlobalSpacerSmall()
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_chat_message),
+                            contentDescription = null,
+                            tint = RedGsg
                         )
-                        GlobalSpacerExtraSmall()
-                        Row {
-                            PhoneNumberActions(item.telephone,
-                                fontWeight = FontWeight.Medium)
-                            if (item.other_telephone.isNotEmpty()) {
-                                GlobalSpacerRowSmallMedium()
-                                PhoneNumberActions(item.other_telephone,
-                                    fontWeight = FontWeight.Medium)
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Comentario del cliente:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = "porfavor llamar cuando esten en la puerta modificar el texto por lado de backend",
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+                    GlobalSpacerSmall()
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_location),
+                            contentDescription = null,
+                            tint = RedGsg
+                        )
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Dirección de envio:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = "${item.district.toUpperCaseLocale()} - ${item.address.toUpperCaseLocale()} ",
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+                    GlobalSpacerSmall()
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_map_ref),
+                            contentDescription = null,
+                            tint = RedGsg
+                        )
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Referencias de ubicación:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = item.address_reference,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+                    GlobalSpacerSmall()
+                    TextHeadline6(
+                        text = "Detalles del producto",
+                        textColor = TextGray,
+                        boldHighlighting = true
+                    )
+                    GlobalSpacerSmall()
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_box_package),
+                            contentDescription = null,
+                            tint = RedGsg
+                        )
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Producto:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = "${item.number_packages} / ${item.product}",
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+                    GlobalSpacerSmall()
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_product_detail),
+                            contentDescription = null,
+                            tint = RedGsg
+                        )
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Detalle producto:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = "${item.product} detalle del producto aqui",
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+
+                    GlobalSpacerSmall()
+                    TextHeadline6(
+                        text = "Detalles del cobro",
+                        textColor = TextGray,
+                        boldHighlighting = true
+                    )
+                    GlobalSpacerSmall()
+
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_wallet),
+                            contentDescription = null,
+                            tint = RedGsg
+                        )
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Monto a Cobrar:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = "S/ ${item.pay_amount} / ${item.code_pay_method}",
+                                fontWeight = FontWeight.Medium,
+                                boldHighlighting = true,
+                                boldText = listOf("S/ ${item.pay_amount}")
+                            )
+
+
+                        }
+                    }
+                    GlobalSpacerSmall()
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    onNavigateUp()
+                                },
+                            painter = painterResource(id = R.drawable.ic_chat_message),
+                            contentDescription = null,
+                            tint = RedGsg
+                        )
+                        GlobalExtraSpacerSmallRow()
+                        Column {
+                            TextBody(
+                                text = "Detalle del cobro:",
+                                textColor = TextGray,
+                                fontWeight = FontWeight.Light
+                            )
+                            GlobalSpacerExtraSmall()
+                            TextBody(
+                                text = "paga con tarjeta llevar POS para pago con cuotas",
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+                    GlobalSpacerSmall()
+                    Divider(thickness = 1.dp, color = RedGsg)
+                    GlobalSpacerSmall()
+                    TextHeadline6(
+                        text = "Actualizar la ruta",
+                        textColor = TextGray,
+                        boldHighlighting = true
+                    )
+                    GlobalSpacerSmall()
+                    CustomDropDown(
+                        state.listState,
+                        state.state,
+                        onEventDropDown = { id, name ->
+                            onEvent(
+                                UpdateStateOrderEvent.OnStateSelected(
+                                    id,
+                                    name
+                                )
+                            )
+                        })
+                    GlobalSpacerSmall()
+                    GlobalInput(
+                        state.comment,
+                        "Ingresar Comentario",
+                        maxLines = 4,
+                        maxChar = 300,
+                        onValueChange = { onEvent(UpdateStateOrderEvent.OnCommentEnter(it)) })
+
+                    GlobalSpacerSmall()
+                    if (state.state.name == "ENTREGADO" || state.state.name == "RECHAZADO" || state.state.name == "PERDIDO") {
+                        GlobalSpacerSmall()
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            ImagePicker(label = "Foto Pedido", onPhotoIsTaken = {
+                                it?.let { uri ->
+                                    onEvent(UpdateStateOrderEvent.OnTakePhotoOrder(uri))
+                                }
+                            })
+                            ImagePicker(label = "Foto Pedido 2", onPhotoIsTaken = {
+                                it?.let { uri ->
+                                    onEvent(UpdateStateOrderEvent.OnTakePhotoOrder(uri))
+                                }
+                            })
+                        }
+                        GlobalSpacerSmall()
+                    }
+
+                    if (state.state.name == "ENTREGADO") {
+                        GlobalSpacerSmall()
+                        Row(verticalAlignment = Alignment.Top) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .clickable {
+                                        onNavigateUp()
+                                    },
+                                painter = painterResource(id = R.drawable.ic_wallet),
+                                contentDescription = null,
+                                tint = RedGsg
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            Column {
+                                TextBody(
+                                    text = "Método de pago 1:",
+                                    textColor = TextGray,
+                                    fontWeight = FontWeight.Light
+                                )
+                                GlobalSpacerExtraSmall()
+                                CustomDropDownCode(
+                                    state.listPayMethod,
+                                    state.codePayMethod1,
+                                    onEventDropDown = { code, name ->
+                                        onEvent(
+                                            UpdateStateOrderEvent.OnCodePayMethod1Selected(
+                                                code,
+                                                name
+                                            )
+                                        )
+                                    })
+                                GlobalSpacerExtraSmall()
+                                Row(
+                                    Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    ImagePicker(label = "Foto del pago 1", onPhotoIsTaken = {
+                                        it?.let { uri ->
+                                            onEvent(UpdateStateOrderEvent.OnTakePhotoPay1(uri))
+                                        }
+                                    })
+                                }
+
                             }
                         }
-
-                    }
-                }
-                GlobalSpacerSmall()
-                Row(verticalAlignment = Alignment.Top){
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                onNavigateUp()
-                            },
-                        painter = painterResource(id = R.drawable.ic_chat_message),
-                        contentDescription = null,
-                        tint = RedGsg
-                    )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Comentario del cliente:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
-                        )
                         GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = "porfavor llamar cuando esten en la puerta modificar el texto por lado de backend",
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-                GlobalSpacerSmall()
-                Row(verticalAlignment = Alignment.Top){
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                onNavigateUp()
-                            },
-                        painter = painterResource(id = R.drawable.ic_location),
-                        contentDescription = null,
-                        tint = RedGsg
-                    )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Dirección de envio:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
-                        )
-                        GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = "${item.district.toUpperCaseLocale()} - ${item.address.toUpperCaseLocale()} ",
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-                GlobalSpacerSmall()
-                Row(verticalAlignment = Alignment.Top){
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                onNavigateUp()
-                            },
-                        painter = painterResource(id = R.drawable.ic_map_ref),
-                        contentDescription = null,
-                        tint = RedGsg
-                    )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Referencias de ubicación:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
-                        )
-                        GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = item.address_reference,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-                GlobalSpacerSmall()
-                TextHeadline6(
-                    text = "Detalles del producto",
-                    textColor = TextGray,
-                    boldHighlighting = true
-                )
-                GlobalSpacerSmall()
-                Row(verticalAlignment = Alignment.Top){
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                onNavigateUp()
-                            },
-                        painter = painterResource(id = R.drawable.ic_box_package),
-                        contentDescription = null,
-                        tint = RedGsg
-                    )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Producto:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
-                        )
-                        GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = "${item.number_packages} / ${item.product}",
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-                GlobalSpacerSmall()
-                Row(verticalAlignment = Alignment.Top){
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                onNavigateUp()
-                            },
-                        painter = painterResource(id = R.drawable.ic_product_detail),
-                        contentDescription = null,
-                        tint = RedGsg
-                    )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Detalle producto:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
-                        )
-                        GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = "${item.product} detalle del producto aqui",
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-
-                GlobalSpacerSmall()
-                TextHeadline6(
-                    text = "Detalles del cobro",
-                    textColor = TextGray,
-                    boldHighlighting = true
-                )
-                GlobalSpacerSmall()
-
-                Row(verticalAlignment = Alignment.Top){
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                onNavigateUp()
-                            },
-                        painter = painterResource(id = R.drawable.ic_wallet),
-                        contentDescription = null,
-                        tint = RedGsg
-                    )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Monto a Cobrar:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
-                        )
-                        GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = "S/ ${item.pay_amount} / ${item.code_pay_method}",
-                            fontWeight = FontWeight.Medium,
-                            boldHighlighting = true,
-                            boldText = listOf("S/ ${item.pay_amount}")
-                        )
-
-
-                    }
-                }
-                GlobalSpacerSmall()
-                Row(verticalAlignment = Alignment.Top){
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                onNavigateUp()
-                            },
-                        painter = painterResource(id = R.drawable.ic_chat_message),
-                        contentDescription = null,
-                        tint = RedGsg
-                    )
-                    GlobalExtraSpacerSmallRow()
-                    Column{
-                        TextBody(
-                            text = "Detalle del cobro:",
-                            textColor = TextGray,
-                            fontWeight = FontWeight.Light
-                        )
-                        GlobalSpacerExtraSmall()
-                        TextBody(
-                            text = "paga con tarjeta llevar POS para pago con cuotas",
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-                GlobalSpacerSmall()
-                Divider(thickness = 1.dp, color = RedGsg)
-                GlobalSpacerSmall()
-                TextHeadline6(
-                    text = "Actualizar la ruta",
-                    textColor = TextGray,
-                    boldHighlighting = true
-                )
-                GlobalSpacerSmall()
-
-                if (true || state.state.name == "ENTREGADO" || state.state.name == "RECHAZADO" || state.state.name == "PERDIDO") {
-                    GlobalSpacerSmall()
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        ImagePicker(label = "Foto Pedido", onPhotoIsTaken = {
-                            it?.let { uri ->
-                                onEvent(UpdateStateOrderEvent.OnTakePhotoOrder(uri))
+                        Row(
+                            Modifier.padding(start = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            GlobalCheckBox(state.flkPayGSG1, onCheckedChange = {
+                                onEvent(UpdateStateOrderEvent.OnFlkPay1GSGChecked(it))
+                            })
+                            TextBody(text = "Pago para GSG?")
+                        }
+                        GlobalSpacerSmall()
+                        Row(verticalAlignment = Alignment.Top) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .clickable {
+                                        onNavigateUp()
+                                    },
+                                painter = painterResource(id = R.drawable.ic_wallet),
+                                contentDescription = null,
+                                tint = RedGsg
+                            )
+                            GlobalExtraSpacerSmallRow()
+                            Column {
+                                TextBody(
+                                    text = "Método de pago 2:",
+                                    textColor = TextGray,
+                                    fontWeight = FontWeight.Light
+                                )
+                                GlobalSpacerExtraSmall()
+                                CustomDropDownCode(
+                                    state.listPayMethod,
+                                    state.codePayMethod2,
+                                    onEventDropDown = { code, name ->
+                                        onEvent(
+                                            UpdateStateOrderEvent.OnCodePayMethod2Selected(
+                                                code,
+                                                name
+                                            )
+                                        )
+                                    })
+                                GlobalSpacerExtraSmall()
+                                Row(
+                                    Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    ImagePicker(label = "Foto del pago 2", onPhotoIsTaken = {
+                                        it?.let { uri ->
+                                            onEvent(UpdateStateOrderEvent.OnTakePhotoPay2(uri))
+                                        }
+                                    })
+                                }
                             }
-
-                        })
-                        ImagePicker(label = "Foto Pago", onPhotoIsTaken = {
-                            it?.let { uri ->
-                                onEvent(UpdateStateOrderEvent.OnTakePhotoCollect(uri))
-                            }
-                        })
+                        }
+                        GlobalSpacerExtraSmall()
+                        Row(
+                            Modifier.padding(start = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            GlobalCheckBox(state.flkPayGSG2, onCheckedChange = {
+                                onEvent(UpdateStateOrderEvent.OnFlkPay2GSGChecked(it))
+                            })
+                            TextBody(text = "Pago para GSG?")
+                        }
                     }
                 }
             }
+
 
         }
     }
     BoxLoadAnimation(state.isLoading)
 }
-//
-//Icon(
-//modifier = Modifier
-//.size(32.dp)
-//.clickable {
-//    onNavigateUp()
-//},
-//imageVector = Icons.Rounded.ChevronLeft,
-//contentDescription = null,
-//tint = RedGsg
-//)

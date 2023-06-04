@@ -7,14 +7,19 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import gsg.corp.core_ui.LightGray
+import gsg.corp.core_ui.RedGsg
+import gsg.corp.core_ui.TextGray
+import gsg.corp.core_ui.global_components_texts.TextBody
 import gsg.corp.core_ui.global_components_ui.GlobalErrorCaption
 
 @Composable
@@ -25,6 +30,7 @@ fun GlobalInput(
                 msgError:String ="",
                 action: ImeAction = ImeAction.Next,
                 type: KeyboardType = KeyboardType.Text,
+                minLines: Int = 1,
                 maxLines: Int = 1,
                 maxChar: Int = 100,
                 isError: Boolean = false,
@@ -45,10 +51,11 @@ fun GlobalInput(
                     }
                 },
                 isError = isError,
-                placeholder = { Text(hint, color = LightGray, fontWeight = FontWeight.W600) },
+                label = { Text(text=hint) },
                 modifier = modifier
                     .fillMaxWidth(),
-                textStyle = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.W600),
+                textStyle = MaterialTheme.typography.body1.copy(),
+                minLines = minLines,
                 maxLines = maxLines,
                 keyboardOptions = KeyboardOptions(keyboardType = type,
                     imeAction = action),
