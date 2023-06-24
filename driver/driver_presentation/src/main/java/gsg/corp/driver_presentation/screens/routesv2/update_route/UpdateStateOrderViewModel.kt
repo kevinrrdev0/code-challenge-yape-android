@@ -16,6 +16,7 @@ import gsg.corp.core.domain.preferences.Preferences
 import gsg.corp.core.global_models.MessageError
 import gsg.corp.core.util.UiText
 import gsg.corp.core_ui.navigation.ROUTE_ID
+import gsg.corp.driver_domain.model.RoutePayment
 import gsg.corp.driver_domain.model.RouteStateRequest
 import gsg.corp.driver_domain.use_case.DriverUseCases
 import kotlinx.coroutines.channels.Channel
@@ -50,31 +51,38 @@ class UpdateStateOrderViewModel @Inject constructor(
         when (event) {
             is UpdateStateOrderEvent.OnCommentEnter -> state.copy(comment = event.comment)
             is UpdateStateOrderEvent.OnTakePhotoOrder -> state.copy(photoOrder = event.pathPhotoOrder)
-            is UpdateStateOrderEvent.OnTakePhotoCollect -> state.copy(photoCollect = event.pathPhotoCollect)
+            is UpdateStateOrderEvent.OnTakeOtherPhotoOrder -> state.copy(otherPhotoOrder = event.pathOtherPhotoOrder)
             is UpdateStateOrderEvent.OnStateSelected -> state.copy(
                 state = GeneralType(
                     event.id,
                     event.name
                 )
             )
+
             is UpdateStateOrderEvent.OnDateRescheduledEnter -> {
                 val aea = event.dateRescheduled
                 state.copy(dateRescheduled = aea)
             }
+
             UpdateStateOrderEvent.OnUpdateOrder -> {
                 updateState()
                 state.copy()
             }
+
             is UpdateStateOrderEvent.OnCodePayMethod1Selected -> state.copy(
-                codePayMethod1 = GeneralTypeCode(event.code,event.name)
+                codePayMethod1 = GeneralTypeCode(event.code, event.name)
             )
+
             is UpdateStateOrderEvent.OnCodePayMethod2Selected -> state.copy(
-                codePayMethod2 = GeneralTypeCode(event.code,event.name)
+                codePayMethod2 = GeneralTypeCode(event.code, event.name)
             )
+
             is UpdateStateOrderEvent.OnTakePhotoPay1 -> state.copy(pathPhotoPay1 = event.pathPhotoPay1)
             is UpdateStateOrderEvent.OnTakePhotoPay2 -> state.copy(pathPhotoPay2 = event.pathPhotoPay2)
             is UpdateStateOrderEvent.OnFlkPay1GSGChecked -> state.copy(flkPayGSG1 = event.checked)
             is UpdateStateOrderEvent.OnFlkPay2GSGChecked -> state.copy(flkPayGSG2 = event.checked)
+            is UpdateStateOrderEvent.OnPayAmount1Enter -> state.copy(payAmount1 = event.payAmount1)
+            is UpdateStateOrderEvent.OnPayAmount2Enter -> state.copy(payAmount2 = event.payAmount2)
         }.also { state = it }
     }
 
@@ -85,10 +93,44 @@ class UpdateStateOrderViewModel @Inject constructor(
                 is Resource.Success -> {
                     result.data?.let { routeDetail ->
                         //val routeListUi = routes.
-                        state = state.copy(isLoading = false, routeDetail = routeDetail)
+                        state = state.copy(
+                            isLoading = false, routeDetail = routeDetail, state = GeneralType(
+                                routeDetail.stId,
+                                routeDetail.stCode
+                            ), comment = routeDetail.comment, dateRescheduled = routeDetail.dateRescheduled
+                        )
+                        if (routeDetail.RoutePayments.isNotEmpty()) {
+                            if (routeDetail.RoutePayments.size > 1) {
+                                val itemPayMethod = routeDetail.RoutePayments[0]
+                                state = state.copy(
+                                    codePayMethod1 = GeneralTypeCode(
+                                        itemPayMethod.codePayMethod,
+                                        itemPayMethod.codePayMethod
+                                    ),
+                                    flkPayGSG1 = itemPayMethod.flkPayGsg == 1,
+                                    detailPay1 = itemPayMethod.payDetail,
+                                    pathPhotoPay1 = itemPayMethod.pathPhotoPay,
+                                    payAmount1 = itemPayMethod.payAmount
+                                )
+                            }
+                            if (routeDetail.RoutePayments.size == 2) {
+                                val itemPayMethod = routeDetail.RoutePayments[1]
+                                state = state.copy(
+                                    codePayMethod2 = GeneralTypeCode(
+                                        itemPayMethod.codePayMethod,
+                                        itemPayMethod.codePayMethod
+                                    ),
+                                    flkPayGSG2 = itemPayMethod.flkPayGsg == 1,
+                                    detailPay2 = itemPayMethod.payDetail,
+                                    pathPhotoPay2 = itemPayMethod.pathPhotoPay,
+                                    payAmount2 = itemPayMethod.payAmount
+                                )
+                            }
+                        }
                     }
                     _uiEvent.send(UiEvent.Success)
                 }
+
                 is Resource.Error -> {
                     state = state.copy(
                         isLoading = false,
@@ -104,6 +146,29 @@ class UpdateStateOrderViewModel @Inject constructor(
     }
 
     private fun updateState() {
+        val listRoutePayments = mutableListOf<RoutePayment>()
+        if (state.codePayMethod1.code.isNotEmpty()) {
+            listRoutePayments.add(
+                RoutePayment(
+                    codePayMethod = state.codePayMethod1.code,
+                    flkPayGsg = if (state.flkPayGSG1) 1 else 0,
+                    pathPhotoPay = state.pathPhotoPay1,
+                    payAmount = state.payAmount1,
+                    payDetail = state.detailPay1
+                )
+            )
+        }
+        if (state.codePayMethod2.code.isNotEmpty()) {
+            listRoutePayments.add(
+                RoutePayment(
+                    codePayMethod = state.codePayMethod2.code,
+                    flkPayGsg = if (state.flkPayGSG2) 1 else 0,
+                    pathPhotoPay = state.pathPhotoPay2,
+                    payAmount = state.payAmount2,
+                    payDetail = state.detailPay2
+                )
+            )
+        }
 
         val request = RouteStateRequest(
             idRoute = state.idRoute,
@@ -111,8 +176,9 @@ class UpdateStateOrderViewModel @Inject constructor(
             idStateTracking = state.state.id,
             comment = state.comment,
             dateRescheduled = state.dateRescheduled,
-            photoOrder = state.photoOrder,
-            photoCollect = state.photoCollect
+            photoStatus = state.photoOrder,
+            otherPhotoStatus = state.otherPhotoOrder,
+            routesPayments = listRoutePayments
         )
 
         state = state.copy(isLoading = true)
@@ -125,6 +191,7 @@ class UpdateStateOrderViewModel @Inject constructor(
                     }
                     _uiEvent.send(UiEvent.NavigateUp)
                 }
+
                 is Resource.Error -> {
                     state = state.copy(
                         isLoading = false,

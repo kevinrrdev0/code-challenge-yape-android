@@ -72,7 +72,7 @@ fun BodyUpdateRouteDetail(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Detalle de Ruta ${state.routeDetail.code_tracking}",
+            text = "Detalle de Ruta ${state.routeDetail.codeTracking}",
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
@@ -123,7 +123,7 @@ fun UpdateStateOrder(state: UpdateStateOrderState, onEvent: (UpdateStateOrderEve
             })
             ImagePicker(label = "Foto Pago", onPhotoIsTaken = {
                 it?.let { uri ->
-                    onEvent(UpdateStateOrderEvent.OnTakePhotoCollect(uri))
+                   // onEvent(UpdateStateOrderEvent.OnTakePhotoCollect(uri))
                 }
             })
         }

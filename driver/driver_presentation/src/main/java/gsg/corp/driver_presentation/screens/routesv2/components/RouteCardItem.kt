@@ -143,7 +143,7 @@ fun RouteCardItem(
                         GlobalExtraSpacerSmall()
                         CommonRowCardItem(
                             R.drawable.ic_chat_message,
-                            "Comentario del cliente modificar BackEnd TEst de prueba"
+                            routeItem.observation
                         )
                         GlobalExtraSpacerSmall()
                         CommonRowCardItem(
@@ -153,7 +153,7 @@ fun RouteCardItem(
                         GlobalExtraSpacerSmall()
                         CommonRowCardItem(
                             R.drawable.ic_product_detail,
-                            "Detalle del producto modificar el backend"
+                            routeItem.productDetail
                         )
                         GlobalExtraSpacerSmall()
                         CommonRowCardItem(

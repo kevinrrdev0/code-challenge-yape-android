@@ -25,24 +25,54 @@ fun DatePickerComponent(
     onDateSelected: (String,String) -> Unit
 ){
     val context = LocalContext.current
-    val year: Int
-    val month: Int
-    val day: Int
 
     val calendar = Calendar.getInstance()
-    year = calendar.get(Calendar.YEAR)
-    month = calendar.get(Calendar.MONTH)
-    day = calendar.get(Calendar.DAY_OF_MONTH)
     calendar.time = Date()
+
+//    val datePickerDialog = DatePickerDialog(
+//        context,
+//        { _: DatePicker, y: Int, m: Int, d: Int ->
+//            val day = if(d<10) "0$d" else d
+//            val month = if((m+1)<10) "0${m+1}" else (m+1)
+//
+//            onDateSelected("$day/"+month+"/$y","$y-$month-$day")
+//        }, year, month, day
+//    )
+
+
+    val defaultYear = if (date.isNotEmpty()) {
+        val dateParts = date.split("/")
+        dateParts[2].toInt() // Año proporcionado
+    } else {
+        calendar.get(Calendar.YEAR) // Año actual
+    }
+
+    val defaultMonth = if (date.isNotEmpty()) {
+        val dateParts = date.split("/")
+        dateParts[1].toInt() - 1 // Mes proporcionado (restar 1, índices basados en cero)
+    } else {
+        calendar.get(Calendar.MONTH) // Mes actual
+    }
+
+    val defaultDay = if (date.isNotEmpty()) {
+        val dateParts = date.split("/")
+        dateParts[0].toInt() // Día proporcionado
+    } else {
+        calendar.get(Calendar.DAY_OF_MONTH) // Día actual
+    }
 
     val datePickerDialog = DatePickerDialog(
         context,
-        { _: DatePicker, y: Int, m: Int, d: Int ->
-            val day = if(d<10) "0$d" else d
-            val month = if((m+1)<10) "0${m+1}" else (m+1)
+        { datePicker, year, month, day ->
+            val formattedDay = String.format("%02d", day)
+            val formattedMonth = String.format("%02d", month + 1)
+            val formattedDate = "$formattedDay/$formattedMonth/$year"
 
-            onDateSelected("$day/"+month+"/$y","$y-$month-$day")
-        }, year, month, day
+            onDateSelected(formattedDate, "$year-$formattedMonth-$formattedDay")
+        },
+        defaultYear,
+        defaultMonth,
+        defaultDay
     )
 
     if(isVisible){

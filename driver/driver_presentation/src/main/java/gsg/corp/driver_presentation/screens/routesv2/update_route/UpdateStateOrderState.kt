@@ -23,12 +23,12 @@ data class UpdateStateOrderState(
     val comment: String = "",
     val dateRescheduled: String = "",
     val photoOrder: String = "",
-    val photoCollect:  String = "",
+    val otherPhotoOrder:  String = "",
     val isLoading: Boolean = false,
     val messageError: MessageError = MessageError(),
     val routeDetail:RouteDetail = RouteDetail(),
     val listPayMethod: List<GeneralTypeCode> = listOf(
-        GeneralTypeCode("", "Selecciona un metodo de pago"),
+        GeneralTypeCode("", "Seleccionar metodo de pago"),
         GeneralTypeCode("PAGADO", "PAGADO"),
         GeneralTypeCode("EFECTIVO", "EFECTIVO"),
         GeneralTypeCode("TARJETA", "TARJETA"),
@@ -43,8 +43,12 @@ data class UpdateStateOrderState(
     ),
     val codePayMethod1: GeneralTypeCode = GeneralTypeCode(),
     val flkPayGSG1 : Boolean = false,
+    val detailPay1: String = "",
     val pathPhotoPay1: String = "",
+    val payAmount1: String = "",
     val codePayMethod2: GeneralTypeCode = GeneralTypeCode(),
     val flkPayGSG2 : Boolean = false,
-    val pathPhotoPay2: String = ""
+    val detailPay2: String = "",
+    val pathPhotoPay2: String = "",
+    val payAmount2: String = ""
 )

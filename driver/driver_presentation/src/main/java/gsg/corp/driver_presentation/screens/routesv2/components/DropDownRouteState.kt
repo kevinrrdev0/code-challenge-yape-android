@@ -1,8 +1,10 @@
 package gsg.corp.driver_presentation.screens.routesv2.components
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import gsg.corp.core.domain.model.GeneralType
@@ -14,6 +16,8 @@ import gsg.corp.core_ui.global_components_texts.TextBody
 fun CustomDropDown(
     listItems: List<GeneralType>,
     stateSelected: GeneralType,
+    label:String = "Estado del pedido",
+    modifier:Modifier=Modifier.fillMaxWidth(),
     onEventDropDown: (Int,String) -> Unit,
     readOnly:Boolean = false
 ) {
@@ -38,10 +42,11 @@ fun CustomDropDown(
     ) {
         // text field
         OutlinedTextField(
+            modifier=modifier,
             value = selectedItem.name,
             onValueChange = {},
             readOnly = true,
-            label = { Text(text = "Estado del pedido") },
+            label = { Text(text = label) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(
                     expanded = expanded
@@ -50,6 +55,7 @@ fun CustomDropDown(
         )
         //menu
         ExposedDropdownMenu(
+            modifier=modifier,
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {

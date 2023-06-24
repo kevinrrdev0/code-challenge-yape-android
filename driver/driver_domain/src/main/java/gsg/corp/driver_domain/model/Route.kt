@@ -11,6 +11,7 @@ data class Route(
     val district: String= "" ,
     val driver: String = "",
     val full_name: String = "",
+    val observation:String="",
     val id: Int = 0,
     val id_provider: Int = 0,
     val name_business: String = "",
@@ -18,6 +19,7 @@ data class Route(
     val other_telephone: String = "",
     val pay_amount: String = "",
     val product: String = "",
+    val productDetail: String="",
     val size: String = "",
     val st_code: String = "",
     val telephone: String = ""

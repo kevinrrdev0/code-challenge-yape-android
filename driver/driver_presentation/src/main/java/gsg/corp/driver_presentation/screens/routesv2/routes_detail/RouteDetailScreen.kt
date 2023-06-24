@@ -67,7 +67,7 @@ fun BodyRouteDetail(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Detalle de Ruta ${state.routeDetail.code_tracking}",
+            text = "Detalle de Ruta ${state.routeDetail.codeTracking}",
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
@@ -138,7 +138,7 @@ fun RouteDetailOrder(routeDetail: RouteDetail) {
                         .size(22.dp)
                         .padding(end = 4.dp)
                 )
-                TextBody(text = routeDetail.full_name)
+                TextBody(text = routeDetail.fullName)
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -168,7 +168,7 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
     ) {
         Column(Modifier.padding(14.dp)) {
             TextBody(text = "Prod.: ${routeDetail.product}")
-            TextBody(text = "Cant. Paquetes: ${routeDetail.number_packages}")
+            TextBody(text = "Cant. Paquetes: ${routeDetail.numberPackages}")
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.vector__4_),
@@ -178,9 +178,9 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
                         .size(22.dp)
                         .padding(end = 4.dp)
                 )
-                TextBody(text = "Costo: ${routeDetail.cost} / Adelanto: ${routeDetail.advance} / Cobrar: ${routeDetail.pay_amount}")
+                TextBody(text = "Costo: ${routeDetail.cost} / Adelanto: ${routeDetail.advance} / Cobrar: ${routeDetail.payAmount}")
             }
-            TextBody(text = "Metodo de Pago: ${routeDetail.code_pay_method}")
+            TextBody(text = "Metodo de Pago: ${routeDetail.codePayMethod}")
         }
     }
 
@@ -232,7 +232,7 @@ fun RoutePayOrder(routeDetail: RouteDetail) {
 
 @Composable
 fun RouteStateOrder(state: RouteDetailState, onEvent: (RouteDetailEvent) -> Unit) {
-    val stateCode = state.routeDetail.st_code
+    val stateCode = state.routeDetail.stCode
     OutlinedTextField(
         value = stateCode,
         onValueChange = {},

@@ -101,8 +101,8 @@ class RouteDetailViewModel @Inject constructor(
             idStateTracking = state.state.id,
             comment = state.comment,
             dateRescheduled = state.dateRescheduled,
-            photoOrder = state.photoOrder,
-            photoCollect = state.photoCollect
+            photoStatus = state.photoOrder,
+            otherPhotoStatus = state.photoCollect
         )
 
         state = state.copy(isLoading = true)

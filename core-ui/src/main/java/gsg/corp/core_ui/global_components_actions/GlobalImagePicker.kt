@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -34,7 +35,11 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import gsg.corp.core_ui.R
+import gsg.corp.core_ui.TextGray
+import gsg.corp.core_ui.global_components_inputs.GlobalExtraSpacerSmall
+import gsg.corp.core_ui.global_components_texts.TextBody
 import id.zelory.compressor.Compressor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -47,6 +52,7 @@ import java.util.*
 fun ImagePicker(
     modifier: Modifier = Modifier,
     label: String = "",
+    url: String = "",
     onPhotoIsTaken: (String?) -> Unit
 ) {
     val context = LocalContext.current
@@ -84,13 +90,27 @@ fun ImagePicker(
                 val filePath = getFilePathFromUri(context, uri)
                 if (filePath != null) {
                     val compressedImageFile = withContext(Dispatchers.IO) {
-                        Compressor.compress(context, File(filePath))
-                    }
+                        val destinationDir = File(context.cacheDir, "images")
+                        if (!destinationDir.exists()) {
+                            destinationDir.mkdirs()
+                        }
 
-                    onPhotoIsTaken(compressedImageFile?.path)
-                    // Eliminar la imagen original de la carpeta de caché
+                        val compressedFile = Compressor.compress(context, File(filePath))
+                        // Mover el archivo comprimido a una ubicación permanente
+                        val destinationFile = File(destinationDir, "image-${System.currentTimeMillis()}.jpg")
+                        compressedFile.renameTo(destinationFile)
+                        destinationFile
+                    }
                     val cacheFile = File(filePath)
                     cacheFile.delete()
+
+//                    val compressedImageFile = withContext(Dispatchers.IO) {
+//                        Compressor.compress(context, File(filePath))
+//                    }
+
+                    onPhotoIsTaken(compressedImageFile?.path)
+
+                    deleteFileByUri(context,uri)
                 }
             }
         }
@@ -126,6 +146,7 @@ fun ImagePicker(
             label = label,
             hasImage = hasImage,
             imageUri = imageUri,
+            url=url,
             onTakePhoto = {
                 hasImage = false
                 imageUri = null
@@ -181,12 +202,21 @@ fun ImagePicker(
         }
     }
 }
-
+fun deleteFileByUri(context: Context, uri: Uri): Boolean {
+    val contentResolver = context.contentResolver
+    return try {
+        contentResolver.delete(uri, null, null) > 0
+    } catch (e: Exception) {
+        // Manejar cualquier excepción que ocurra
+        false
+    }
+}
 @Composable
 fun PhotoOrder(
     label: String,
     hasImage: Boolean,
     imageUri: Uri?,
+    url:String ="",
     onTakePhoto: () -> Unit,
     onSelectPhoto: () -> Unit,
     onZoomPhoto: (Boolean) -> Unit
@@ -194,7 +224,12 @@ fun PhotoOrder(
     Column(
         modifier = Modifier
     ) {
-        Text(text = label)
+        TextBody(
+            text = label,
+            textColor = TextGray,
+            fontWeight = FontWeight.Light
+        )
+
         Spacer(modifier = Modifier.height(6.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (hasImage && imageUri != null) {
@@ -212,17 +247,37 @@ fun PhotoOrder(
                     contentScale = ContentScale.Crop
                 )
             } else {
-                Image(
-                    painter = painterResource(id = R.drawable.image),
-                    contentDescription = "Image Default",
-                    modifier = Modifier
-                        .size(74.dp)
-                )
+                if (url.trim().isNotEmpty()){
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(url)
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(R.drawable.image),
+                        contentDescription = "Image Server",//stringResource(R.string.description)
+                        modifier = Modifier
+                            .size(74.dp)
+                            .clickable {
+                                onZoomPhoto(true)
+                            }
+                            .clip(
+                                RoundedCornerShape(8.dp)
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
+                }else{
+                    Image(
+                        painter = painterResource(id = R.drawable.image),
+                        contentDescription = "Image Default",
+                        modifier = Modifier
+                            .size(74.dp)
+                    )
+                }
             }
 
             Column(
                 modifier = Modifier.padding(4.dp, 0.dp, 0.dp, 0.dp),
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -239,6 +294,7 @@ fun PhotoOrder(
                         fontWeight = FontWeight.SemiBold
                     )
                 }
+                GlobalExtraSpacerSmall()
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.clickable {
@@ -313,251 +369,18 @@ fun getFilePathFromUri(context: Context, uri: Uri): String? {
 
     return null
 }
-//
-//@Composable
-//fun ImagePicker(
-//    modifier: Modifier = Modifier,
-//    label: String = "",
-//    onPhotoIsTaken: (String?) -> Unit
-//) {
-//
-//    val context = LocalContext.current
-//
-//    // camera variables
-//    var hasImage by remember {
-//        mutableStateOf(false)
-//    }
-//    var imageUri by remember {
-//        mutableStateOf<Uri?>(null)
-//    }
-//
-//    var imageZoom by remember {
-//        mutableStateOf(false)
-//    }
-//
-//    val imagePicker = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.GetContent(),
-//        onResult = { uri ->
-//            hasImage = uri != null
-//            imageUri = uri
-//        }
-//    )
-//
-//    val cameraLauncher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.TakePicture(),
-//        onResult = { success ->
-//            hasImage = success
-//        }
-//    )
-//
-//    if (hasImage) {
-//        val cacheDir = context.cacheDir
-//        val path = imageUri?.path?.let {
-//            if (it.startsWith("/")) {
-//                (cacheDir.parentFile?.absolutePath ?: "") + it
-//            } else {
-//                cacheDir.absolutePath + "/" + it
-//            }
-//        }
-//
-//        path?.let {
-//            LaunchedEffect(hasImage) {
-//                val compressedImageFile = withContext(Dispatchers.IO) {
-//                    Compressor.compress(context, File(it))
-//                }
-//
-//                onPhotoIsTaken(compressedImageFile.path)
-//                // Eliminar la imagen original de la carpeta de caché
-//                val cacheFile = File(it)
-//                cacheFile.delete()
-//            }
-//        }
-//
-//    }
-//
-//    //permissions
-//    val cameraPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//        arrayOf(Manifest.permission.CAMERA)
-//    } else {
-//        arrayOf(
-//            Manifest.permission.CAMERA,
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.READ_EXTERNAL_STORAGE
-//            else Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        )
-//    }
-//
-//
-//    val permissionLauncher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.RequestMultiplePermissions()
-//    ) { permissions ->
-//        if (permissions.all { it.value }) {
-//            val uri = getUri(context)
-//            imageUri = uri
-//            cameraLauncher.launch(uri)
-//        } else {
-//            Toast.makeText(context, "Permission Denied!", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    Box(
-//        modifier = modifier,
-//    ) {
-//
-//        PhotoOrder(label, hasImage, imageUri, onTakePhoto = {
-//            hasImage = false
-//            imageUri = null
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//                val activity = context as? ComponentActivity
-//                if (!Environment.isExternalStorageManager()) {
-//                    val uri = Uri.parse("package:" + (activity?.packageName ?: "gsg.corp.ruterito"))
-//                    activity?.startActivity(
-//                        Intent(
-//                            Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
-//                            uri
-//                        )
-//                    )
-//                } else {
-//                    permissionLauncher.launch(cameraPermissions)
-//                }
-//            } else {
-//                if (cameraPermissions.all {
-//                        ContextCompat.checkSelfPermission(
-//                            context,
-//                            it
-//                        ) == PackageManager.PERMISSION_GRANTED
-//                    }) {
-//                    val uri = getUri(context)
-//                    imageUri = uri
-//                    cameraLauncher.launch(uri)
-//                } else {
-//                    permissionLauncher.launch(cameraPermissions)
-//                }
-//            }
-//        },
-//            onSelectPhoto = {
-//                hasImage = false
-//                imageUri = null
-//                imagePicker.launch("image/*")
-//            }, onZoomPhoto = {
-//                if (hasImage && imageUri != null) {
-//                    imageZoom = it
-//                }
-//            })
-//        if (imageZoom) {
-//            imageUri?.let {
-//                ImageDialog(it, onDismiss = {
-//                    imageZoom = false
-//                })
-//            }
-//        }
-//
-//    }
-//}
-//
-//
-//@Composable
-//fun PhotoOrder(
-//    label: String,
-//    hasImage: Boolean,
-//    imageUri: Uri?,
-//    onTakePhoto: () -> Unit,
-//    onSelectPhoto: () -> Unit,
-//    onZoomPhoto: (Boolean) -> Unit
-//) {
-//
-//    Column(
-//        modifier = Modifier
-//    ) {
-//        Text(
-//            text = label
-//        )
-//        Spacer(
-//            modifier = Modifier
-//                .height(6.dp)
-//        )
-//        Row(verticalAlignment = Alignment.CenterVertically) {
-//            if (hasImage && imageUri != null) {
-//                AsyncImage(
-//                    model = imageUri,
-//                    modifier = Modifier
-//                        .size(74.dp)
-//                        .clickable {
-//                            onZoomPhoto(true)
-//                        },
-//                    contentDescription = "Image Taken",
-//                    contentScale = ContentScale.Crop
-//
-//                )
-//            } else {
-//                Image(
-//                    painter = painterResource(id = R.drawable.image),
-//                    contentDescription = "Image Default",
-//                    modifier = Modifier.size(74.dp)
-//                )
-//            }
-//
-//            Column(
-//                modifier = Modifier.padding(4.dp, 0.dp, 0.dp, 0.dp),
-//                verticalArrangement = Arrangement.SpaceEvenly
-//            ) {
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    modifier = Modifier.clickable {
-//                        onTakePhoto()
-//                    }
-//                ) {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.camera),
-//                        contentDescription = null
-//                    )
-//                    Text(
-//                        text = " Foto",
-//                        fontWeight =
-//                        FontWeight.SemiBold
-//                    )
-//                }
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    modifier = Modifier.clickable {
-//                        onSelectPhoto()
-//                    }
-//                ) {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.galleryexport),
-//                        contentDescription = null
-//                    )
-//                    Text(
-//                        text = " Galeria",
-//                        fontWeight = FontWeight.SemiBold
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//private fun getUri(context: Context): Uri {
-//    val cacheDir = File(context.cacheDir, "images")
-//    if (!cacheDir.exists()) {
-//        cacheDir.mkdirs()
-//    }
-//    val tmpFile = File.createTempFile(
-//        SimpleDateFormat(
-//            "yyyy-MM-dd-HH-mm-ss-SSS",
-//            Locale("es", "PE")
-//        ).format(System.currentTimeMillis()), ".jpg",
-//        cacheDir
-//    )
-//
-//    val authority = "${context.packageName}.provider"
-//
-//    return FileProvider.getUriForFile(
-//        context.applicationContext,
-//        authority,
-//        tmpFile
-//    )
-//}
 
+fun getRealPathFromUri(context: Context, uri: Uri): String? {
+    val projection = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = context.contentResolver.query(uri, projection, null, null, null)
+    cursor?.use {
+        if (it.moveToFirst()) {
+            val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            return it.getString(columnIndex)
+        }
+    }
+    return null
+}
 
 @Composable
 fun ImageDialog(imageUri: Uri, onDismiss: () -> Unit) {

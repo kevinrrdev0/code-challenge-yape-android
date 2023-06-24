@@ -125,22 +125,37 @@ class DriverRepositoryImpl(
         return try {
             executeWithConnection {
                 val images = mutableListOf<MultipartBody.Part>()
-                val file = File(request.photoOrder)
-                if (file.exists()) {
-                    val requestFile = file.asRequestBody("image/jpg".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("images", "STATUS_ORDER-${file.name}", requestFile)
+                val fileStatus = File(request.photoStatus)
+                if (fileStatus.exists()) {
+                    val requestFile = fileStatus.asRequestBody("image/jpg".toMediaTypeOrNull())
+                    val body = MultipartBody.Part.createFormData("images", "PHOTO_STATUS.${fileStatus.extension}", requestFile)
+                    images.add(body)
+                }
+                val fileOtherStatus = File(request.otherPhotoStatus)
+                if (fileOtherStatus.exists()) {
+                    val requestFile = fileOtherStatus.asRequestBody("image/jpg".toMediaTypeOrNull())
+                    val body = MultipartBody.Part.createFormData("images", "OTHER_PHOTO_STATUS.${fileOtherStatus.extension}", requestFile)
                     images.add(body)
                 }
 
-                val file2 = File(request.photoCollect)
-                if (file2.exists()) {
-                    val requestFile = file2.asRequestBody("image/jpg".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("images", "STATUS_COLLECT-${file.name}", requestFile)
+
+                val filePay = File(if(request.routesPayments.isNotEmpty()) request.routesPayments[0].pathPhotoPay else "")
+                if (filePay.exists()) {
+                    val requestFile = filePay.asRequestBody("image/jpg".toMediaTypeOrNull())
+                    val body = MultipartBody.Part.createFormData("images", "PHOTO_PAY.${filePay.extension}", requestFile)
+                    images.add(body)
+                }
+
+                val fileOtherPay = File(if(request.routesPayments.isNotEmpty() && request.routesPayments.size==2) request.routesPayments[1].pathPhotoPay else "")
+                if (fileOtherPay.exists()) {
+                    val requestFile = fileOtherPay.asRequestBody("image/jpg".toMediaTypeOrNull())
+                    val body = MultipartBody.Part.createFormData("images", "OTHER_PHOTO_PAY.${fileOtherPay.extension}", requestFile)
                     images.add(body)
                 }
 
                 val moshi = Moshi.Builder().build()
                 val jsonAdapter = moshi.adapter(MetadataRequest::class.java)
+                //RoutePayments
                 val json = jsonAdapter.toJson(request.toMetadataRequest())
 
                 val metadata = json.toRequestBody("application/json".toMediaTypeOrNull())
@@ -148,15 +163,18 @@ class DriverRepositoryImpl(
                 val routeDto = api.uploadImagenes(metadata, images)
                 if (routeDto.isSuccessful) {
                     // Borra el archivo temporal
-                    val file = File(request.photoOrder)
-                    if (file.exists()){
-                        file.delete()
+                    if (fileStatus.exists()){
+                        fileStatus.delete()
                     }
-                    val file2 = File(request.photoCollect)
-                    if (file2.exists()){
-                        file2.deleteRecursively()
+                    if (fileOtherStatus.exists()){
+                        fileOtherStatus.delete()
                     }
-
+                    if (filePay.exists()){
+                        filePay.delete()
+                    }
+                    if (fileOtherPay.exists()){
+                        fileOtherPay.delete()
+                    }
 
                     Resource.Success(data = GeneralResponse( "estado actualizado corectamente"))
                 } else {

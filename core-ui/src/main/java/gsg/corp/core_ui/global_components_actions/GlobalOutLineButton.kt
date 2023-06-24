@@ -22,7 +22,8 @@ fun GlobalOutLineButton(
     modifier: Modifier = Modifier,
     isEnable: Boolean = true,
     onClick: () -> Unit,
-    textStyle: TextStyle = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.SemiBold)
+
+    textStyle: TextStyle = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal)
 ) {
     OutlinedButton(onClick = { onClick() },
         enabled = isEnable,
@@ -30,7 +31,6 @@ fun GlobalOutLineButton(
         modifier = modifier) {
         Text(text,
             style = textStyle,
-            modifier = modifier.padding(LocalSpacing.current.default),
             textAlign = TextAlign.Center)
     }
 }

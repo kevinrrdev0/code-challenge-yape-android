@@ -16,6 +16,7 @@ fun CustomDropDownCode(
     listItems: List<GeneralTypeCode>,
     stateSelected: GeneralTypeCode,
     onEventDropDown: (String,String) -> Unit,
+    label:String = "",
     readOnly:Boolean = false
 ) {
     val contextForToast = LocalContext.current.applicationContext
@@ -42,7 +43,7 @@ fun CustomDropDownCode(
             value = selectedItem.name,
             onValueChange = {},
             readOnly = true,
-            label = { Text(text = "Estado del pedido") },
+            label = { Text(text = label) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(
                     expanded = expanded

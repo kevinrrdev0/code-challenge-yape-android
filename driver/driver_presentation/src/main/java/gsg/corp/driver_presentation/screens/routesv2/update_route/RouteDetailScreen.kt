@@ -1,21 +1,30 @@
 package gsg.corp.driver_presentation.screens.routesv2.update_route
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowLeft
@@ -31,13 +40,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gsg.corp.core.util.UiEvent
 import gsg.corp.core.util.toUpperCaseLocale
+import gsg.corp.core_ui.LightGray
+import gsg.corp.core_ui.LocalSpacing
 import gsg.corp.core_ui.R
 import gsg.corp.core_ui.RedGsg
 import gsg.corp.core_ui.TextGray
+import gsg.corp.core_ui.global_components_actions.DatePickerComponent
+import gsg.corp.core_ui.global_components_actions.GlobalOutLineButton
 import gsg.corp.core_ui.global_components_actions.ImagePicker
 import gsg.corp.core_ui.global_components_inputs.GlobalCheckBox
 import gsg.corp.core_ui.global_components_inputs.GlobalExtraSpacerSmall
@@ -59,6 +74,7 @@ import gsg.corp.core_ui.global_components_ui.BoxLoadAnimation
 import gsg.corp.driver_presentation.screens.routesv2.components.CustomDropDown
 import gsg.corp.driver_presentation.screens.routesv2.components.CustomDropDownCode
 import gsg.corp.driver_presentation.screens.routesv2.components.PhoneNumberActions
+import gsg.corp.driver_presentation.screens.routesv2.routes_detail.RouteDetailEvent
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -111,7 +127,7 @@ fun RouteDetailScreenV2(
                     )
                     GlobalSpacerExtraSmallRow()
                     TextHeadline5(
-                        text = "Orden ${item.code_tracking}",
+                        text = "Orden ${item.codeTracking}",
                         boldHighlighting = true,
                         fontWeight = FontWeight.Bold
                     )
@@ -148,7 +164,7 @@ fun RouteDetailScreenV2(
                             )
                             GlobalSpacerExtraSmall()
                             TextBody(
-                                text = item.full_name,
+                                text = item.fullName,
                                 fontWeight = FontWeight.Medium
                             )
                             GlobalSpacerExtraSmall()
@@ -157,10 +173,10 @@ fun RouteDetailScreenV2(
                                     item.telephone,
                                     fontWeight = FontWeight.Medium
                                 )
-                                if (item.other_telephone.isNotEmpty()) {
+                                if (item.otherTelephone.isNotEmpty()) {
                                     GlobalSpacerRowSmallMedium()
                                     PhoneNumberActions(
-                                        item.other_telephone,
+                                        item.otherTelephone,
                                         fontWeight = FontWeight.Medium
                                     )
                                 }
@@ -189,7 +205,7 @@ fun RouteDetailScreenV2(
                             )
                             GlobalSpacerExtraSmall()
                             TextBody(
-                                text = "porfavor llamar cuando esten en la puerta modificar el texto por lado de backend",
+                                text = item.observation,
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -241,7 +257,7 @@ fun RouteDetailScreenV2(
                             )
                             GlobalSpacerExtraSmall()
                             TextBody(
-                                text = item.address_reference,
+                                text = item.addressReference,
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -273,7 +289,7 @@ fun RouteDetailScreenV2(
                             )
                             GlobalSpacerExtraSmall()
                             TextBody(
-                                text = "${item.number_packages} / ${item.product}",
+                                text = "${item.numberPackages} / ${item.product}",
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -299,7 +315,7 @@ fun RouteDetailScreenV2(
                             )
                             GlobalSpacerExtraSmall()
                             TextBody(
-                                text = "${item.product} detalle del producto aqui",
+                                text = item.productDetail,
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -333,13 +349,11 @@ fun RouteDetailScreenV2(
                             )
                             GlobalSpacerExtraSmall()
                             TextBody(
-                                text = "S/ ${item.pay_amount} / ${item.code_pay_method}",
+                                text = "S/ ${item.payAmount} / ${item.codePayMethod}",
                                 fontWeight = FontWeight.Medium,
                                 boldHighlighting = true,
-                                boldText = listOf("S/ ${item.pay_amount}")
+                                boldText = listOf("S/ ${item.payAmount}")
                             )
-
-
                         }
                     }
                     GlobalSpacerSmall()
@@ -368,9 +382,9 @@ fun RouteDetailScreenV2(
                             )
                         }
                     }
-                    GlobalSpacerSmall()
+                    GlobalSpacerMid()
                     Divider(thickness = 1.dp, color = RedGsg)
-                    GlobalSpacerSmall()
+                    GlobalSpacerMid()
                     TextHeadline6(
                         text = "Actualizar la ruta",
                         textColor = TextGray,
@@ -387,7 +401,9 @@ fun RouteDetailScreenV2(
                                     name
                                 )
                             )
-                        })
+                        },
+                        label = "Seleccionar estado del pedido"
+                    )
                     GlobalSpacerSmall()
                     GlobalInput(
                         state.comment,
@@ -396,6 +412,18 @@ fun RouteDetailScreenV2(
                         maxChar = 300,
                         onValueChange = { onEvent(UpdateStateOrderEvent.OnCommentEnter(it)) })
 
+                    if (state.state.name == "REPROGRAMADO") {
+                        GlobalSpacerSmall()
+                        DatePickerComponent(
+                            date = state.dateRescheduled,
+                            label = "Fecha de la reprogramacion",
+                            onDateSelected = { firstFormat, _ ->
+                                onEvent(UpdateStateOrderEvent.OnDateRescheduledEnter(firstFormat))
+                            })
+                    } else {
+                        onEvent(UpdateStateOrderEvent.OnDateRescheduledEnter(""))
+                    }
+
                     GlobalSpacerSmall()
                     if (state.state.name == "ENTREGADO" || state.state.name == "RECHAZADO" || state.state.name == "PERDIDO") {
                         GlobalSpacerSmall()
@@ -403,16 +431,22 @@ fun RouteDetailScreenV2(
                             Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            ImagePicker(label = "Foto Pedido", onPhotoIsTaken = {
-                                it?.let { uri ->
-                                    onEvent(UpdateStateOrderEvent.OnTakePhotoOrder(uri))
-                                }
-                            })
-                            ImagePicker(label = "Foto Pedido 2", onPhotoIsTaken = {
-                                it?.let { uri ->
-                                    onEvent(UpdateStateOrderEvent.OnTakePhotoOrder(uri))
-                                }
-                            })
+                            ImagePicker(
+                                label = "Foto Pedido",
+                                url = item.pathPhotoState,
+                                onPhotoIsTaken = {
+                                    it?.let { uri ->
+                                        onEvent(UpdateStateOrderEvent.OnTakePhotoOrder(uri))
+                                    }
+                                })
+                            ImagePicker(
+                                label = "Foto Pedido 2",
+                                url = item.otherPathPhotoState,
+                                onPhotoIsTaken = {
+                                    it?.let { uri ->
+                                        onEvent(UpdateStateOrderEvent.OnTakeOtherPhotoOrder(uri))
+                                    }
+                                })
                         }
                         GlobalSpacerSmall()
                     }
@@ -448,19 +482,46 @@ fun RouteDetailScreenV2(
                                                 name
                                             )
                                         )
-                                    })
+                                    },
+                                    label = "Seleccionar metodo de pago 1"
+                                )
                                 GlobalSpacerExtraSmall()
-                                Row(
-                                    Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    ImagePicker(label = "Foto del pago 1", onPhotoIsTaken = {
+
+                                ImagePicker(
+                                    label = "Foto del pago 1",
+                                    url = state.pathPhotoPay1,
+                                    onPhotoIsTaken = {
                                         it?.let { uri ->
                                             onEvent(UpdateStateOrderEvent.OnTakePhotoPay1(uri))
                                         }
                                     })
-                                }
-
+                                GlobalSpacerExtraSmall()
+                                GlobalInput(
+                                    state.payAmount1,
+                                    "Monto pagado 1",
+                                    maxLines = 1,
+                                    maxChar = 10,
+                                    type = KeyboardType.Decimal,
+                                    onValueChange = {
+                                        onEvent(
+                                            UpdateStateOrderEvent.OnPayAmount1Enter(
+                                                it
+                                            )
+                                        )
+                                    })
+                                GlobalSpacerExtraSmall()
+                                GlobalInput(
+                                    state.detailPay1,
+                                    "Detale del pago 1",
+                                    maxLines = 6,
+                                    maxChar = 300,
+                                    onValueChange = {
+                                        onEvent(
+                                            UpdateStateOrderEvent.OnCommentEnter(
+                                                it
+                                            )
+                                        )
+                                    })
                             }
                         }
                         GlobalSpacerExtraSmall()
@@ -473,65 +534,127 @@ fun RouteDetailScreenV2(
                             })
                             TextBody(text = "Pago para GSG?")
                         }
-                        GlobalSpacerSmall()
-                        Row(verticalAlignment = Alignment.Top) {
-                            Icon(
-                                modifier = Modifier
-                                    .size(18.dp)
-                                    .clickable {
-                                        onNavigateUp()
-                                    },
-                                painter = painterResource(id = R.drawable.ic_wallet),
-                                contentDescription = null,
-                                tint = RedGsg
-                            )
-                            GlobalExtraSpacerSmallRow()
-                            Column {
-                                TextBody(
-                                    text = "Método de pago 2:",
-                                    textColor = TextGray,
-                                    fontWeight = FontWeight.Light
+                        if (state.codePayMethod1.code != "" && state.codePayMethod1.code != "PAGADO") {
+                            GlobalSpacerSmall()
+                            Row(verticalAlignment = Alignment.Top) {
+                                Icon(
+                                    modifier = Modifier
+                                        .size(18.dp)
+                                        .clickable {
+                                            onNavigateUp()
+                                        },
+                                    painter = painterResource(id = R.drawable.ic_wallet),
+                                    contentDescription = null,
+                                    tint = RedGsg
                                 )
-                                GlobalSpacerExtraSmall()
-                                CustomDropDownCode(
-                                    state.listPayMethod,
-                                    state.codePayMethod2,
-                                    onEventDropDown = { code, name ->
-                                        onEvent(
-                                            UpdateStateOrderEvent.OnCodePayMethod2Selected(
-                                                code,
-                                                name
+                                GlobalExtraSpacerSmallRow()
+                                Column {
+                                    TextBody(
+                                        text = "Método de pago 2:",
+                                        textColor = TextGray,
+                                        fontWeight = FontWeight.Light
+                                    )
+                                    GlobalSpacerExtraSmall()
+                                    CustomDropDownCode(
+                                        state.listPayMethod,
+                                        state.codePayMethod2,
+                                        onEventDropDown = { code, name ->
+                                            onEvent(
+                                                UpdateStateOrderEvent.OnCodePayMethod2Selected(
+                                                    code,
+                                                    name
+                                                )
                                             )
-                                        )
-                                    })
-                                GlobalSpacerExtraSmall()
-                                Row(
-                                    Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    ImagePicker(label = "Foto del pago 2", onPhotoIsTaken = {
-                                        it?.let { uri ->
-                                            onEvent(UpdateStateOrderEvent.OnTakePhotoPay2(uri))
-                                        }
-                                    })
+                                        },
+                                        label = "Seleccionar metodo de pago 2"
+                                    )
+                                    GlobalSpacerExtraSmall()
+
+                                    ImagePicker(
+                                        label = "Foto del pago 2",
+                                        url = state.pathPhotoPay2,
+                                        onPhotoIsTaken = {
+                                            it?.let { uri ->
+                                                onEvent(UpdateStateOrderEvent.OnTakePhotoPay2(uri))
+                                            }
+                                        })
+                                    GlobalSpacerExtraSmall()
+                                    GlobalInput(
+                                        state.payAmount2,
+                                        "Monto pagado 2",
+                                        maxLines = 1,
+                                        maxChar = 10,
+                                        type = KeyboardType.Decimal,
+                                        onValueChange = {
+                                            onEvent(
+                                                UpdateStateOrderEvent.OnPayAmount2Enter(
+                                                    it
+                                                )
+                                            )
+                                        })
+                                    GlobalSpacerExtraSmall()
+                                    GlobalInput(
+                                        state.detailPay2,
+                                        "Detale del pago 2",
+                                        maxLines = 6,
+                                        maxChar = 300,
+                                        onValueChange = {
+                                            onEvent(
+                                                UpdateStateOrderEvent.OnCommentEnter(
+                                                    it
+                                                )
+                                            )
+                                        })
                                 }
                             }
+                            GlobalSpacerExtraSmall()
+                            Row(
+                                Modifier.padding(start = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                GlobalCheckBox(state.flkPayGSG2, onCheckedChange = {
+                                    onEvent(UpdateStateOrderEvent.OnFlkPay2GSGChecked(it))
+                                })
+                                TextBody(text = "Pago para GSG?")
+                            }
                         }
-                        GlobalSpacerExtraSmall()
-                        Row(
-                            Modifier.padding(start = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            GlobalCheckBox(state.flkPayGSG2, onCheckedChange = {
-                                onEvent(UpdateStateOrderEvent.OnFlkPay2GSGChecked(it))
-                            })
-                            TextBody(text = "Pago para GSG?")
-                        }
+
                     }
                 }
+                Column(
+                    Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    GlobalSpacerSmall()
+                    if (state.routeDetail.stCode != "ENTREGADO") {
+                        OutlinedButton(
+                            onClick = {
+                                onEvent(UpdateStateOrderEvent.OnUpdateOrder)
+                            },
+                            border = BorderStroke(1.dp, RedGsg)
+                        ) {
+                            TextSubtitle(
+                                text = "Guardar Nuevo Estado",
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                                textColor = RedGsg
+                            )
+                        }
+                    }
+                    GlobalSpacerExtraSmall()
+                    TextButton(
+                        onClick = {
+                            onNavigateUp()
+                        }
+                    ) {
+                        TextSubtitle(
+                            text = "Regresar a las rutas",
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            textColor = RedGsg
+                        )
+                    }
+                    GlobalSpacerSmall()
+                }
             }
-
-
         }
     }
     BoxLoadAnimation(state.isLoading)
