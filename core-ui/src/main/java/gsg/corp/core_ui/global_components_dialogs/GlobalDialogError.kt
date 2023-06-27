@@ -56,11 +56,4 @@ fun GlobalDialogError(
     }
 }
 
-@Preview
-@Composable
-fun DialogPreview() {
-    GlobalDialogError(true, text = "error gerrerere peruien textni erneire reinrei rienre", onConfirm = {
-        false
-    })
 
-}

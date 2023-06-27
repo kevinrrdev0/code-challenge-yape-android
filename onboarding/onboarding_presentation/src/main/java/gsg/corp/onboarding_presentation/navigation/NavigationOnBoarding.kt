@@ -11,12 +11,9 @@ import com.google.android.gms.maps.model.LatLng
 import gsg.corp.core_ui.navigation.LAT
 import gsg.corp.core_ui.navigation.LNG
 import gsg.corp.core_ui.navigation.NAME_RECIPE
-import gsg.corp.core_ui.navigation.NavigationRouteDriver
 import gsg.corp.core_ui.navigation.NavigationRouteModule
 import gsg.corp.core_ui.navigation.NavigationRouteOnBoarding
 import gsg.corp.core_ui.navigation.RECIPE_ID
-import gsg.corp.core_ui.navigation.ROUTE_ID
-import gsg.corp.onboarding_presentation.screens.login.LoginScreen
 import gsg.corp.onboarding_presentation.screens.map.MapScreen
 import gsg.corp.onboarding_presentation.screens.recipes.RecipeScreen
 import gsg.corp.onboarding_presentation.screens.recipes.RecipeViewModel
@@ -31,17 +28,7 @@ object NavigationOnBoarding {
             route = NavigationRouteModule.ModuleOnBoarding.route,
             startDestination = NavigationRouteOnBoarding.Recipe.route
         ) {
-            composable(
-                route = NavigationRouteOnBoarding.Login.route
-            ) {
-                LoginScreen(onLoginSuccess = {
-                    navController.navigate(NavigationRouteModule.ModuleDriver.route) {
-                        popUpTo(navController.graph.id) {
-                            inclusive = true
-                        }
-                    }
-                })
-            }
+
 
             composable(
                 route = NavigationRouteOnBoarding.Recipe.route

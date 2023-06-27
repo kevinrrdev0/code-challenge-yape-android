@@ -3,11 +3,8 @@ package gsg.corp.core_ui.global_components_ui
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -25,7 +22,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun LoadingAnimation(
     modifier: Modifier = Modifier,
-    backgroundColor:Color = Color.Black.copy(alpha = 0.4f),
     circleSize: Dp = 16.dp,
     circleColor: Color = RedGsg,
     spaceBetween: Dp = 10.dp,

@@ -86,9 +86,7 @@ dependencies {
     implementation(project(Modules.core))
     implementation(project(Modules.coreUi))
 
-    implementation(project(Modules.driverData))
-    implementation(project(Modules.driverDomain))
-    implementation(project(Modules.driverPresentation))
+
 
     implementation(project(Modules.onboardingData))
     implementation(project(Modules.onboardingDomain))

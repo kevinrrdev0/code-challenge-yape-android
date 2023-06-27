@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import gsg.corp.core.domain.preferences.Preferences
 import gsg.corp.core_ui.navigation.NavigationRouteModule
-import gsg.corp.driver_presentation.navigation.NavigationDriver.navigateDriver
+
 import gsg.corp.onboarding_presentation.navigation.NavigationOnBoarding.navigateOnBoarding
 import gsg.corp.ruterito.ui.theme.RuteritoTheme
 import javax.inject.Inject
