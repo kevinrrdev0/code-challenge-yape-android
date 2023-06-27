@@ -8,4 +8,6 @@ dependencies {
     "implementation"(project(Modules.onboardingDomain))
 
     "implementation"(Coil.coilCompose)
+    "implementation"(Google.mapCompose)
+    "implementation"(Google.sdkMap)
 }

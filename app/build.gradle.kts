@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
 }
@@ -34,6 +35,7 @@ android {
         }
         getByName("debug") {
             buildConfigField(stringType, "BASE_URL", properties["URL_BASE_DEV"].toString())
+            buildConfigField(stringType, "MAPS_API_KEY", properties["MAPS_API_KEY"].toString())
         }
     }
     buildFeatures {

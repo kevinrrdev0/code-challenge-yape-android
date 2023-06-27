@@ -27,11 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             RuteritoTheme {
                 val navController = rememberNavController()
-                val startDestination =  if (preferences.loadUserInfo() == null) {
-                    NavigationRouteModule.ModuleOnBoarding.route
-                } else {
-                    NavigationRouteModule.ModuleDriver.route
-                }
+                val startDestination = NavigationRouteModule.ModuleOnBoarding.route
                 NavHost(
                     navController = navController,
                     route= NavigationRouteModule.ModuleRoot.route,
@@ -39,7 +35,6 @@ class MainActivity : ComponentActivity() {
                 )
                 {
                     navigateOnBoarding(navController = navController)
-                    navigateDriver(navController = navController)
                 }
             }
         }

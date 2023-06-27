@@ -7,4 +7,6 @@
     <string name="exception_unstable_network">Tu conexión es inestable. Revísala y vuelve a intentarlo</string>
     <string name="exception_generic">¡Ups! Algo salió mal. Trabajaremos para solucionarlo de inmediato.</string>
     <string name="success_login">login correcto</string>
+
+    <string name="search">Buscar</string>
 </resources>
